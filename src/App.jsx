@@ -38,10 +38,10 @@ function App() {
         reverseOrder={false}
         toastOptions={{
           style: {
-            background: "#111a2e",
-            color: "#fff",
-            border: "1px solid rgba(16, 185, 129, 0.2)",
-            borderRadius: "1rem",
+            background: "#131316",
+            color: "#e8e6e1",
+            border: "1px solid rgba(201, 168, 76, 0.2)",
+            borderRadius: "0.75rem",
             padding: "12px 24px",
             fontSize: "14px",
             fontWeight: "600",
@@ -49,8 +49,8 @@ function App() {
           success: {
             duration: 3000,
             iconTheme: {
-              primary: "#10b981",
-              secondary: "#fff",
+              primary: "#c9a84c",
+              secondary: "#0c0c0f",
             },
           },
           error: {
