@@ -10,12 +10,15 @@ import {
 } from "react-icons/ri";
 import toast from "react-hot-toast";
 
+const fmt = (n) => `\u20B9${Number(n || 0).toLocaleString("en-IN")}`;
+
+const statusBadge =
+  "inline-flex items-center px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border";
+
 const Orders = () => {
   const [orders, setOrders] = useState([]);
-  console.log(orders.items);
   const [loading, setLoading] = useState(true);
   const loggedInUser = JSON.parse(localStorage.getItem("user"));
-  console.log(orders);
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -80,153 +83,157 @@ const Orders = () => {
 
   if (loading) {
     return (
-      <div className="h-screen bg-[#0b1120] flex items-center justify-center text-emerald-500 font-black tracking-[0.4em] uppercase animate-pulse italic">
-        Syncing History...
+      <div className="bg-surface min-h-screen flex items-center justify-center">
+        <span className="text-gold font-bold animate-pulse text-sm uppercase tracking-[0.3em]">
+          Syncing order history...
+        </span>
       </div>
     );
   }
 
   return (
-    <div className="h-screen bg-[#0b1120] text-white flex flex-col p-6 lg:p-12 overflow-hidden">
-      <div className="max-w-6xl mx-auto w-full h-full flex flex-col">
-        <header className="mb-10 shrink-0">
-          <h1 className="text-4xl lg:text-5xl font-black italic">
-            Order <span className="text-emerald-500">History</span>
-          </h1>
-          <p className="text-gray-500 mt-2 font-bold uppercase text-[9px] tracking-[0.4em]">
-            Tracking established acquisition protocols
+    <div className="bg-surface text-warm-100 min-h-screen">
+      <div className="max-w-6xl mx-auto px-6 lg:px-10 pt-10 md:pt-16 pb-20 md:pb-28">
+        <header className="mb-10">
+          <p className="text-gold text-xs font-semibold uppercase tracking-[0.22em] mb-3">
+            Your account
           </p>
+          <h1 className="text-warm-100 text-4xl md:text-5xl font-black tracking-tight">
+            Order history
+          </h1>
         </header>
 
-        <div className="flex-grow overflow-y-auto pr-4 custom-scroll min-h-0 pb-10">
-          {orders.length === 0 ? (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="h-full flex flex-col items-center justify-center border-2 border-dashed border-white/5 rounded-[3rem]"
-            >
-              <RiShoppingBagLine size={60} className="text-slate-800 mb-6" />
-
-              <h2 className="text-xl font-bold text-gray-600 uppercase tracking-widest">
-                No History Detected
-              </h2>
-
-              <Link
-                to="/products"
-                className="text-emerald-500 font-black mt-4 uppercase text-xs hover:tracking-widest transition-all"
-              >
-                Start ordering
-              </Link>
-            </motion.div>
-          ) : (
-            <div className="space-y-8 ">
-              <AnimatePresence mode="popLayout">
-                {orders.map((order) => (
-                  <motion.div
-                    key={order.orderId}
-                    layout
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
-                    className="bg-[#111a2e]/60 border border-white/5 rounded-[2.5rem] p-6 lg:p-10 group hover:border-emerald-500/30 transition-all shadow-2xl relative overflow-hidden"
-                  >
-                    <span className="absolute -right-4 -top-2 text-[80px] font-black text-white/[0.02] pointer-events-none select-none italic">
-                      {order.orderId?.split("-")[1]?.slice(-4)}
-                    </span>
-
-                    <div className="flex flex-wrap justify-between items-start gap-4 mb-10 relative z-10">
-                      <div className="space-y-2">
-                        <div className="flex items-center gap-2 text-emerald-500 text-[10px] font-black uppercase tracking-[0.2em]">
-                          <RiHashtag /> {order.orderId}
-                        </div>
-
-                        <div className="flex items-center gap-2 text-gray-400 text-xs font-bold">
-                          <RiCalendarLine className="text-emerald-500" />{" "}
-                          {order.date}
-                        </div>
-
-                        {order.address && (
-                          <div className="flex items-center gap-2 text-gray-500 text-[10px] font-bold uppercase tracking-widest">
-                            <RiMapPinUserLine className="text-emerald-500" />
-                            {order.address.city},{" "}
-                            {order.address.country || "USA"}
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="flex flex-col items-end gap-2">
-                        <span className="bg-emerald-500/10 text-emerald-500 px-5 py-2 rounded-full text-[9px] font-black uppercase tracking-widest border border-emerald-500/20">
-                          {order.status || "In Progress"}
-                        </span>
-
-                        <span className="text-[9px] text-gray-600 font-bold uppercase tracking-widest">
-                          Method: {order.paymentMethod}
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
-                      {order.items?.map((item, idx) => (
-                        <div
-                          key={idx}
-                          className="flex items-center gap-4 bg-[#0b1120]/80 p-4 rounded-2xl border border-white/5 hover:border-white/10 transition-colors"
-                        >
-                          <div className="w-14 h-14 bg-slate-900 rounded-xl flex items-center justify-center p-2 shrink-0 border border-white/5">
-                            <img
-                              src={item.productId?.image}
-                              alt=""
-                              className="max-h-full object-contain"
-                            />
-                          </div>
-
-                          <div className="min-w-0">
-                            <p className="text-xs font-bold truncate text-white">
-                              {item.productId?.name}
-                            </p>
-
-                            <p className="text-[10px] text-emerald-500 font-black mt-1">
-                              {item.qty} × ${item.productId?.price}
-                            </p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="flex justify-between items-center pt-8 border-t border-white/5">
-                      <div className="flex flex-col">
-                        <span className="text-gray-500 text-[9px] font-black uppercase tracking-[0.3em]">
-                          Settlement Amount
-                        </span>
-
-                        <h3 className="text-3xl lg:text-4xl font-black text-white italic">
-                          $
-                          {(order.totalAmount || order.total)?.toLocaleString()}
-                        </h3>
-                      </div>
-
-                      <button
-                        disabled={order.status === "Delivered"}
-                        onClick={() => cancelOrder(order.orderId)}
-                        className={`flex items-center gap-2 px-8 py-4 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all group
-                          ${
-                            order.status === "Delivered"
-                              ? "bg-gray-700 text-gray-500 cursor-not-allowed"
-                              : "bg-red-500/5 text-red-500/50 hover:bg-red-500 hover:text-white"
-                          }`}
-                      >
-                        <RiCloseCircleLine
-                          size={18}
-                          className="group-hover:rotate-90 transition-transform"
-                        />
-                        Abort Order
-                      </button>
-                    </div>
-                  </motion.div>
-                ))}
-              </AnimatePresence>
+        {orders.length === 0 ? (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="border-2 border-dashed border-surface-border rounded-3xl py-20 flex flex-col items-center justify-center text-center px-6"
+          >
+            <div className="w-20 h-20 rounded-2xl border border-surface-border bg-surface-raised flex items-center justify-center text-gold mb-6">
+              <RiShoppingBagLine size={40} />
             </div>
-          )}
-        </div>
+            <h2 className="text-warm-100 text-xl font-bold tracking-tight">
+              No orders yet
+            </h2>
+            <p className="text-warm-500 text-sm mt-1 mb-6">
+              Your purchases will appear here once you check out.
+            </p>
+            <Link
+              to="/products"
+              className="bg-gold text-surface px-8 py-3.5 rounded-full font-bold hover:bg-gold-light transition-colors text-xs uppercase tracking-wider"
+            >
+              Start shopping
+            </Link>
+          </motion.div>
+        ) : (
+          <div className="space-y-6">
+            <AnimatePresence mode="popLayout">
+              {orders.map((order) => (
+                <motion.div
+                  key={order.orderId}
+                  layout
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.97 }}
+                  transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                  className="bg-surface-raised border border-surface-border rounded-2xl p-6 md:p-8 relative overflow-hidden"
+                >
+                  <span className="absolute -right-2 -bottom-6 text-[88px] font-black text-warm-100/[0.03] pointer-events-none select-none tracking-tight">
+                    {order.orderId?.split("-")[1]?.slice(-4)}
+                  </span>
+
+                  <div className="flex flex-wrap justify-between items-start gap-4 mb-8 relative z-10">
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-2 text-gold text-[10px] font-black uppercase tracking-[0.2em]">
+                        <RiHashtag /> {order.orderId}
+                      </div>
+
+                      <div className="flex items-center gap-2 text-warm-500 text-xs font-bold">
+                        <RiCalendarLine className="text-gold" /> {order.date}
+                      </div>
+
+                      {order.address && (
+                        <div className="flex items-center gap-2 text-warm-600 text-[10px] font-bold uppercase tracking-widest">
+                          <RiMapPinUserLine className="text-gold" />
+                          {order.address.city}, {order.address.country || "USA"}
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="flex flex-col items-end gap-2">
+                      <span
+                        className={`${statusBadge} ${
+                          order.status === "Delivered"
+                            ? "text-gold border-gold/30 bg-gold/10"
+                            : "text-warm-300 border-surface-border bg-elevated"
+                        }`}
+                      >
+                        {order.status || "In Progress"}
+                      </span>
+
+                      <span className="text-[10px] text-warm-600 font-bold uppercase tracking-widest">
+                        Method: {order.paymentMethod}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-8">
+                    {order.items?.map((item, idx) => (
+                      <div
+                        key={idx}
+                        className="flex items-center gap-3 bg-elevated p-3 rounded-xl border border-surface-border"
+                      >
+                        <div className="w-12 h-12 rounded-lg bg-surface-raised flex items-center justify-center p-1.5 shrink-0">
+                          <img
+                            src={item.productId?.image}
+                            alt=""
+                            onError={(e) => {
+                              e.target.src = "https://placehold.co/80x80/1a1a1f/e8e6e1?text=E";
+                            }}
+                            className="max-h-full object-contain"
+                          />
+                        </div>
+
+                        <div className="min-w-0">
+                          <p className="text-xs font-bold truncate text-warm-100">
+                            {item.productId?.name}
+                          </p>
+                          <p className="text-[10px] text-gold font-black mt-0.5">
+                            {item.qty} × {fmt(item.productId?.price)}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="flex flex-wrap justify-between items-center gap-4 pt-6 border-t border-surface-border">
+                    <div className="flex flex-col">
+                      <span className="text-warm-600 text-[10px] font-black uppercase tracking-[0.25em]">
+                        Order total
+                      </span>
+                      <h3 className="text-3xl font-black tracking-tight mt-1">
+                        {fmt(order.totalAmount || order.total)}
+                      </h3>
+                    </div>
+
+                    <button
+                      disabled={order.status === "Delivered"}
+                      onClick={() => cancelOrder(order.orderId)}
+                      className={`flex items-center gap-2 px-7 py-3.5 rounded-full text-[10px] font-black uppercase tracking-[0.18em] transition-all ${
+                        order.status === "Delivered"
+                          ? "bg-elevated text-warm-600 cursor-not-allowed border border-surface-border"
+                          : "text-red-400 border border-red-500/25 bg-red-500/5 hover:bg-red-500 hover:text-surface"
+                      }`}
+                    >
+                      <RiCloseCircleLine size={16} className="transition-transform group-hover:rotate-90" />
+                      Cancel order
+                    </button>
+                  </div>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </div>
+        )}
       </div>
     </div>
   );
