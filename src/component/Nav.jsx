@@ -5,6 +5,7 @@ import { HiMenuAlt3 } from 'react-icons/hi';
 import { RiUser3Line, RiShoppingCartLine, RiCloseLine } from 'react-icons/ri';
 import { SearchContext } from '../App';
 import { motion, AnimatePresence } from 'framer-motion';
+import BrandMark from './BrandMark';
 
 const Navbar = () => {
   const [isSearchActive, setIsSearchActive] = useState(false);
@@ -17,57 +18,52 @@ const Navbar = () => {
   const MenuLinks = [
     { id: 1, name: "Home", link: "/" },
     { id: 2, name: "Products", link: "/products" },
-    { id: 3, name: "About Us", link: "/aboutus" },
+    { id: 3, name: "About", link: "/aboutus" },
     { id: 4, name: "Contact", link: "/contact" }
   ];
 
-  const handleSearch = () => {
-    setSearchTerm('');
-  };
-
-  const getLinkStyles = ({ isActive }) =>
-    `relative text-sm font-medium tracking-wide transition-colors duration-300 ${
-      isActive
-        ? "text-warm-100"
-        : "text-warm-500 hover:text-warm-100"
-    }`;
+  const handleSearch = () => setSearchTerm('');
 
   return (
-    <nav className="bg-surface/85 backdrop-blur-xl sticky top-0 z-50 border-b border-surface-border">
-      <div className="max-w-7xl mx-auto px-6 lg:px-10 py-4 flex justify-between items-center">
-        
-        {/* Logo Section */}
-        <div className="flex items-center gap-12">
-          <NavLink to="/" className="text-xl font-black tracking-tight text-warm-100 flex items-center gap-3">
-            <span className="w-8 h-8 bg-gold rounded-md flex items-center justify-center text-surface text-sm font-black tracking-tight">E</span>
-            <span className="uppercase tracking-widest text-sm font-bold">Ezbuy</span>
-          </NavLink>
+    <nav className="bg-surface/85 backdrop-blur-xl sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-6 lg:px-10 py-4 flex items-center justify-between gap-6 border-b border-surface-border">
+        {/* Brand */}
+        <NavLink to="/" className="flex items-center gap-3 shrink-0 group">
+          <BrandMark />
+          <span className="uppercase font-black tracking-[0.32em] text-warm-100 text-sm group-hover:text-gold transition-colors duration-300">
+            Ezbuy
+          </span>
+        </NavLink>
 
-          <ul className="hidden md:flex items-center gap-8">
-            {MenuLinks.map((item) => (
-              <li key={item.id}>
-                <NavLink to={item.link} className={getLinkStyles}>
-                  {({ isActive }) => (
-                    <>
+        {/* Links */}
+        <ul className="hidden md:flex items-center gap-9">
+          {MenuLinks.map((item) => (
+            <li key={item.id}>
+              <NavLink
+                to={item.link}
+                className="relative text-[11px] font-bold uppercase tracking-[0.22em] pb-1.5 transition-colors duration-300"
+              >
+                {({ isActive }) => (
+                  <>
+                    <span className={isActive ? "text-gold" : "text-warm-500 hover:text-warm-100"}>
                       {item.name}
-                      <span
-                        className={`absolute -bottom-1 left-0 h-px bg-gold transition-all duration-300 ${
-                          isActive ? "w-full" : "w-0"
-                        }`}
-                      />
-                    </>
-                  )}
-                </NavLink>
-              </li>
-            ))}
-          </ul>
-        </div>
+                    </span>
+                    <span
+                      className={`absolute -bottom-1 left-0 h-px bg-gold transition-all duration-300 ${
+                        isActive ? "w-full" : "w-0"
+                      }`}
+                    />
+                  </>
+                )}
+              </NavLink>
+            </li>
+          ))}
+        </ul>
 
         {/* Right Actions */}
-        <div className="flex items-center gap-4 lg:gap-5">
-          
-          {/* Search Bar */}
-          <div className="relative group flex items-center">
+        <div className="flex items-center gap-2 md:gap-3">
+          {/* Search */}
+          <div className="relative flex items-center">
             <input
               type="text"
               value={searchTerm}
@@ -76,19 +72,23 @@ const Navbar = () => {
               onBlur={() => setTimeout(() => setIsSearchActive(false), 200)}
               onChange={(e) => setSearchTerm(e.target.value)}
               className={`
-                bg-elevated text-warm-100 text-sm rounded-full py-2 pl-4 pr-10 outline-none 
+                bg-elevated text-warm-100 text-sm rounded-full py-2 pl-4 pr-9 outline-none
                 border border-surface-border transition-all duration-500
                 focus:border-gold/60 focus:bg-surface
-                ${isSearchActive ? "w-40 lg:w-64" : "w-28 lg:w-36"}
+                ${isSearchActive ? "w-44 lg:w-60" : "w-24 lg:w-32"}
               `}
             />
-            <button onClick={handleSearch} className="absolute right-3.5 text-lg text-warm-500">
+            <button
+              onClick={handleSearch}
+              aria-label="Search"
+              className="absolute right-3 text-lg text-warm-500 hover:text-gold"
+            >
               <IoMdSearch />
             </button>
           </div>
 
-          {/* Cart Icon */}
-          <NavLink to="/cart" className="relative p-2 text-warm-400 hover:text-gold transition-colors">
+          {/* Cart */}
+          <NavLink to="/cart" aria-label="Cart" className="relative p-1.5 text-warm-400 hover:text-gold transition-colors">
             <RiShoppingCartLine className="text-xl" />
             {cartCount > 0 && (
               <span className="absolute top-0 right-0 bg-gold text-surface text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
@@ -97,20 +97,22 @@ const Navbar = () => {
             )}
           </NavLink>
 
-          {/* Login Button */}
+          {/* Account */}
           <button
             onClick={() => navigate("/login")}
-            className="hidden sm:flex items-center justify-center p-2 text-warm-400 hover:text-gold hover:border-gold/40 border border-surface-border rounded-full bg-elevated/60 transition-all duration-300"
+            aria-label="Account"
+            className="p-1.5 text-warm-400 hover:text-gold transition-colors"
           >
             <RiUser3Line className="text-xl" />
           </button>
 
-          {/* Mobile Menu Toggle Button */}
+          {/* Mobile menu toggle */}
           <button
             onClick={() => setIsMenuOpen(true)}
-            className="md:hidden text-warm-100 text-2xl"
+            aria-label="Open menu"
+            className="md:hidden p-1 text-warm-100"
           >
-            <HiMenuAlt3 />
+            <HiMenuAlt3 className="text-2xl" />
           </button>
         </div>
       </div>
@@ -119,7 +121,6 @@ const Navbar = () => {
       <AnimatePresence>
         {isMenuOpen && (
           <>
-            {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -129,29 +130,35 @@ const Navbar = () => {
               className="fixed inset-0 bg-surface/70 backdrop-blur-sm z-[60] md:hidden"
             />
 
-            {/* Menu Drawer */}
             <motion.div
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-              className="fixed top-0 right-0 h-full w-[70%] max-w-xs bg-surface-raised z-[70] border-l border-surface-border p-8 md:hidden"
+              className="fixed top-0 right-0 h-full w-[78%] max-w-xs bg-surface-raised z-[70] border-l border-surface-border p-8 md:hidden"
             >
-              <div className="flex justify-between items-center mb-14">
-                <span className="text-gold font-bold tracking-[0.2em] uppercase text-xs">Menu</span>
-                <button onClick={() => setIsMenuOpen(false)} className="text-warm-400 text-2xl hover:text-warm-100">
+              <div className="flex items-center justify-between mb-14">
+                <NavLink to="/" onClick={() => setIsMenuOpen(false)} className="flex items-center gap-3">
+                  <BrandMark className="w-8 h-8" iconClass="w-[18px] h-[18px]" />
+                  <span className="uppercase font-black tracking-[0.32em] text-warm-100 text-xs">Ezbuy</span>
+                </NavLink>
+                <button
+                  onClick={() => setIsMenuOpen(false)}
+                  aria-label="Close menu"
+                  className="p-1 text-warm-400 text-2xl hover:text-warm-100"
+                >
                   <RiCloseLine />
                 </button>
               </div>
 
-              <ul className="flex flex-col gap-7">
+              <ul className="flex flex-col gap-6">
                 {MenuLinks.map((item) => (
                   <li key={item.id}>
                     <NavLink
                       to={item.link}
                       onClick={() => setIsMenuOpen(false)}
                       className={({ isActive }) =>
-                        `text-lg font-semibold tracking-tight transition-colors ${
+                        `text-[13px] font-bold uppercase tracking-[0.22em] transition-colors ${
                           isActive ? "text-gold" : "text-warm-100"
                         }`
                       }
@@ -160,11 +167,10 @@ const Navbar = () => {
                     </NavLink>
                   </li>
                 ))}
-                {/* Mobile Login Link */}
                 <li className="pt-8 border-t border-surface-border">
                   <button
                     onClick={() => { navigate("/login"); setIsMenuOpen(false); }}
-                    className="flex items-center gap-3 text-warm-100 font-medium"
+                    className="flex items-center gap-3 text-[13px] font-bold uppercase tracking-[0.22em] text-warm-100"
                   >
                     <RiUser3Line className="text-gold text-xl" /> Account
                   </button>
