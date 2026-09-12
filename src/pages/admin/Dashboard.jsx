@@ -105,7 +105,7 @@ export const Dashboard = () => {
 
   if (loading)
     return (
-      <div className="p-10 text-white bg-surface min-h-screen font-sans">
+      <div className="p-10 text-warm-500 bg-surface min-h-screen font-sans">
         Loading Analytics...
       </div>
     );
@@ -130,17 +130,17 @@ export const Dashboard = () => {
       circumference;
 
   return (
-    <div className="bg-surface min-h-screen text-white p-4 md:p-8 font-sans w-full max-w-full overflow-x-hidden">
-      <header className="mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+    <div className="bg-surface min-h-screen text-white p-4 md:p-6 font-sans w-full max-w-full overflow-x-hidden">
+      <header className="mb-5 flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
         <div>
-          <h1 className="text-2xl md:text-3xl font-bold text-warm-100">Dashboard</h1>
-          <p className="text-warm-500 text-sm mt-1">
+          <h1 className="text-xl md:text-2xl font-bold text-warm-100">Dashboard</h1>
+          <p className="text-warm-500 text-xs mt-0.5">
             Welcome back, here's what's happening with your store today.
           </p>
         </div>
       </header>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 md:gap-4 mb-5">
         <StatCard
           title="TOTAL REVENUE"
           value={`$${data.totalRevenue.toLocaleString()}`}
@@ -156,11 +156,11 @@ export const Dashboard = () => {
         <StatCard title="TOTAL ORDERS" value={data.totalOrders} icon="🛍️" />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="bg-surface-raised p-6 rounded-2xl border border-surface-border">
-          <h3 className="font-bold mb-6 text-lg text-warm-100">Order Status</h3>
-          <div className="relative flex justify-center items-center h-48 mb-6">
-            <svg className="w-40 h-40 transform -rotate-90">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <div className="bg-surface-raised p-4 rounded-xl border border-surface-border">
+          <h3 className="font-bold mb-4 text-sm text-warm-100">Order Status</h3>
+          <div className="relative flex justify-center items-center h-48 mb-5">
+            <svg className="block w-40 h-40 overflow-visible transform -rotate-90">
               <circle
                 cx="80"
                 cy="80"
@@ -216,15 +216,15 @@ export const Dashboard = () => {
               />
             </svg>
             <div className="absolute text-center">
-              <span className="text-xs text-warm-500 block uppercase">
+              <span className="text-[10px] text-warm-500 block uppercase">
                 Delivered
               </span>
-              <span className="text-xl font-bold">
+              <span className="text-lg font-bold text-warm-100">
                 {data.statusStats.completed}%
               </span>
             </div>
           </div>
-          <div className="space-y-4">
+          <div className="space-y-3">
             <StatusRow
               label="Completed"
               percent={data.statusStats.completed}
@@ -243,18 +243,18 @@ export const Dashboard = () => {
           </div>
         </div>
 
-        <div className="lg:col-span-2 bg-surface-raised p-6 rounded-2xl border border-surface-border flex flex-col">
-          <div className="flex justify-between items-center mb-6">
-            <h3 className="font-bold text-lg text-warm-100">Daily Revenue Trend</h3>
+        <div className="lg:col-span-2 bg-surface-raised p-4 rounded-xl border border-surface-border flex flex-col">
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="font-bold text-sm text-warm-100">Daily Revenue Trend</h3>
             <div className="flex items-center gap-2">
-              <span className="w-3 h-3 rounded-full bg-gold"></span>
+              <span className="w-2.5 h-2.5 rounded-full bg-gold"></span>
               <span className="text-xs text-warm-500 font-bold uppercase tracking-wider">
                 Revenue
               </span>
             </div>
           </div>
 
-          <div className="flex-1 w-full h-72">
+          <div className="flex-1 w-full h-64">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart
                 data={data.chartData}
@@ -310,13 +310,13 @@ export const Dashboard = () => {
 };
 
 const StatCard = ({ title, value, icon, subtext }) => (
-  <div className="bg-surface-raised p-5 rounded-2xl border border-surface-border">
-    <div className="flex justify-between items-start mb-4">
+  <div className="bg-surface-raised p-4 rounded-xl border border-surface-border">
+    <div className="flex justify-between items-start mb-3">
       <div>
         <p className="text-warm-500 text-[10px] font-bold uppercase">{title}</p>
-        <h2 className="text-xl md:text-2xl font-bold text-warm-100">{value}</h2>
+        <h2 className="text-xl md:text-2xl font-bold text-warm-100 mt-0.5">{value}</h2>
       </div>
-      <div className="bg-elevated p-2 rounded-lg border border-surface-border">
+      <div className="w-9 h-9 bg-elevated border border-surface-border rounded-lg flex items-center justify-center text-sm">
         {icon}
       </div>
     </div>
@@ -327,7 +327,7 @@ const StatCard = ({ title, value, icon, subtext }) => (
 );
 
 const StatusRow = ({ label, percent, color }) => (
-  <div className="flex justify-between items-center text-sm">
+  <div className="flex justify-between items-center text-xs">
     <div className="flex items-center gap-2">
       <span className={`w-2 h-2 rounded-full ${color}`}></span>
       <span className="text-warm-500 font-medium">{label}</span>
