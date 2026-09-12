@@ -1,23 +1,22 @@
-import React, { useState, useCallback, useRef } from 'react'
+import React from 'react'
 import HeroSection from '../component/HeroSection'
 import CategorySection from '../component/CategorySection'
 import ValueProps from '../component/ValueProps'
 import ProductMarquee from '../component/ProductMarquee'
+import { ProductsProvider, useProducts } from '../component/ProductsContext'
 
-export const Home = () => {
-  const [loaded, setLoaded] = useState(false)
-  const loadedRef = useRef({ hero: false, categories: false })
+export const Home = () => (
+  <ProductsProvider>
+    <HomeContent />
+  </ProductsProvider>
+)
 
-  const handleLoad = useCallback((section) => {
-    loadedRef.current[section] = true
-    if (loadedRef.current.hero && loadedRef.current.categories) {
-      setLoaded(true)
-    }
-  }, [])
+const HomeContent = () => {
+  const { loading } = useProducts()
 
   return (
     <>
-      {!loaded && (
+      {loading && (
         <div className="bg-surface min-h-screen flex items-center justify-center">
           <div className="flex flex-col items-center gap-5">
             <span className="w-10 h-10 bg-gold rounded-lg flex items-center justify-center text-surface text-lg font-black tracking-tight animate-pulse">
@@ -29,8 +28,8 @@ export const Home = () => {
           </div>
         </div>
       )}
-      <HeroSection onLoad={() => handleLoad('hero')} />
-      <CategorySection onLoad={() => handleLoad('categories')} />
+      <HeroSection />
+      <CategorySection />
       <ValueProps />
       <ProductMarquee />
     </>

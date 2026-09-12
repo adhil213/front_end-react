@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
+import { useProducts } from './ProductsContext';
 
 const cardThemes = [
   {
@@ -24,38 +25,25 @@ const cardThemes = [
   },
 ];
 
-const CategorySection = ({ onLoad }) => {
-  const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(true);
+const CategorySection = () => {
+  const { products } = useProducts();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetch("https://backend-sk0h.onrender.com/products")
-      .then((res) => res.json())
-      .then((data) => {
-        const items = data.data;
-        const pick = (category) => items.find((p) => p.category === category);
+  const categories = useMemo(() => {
+    const pick = (category) => products.find((p) => p.category === category);
 
-        const headphones = pick("Headphones");
-        const smartphones = pick("Smartphones");
-        const laptops = pick("Laptops");
+    const headphones = pick("Headphones");
+    const smartphones = pick("Smartphones");
+    const laptops = pick("Laptops");
 
-        setCategories([
-          { ...headphones, label: "Wireless sound", meta: `30-day home trial`, theme: 0 },
-          { ...smartphones, label: "Handheld power", meta: `All-day battery`, theme: 1 },
-          { ...laptops, label: "Built to last", meta: `Thin. Light. Serious.`, theme: 2 },
-        ].filter(Boolean));
-        setLoading(false);
-        onLoad?.();
-      })
-      .catch((err) => {
-        console.error("Error fetching category data:", err);
-        setLoading(false);
-        onLoad?.();
-      });
-  }, []);
+    return [
+      { ...headphones, label: "Wireless sound", meta: `30-day home trial`, theme: 0 },
+      { ...smartphones, label: "Handheld power", meta: `All-day battery`, theme: 1 },
+      { ...laptops, label: "Built to last", meta: `Thin. Light. Serious.`, theme: 2 },
+    ].filter(Boolean);
+  }, [products]);
 
-  if (loading) return null;
+  if (categories.length === 0) return null;
 
   return (
     <section className="py-16 md:py-24 bg-surface">

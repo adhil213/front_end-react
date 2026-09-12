@@ -1,20 +1,13 @@
-import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
+import { useProducts } from './ProductsContext';
 
 const formatPrice = (p) => `\u20B9${Number(p || 0).toLocaleString('en-IN')}`;
 
 const ProductMarquee = () => {
-  const [products, setProducts] = useState([]);
+  const { products } = useProducts();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    fetch("https://backend-sk0h.onrender.com/products")
-      .then((res) => res.json())
-      .then((data) => setProducts(data.data))
-      .catch((err) => console.error("Error fetching marquee products:", err));
-  }, []);
 
   if (products.length === 0) return null;
 

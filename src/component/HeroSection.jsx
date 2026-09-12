@@ -2,44 +2,28 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { ArrowDownRight } from 'lucide-react';
+import { useProducts } from './ProductsContext';
 
 const ROTATE_MS = 5000;
 
 const formatPrice = (p) => `\u20B9${Number(p || 0).toLocaleString('en-IN')}`;
 
-const HeroSection = ({ onLoad }) => {
-  const [products, setProducts] = useState([]);
-  const [tickerItems, setTickerItems] = useState([]);
+const HeroSection = () => {
+  const { products } = useProducts();
+  const featured = useMemo(() => products.slice(0, 3), [products]);
   const [active, setActive] = useState(0);
-  const [loaded, setLoaded] = useState(false);
   const [rotating, setRotating] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("https://backend-sk0h.onrender.com/products")
-      .then((res) => res.json())
-      .then((data) => {
-        setProducts(data.data.slice(0, 3));
-        setTickerItems(data.data);
-        setLoaded(true);
-        onLoad?.();
-      })
-      .catch((err) => {
-        console.error("Error fetching hero data:", err);
-        setLoaded(true);
-        onLoad?.();
-      });
-  }, []);
-
-  useEffect(() => {
-    if (!rotating || products.length === 0) return;
+    if (!rotating || featured.length === 0) return;
     const id = setInterval(() => {
-      setActive((i) => (i + 1) % products.length);
+      setActive((i) => (i + 1) % featured.length);
     }, ROTATE_MS);
     return () => clearInterval(id);
-  }, [rotating, products.length]);
+  }, [rotating, featured.length]);
 
-  const current = products[active];
+  const current = featured[active] || products[0];
   const categoryWord = useMemo(
     () => (current?.category || 'shop').toUpperCase(),
     [current]
@@ -47,7 +31,7 @@ const HeroSection = ({ onLoad }) => {
 
   const handleNavigate = useCallback((path) => () => navigate(path), [navigate]);
 
-  if (!loaded) return null;
+  if (featured.length === 0) return null;
 
   return (
     <section className="relative bg-surface overflow-hidden">
@@ -232,7 +216,7 @@ const HeroSection = ({ onLoad }) => {
 
             {/* Progress dots */}
             <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2">
-              {products.map((p, i) => (
+              {featured.map((p, i) => (
                 <button
                   key={p._id}
                   onClick={() => setActive(i)}
@@ -266,9 +250,9 @@ const HeroSection = ({ onLoad }) => {
         {/* Scrolling quotes */}
         <div className="group">
           <div className="flex w-max animate-marquee py-4 group-hover:[animation-play-state:paused]">
-            {tickerItems.length > 0 && [0, 1].map((copy) => (
+            {products.length > 0 && [0, 1].map((copy) => (
               <div key={copy} className="flex items-center" aria-hidden={copy === 1}>
-                {tickerItems.map((p) => (
+                {products.map((p) => (
                   <span key={p._id} className="flex items-center">
                     <span className="mx-7 flex items-center text-sm">
                       <span className="font-bold uppercase tracking-[0.2em] text-warm-100">
