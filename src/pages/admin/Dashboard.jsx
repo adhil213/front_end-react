@@ -105,7 +105,7 @@ export const Dashboard = () => {
 
   if (loading)
     return (
-      <div className="p-10 text-white bg-[#0a0b14] min-h-screen font-sans">
+      <div className="p-10 text-white bg-surface min-h-screen font-sans">
         Loading Analytics...
       </div>
     );
@@ -130,11 +130,11 @@ export const Dashboard = () => {
       circumference;
 
   return (
-    <div className="bg-[#0a0b14] min-h-screen text-white p-4 md:p-8 font-sans w-full max-w-full overflow-x-hidden">
+    <div className="bg-surface min-h-screen text-white p-4 md:p-8 font-sans w-full max-w-full overflow-x-hidden">
       <header className="mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-2xl md:text-3xl font-bold">Dashboard</h1>
-          <p className="text-gray-400 text-sm mt-1">
+          <h1 className="text-2xl md:text-3xl font-bold text-warm-100">Dashboard</h1>
+          <p className="text-warm-500 text-sm mt-1">
             Welcome back, here's what's happening with your store today.
           </p>
         </div>
@@ -157,15 +157,15 @@ export const Dashboard = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="bg-[#11121e] p-6 rounded-2xl border border-gray-800">
-          <h3 className="font-bold mb-6 text-lg">Order Status</h3>
+        <div className="bg-surface-raised p-6 rounded-2xl border border-surface-border">
+          <h3 className="font-bold mb-6 text-lg text-warm-100">Order Status</h3>
           <div className="relative flex justify-center items-center h-48 mb-6">
             <svg className="w-40 h-40 transform -rotate-90">
               <circle
                 cx="80"
                 cy="80"
                 r={radius}
-                stroke="#1f2937"
+                stroke="#252529"
                 strokeWidth="12"
                 fill="transparent"
               />
@@ -174,7 +174,7 @@ export const Dashboard = () => {
                 cx="80"
                 cy="80"
                 r={radius}
-                stroke="#6b7280"
+                stroke="#3d3c39"
                 strokeWidth="12"
                 fill="transparent"
                 strokeDasharray={circumference}
@@ -189,7 +189,7 @@ export const Dashboard = () => {
                 cx="80"
                 cy="80"
                 r={radius}
-                stroke="#eab308"
+                stroke="#dabe62"
                 strokeWidth="12"
                 fill="transparent"
                 strokeDasharray={circumference}
@@ -204,7 +204,7 @@ export const Dashboard = () => {
                 cx="80"
                 cy="80"
                 r={radius}
-                stroke="#6366f1"
+                stroke="#c9a84c"
                 strokeWidth="12"
                 fill="transparent"
                 strokeDasharray={circumference}
@@ -216,7 +216,7 @@ export const Dashboard = () => {
               />
             </svg>
             <div className="absolute text-center">
-              <span className="text-xs text-gray-400 block uppercase">
+              <span className="text-xs text-warm-500 block uppercase">
                 Delivered
               </span>
               <span className="text-xl font-bold">
@@ -228,17 +228,17 @@ export const Dashboard = () => {
             <StatusRow
               label="Completed"
               percent={data.statusStats.completed}
-              color="bg-indigo-500"
+              color="bg-gold"
             />
             <StatusRow
               label="Processing"
               percent={data.statusStats.processing}
-              color="bg-yellow-500"
+              color="bg-gold-light"
             />
             <StatusRow
               label="Cancelled"
               percent={data.statusStats.cancelled}
-              color="bg-gray-500"
+              color="bg-warm-600"
             />
           </div>
         </div>
@@ -310,18 +310,18 @@ export const Dashboard = () => {
 };
 
 const StatCard = ({ title, value, icon, subtext }) => (
-  <div className="bg-[#11121e] p-5 rounded-2xl border border-gray-800">
+  <div className="bg-surface-raised p-5 rounded-2xl border border-surface-border">
     <div className="flex justify-between items-start mb-4">
       <div>
-        <p className="text-gray-500 text-[10px] font-bold uppercase">{title}</p>
-        <h2 className="text-xl md:text-2xl font-bold">{value}</h2>
+        <p className="text-warm-500 text-[10px] font-bold uppercase">{title}</p>
+        <h2 className="text-xl md:text-2xl font-bold text-warm-100">{value}</h2>
       </div>
-      <div className="bg-[#1c1d29] p-2 rounded-lg border border-gray-700">
+      <div className="bg-elevated p-2 rounded-lg border border-surface-border">
         {icon}
       </div>
     </div>
     {subtext && (
-      <p className="text-[10px] text-yellow-500 font-medium">⚠️ {subtext}</p>
+      <p className="text-[10px] text-gold font-medium">⚠️ {subtext}</p>
     )}
   </div>
 );
@@ -330,8 +330,8 @@ const StatusRow = ({ label, percent, color }) => (
   <div className="flex justify-between items-center text-sm">
     <div className="flex items-center gap-2">
       <span className={`w-2 h-2 rounded-full ${color}`}></span>
-      <span className="text-gray-400 font-medium">{label}</span>
+      <span className="text-warm-500 font-medium">{label}</span>
     </div>
-    <span className="font-bold">{percent}%</span>
+    <span className="font-bold text-warm-100">{percent}%</span>
   </div>
 );
