@@ -5,18 +5,11 @@ import { ArrowDownRight } from 'lucide-react';
 
 const ROTATE_MS = 5000;
 
-const marqueeItems = [
-  'Free express shipping',
-  '30-day easy returns',
-  '2-year warranty',
-  'Cash on delivery',
-  'Secure payments',
-];
-
 const formatPrice = (p) => `\u20B9${Number(p || 0).toLocaleString('en-IN')}`;
 
 const HeroSection = ({ onLoad }) => {
   const [products, setProducts] = useState([]);
+  const [tickerItems, setTickerItems] = useState([]);
   const [active, setActive] = useState(0);
   const [loaded, setLoaded] = useState(false);
   const [rotating, setRotating] = useState(true);
@@ -27,6 +20,7 @@ const HeroSection = ({ onLoad }) => {
       .then((res) => res.json())
       .then((data) => {
         setProducts(data.data.slice(0, 3));
+        setTickerItems(data.data);
         setLoaded(true);
         onLoad?.();
       })
@@ -253,19 +247,43 @@ const HeroSection = ({ onLoad }) => {
         </div>
       </div>
 
-      {/* ------ Marquee strip ------ */}
-      <div className="relative border-t border-surface-border bg-surface-raised overflow-hidden py-4">
-        <div className="flex whitespace-nowrap animate-marquee w-max">
-          {[0, 1].map((copy) => (
-            <div key={copy} className="flex items-center" aria-hidden={copy === 1}>
-              {marqueeItems.map((item) => (
-                <span key={item} className="flex items-center text-warm-500 text-xs font-semibold uppercase tracking-[0.3em]">
-                  <span className="mx-8">{item}</span>
-                  <span className="text-gold/50">✦</span>
-                </span>
-              ))}
-            </div>
-          ))}
+      {/* ------ Price tape ------ */}
+      <div className="relative border-y border-surface-border bg-surface-raised overflow-hidden">
+        {/* Fixed live label */}
+        <div className="absolute left-0 top-0 bottom-0 z-10 flex items-center gap-3 pl-6 lg:pl-10 pr-8 bg-gradient-to-r from-surface-raised via-surface-raised to-transparent">
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-gold opacity-60" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-gold" />
+          </span>
+          <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-warm-300">
+            Price tape
+          </span>
+        </div>
+
+        {/* Right edge fade */}
+        <div className="absolute right-0 top-0 bottom-0 z-10 w-16 bg-gradient-to-l from-surface-raised to-transparent" />
+
+        {/* Scrolling quotes */}
+        <div className="group">
+          <div className="flex w-max animate-marquee py-4 group-hover:[animation-play-state:paused]">
+            {tickerItems.length > 0 && [0, 1].map((copy) => (
+              <div key={copy} className="flex items-center" aria-hidden={copy === 1}>
+                {tickerItems.map((p) => (
+                  <span key={p._id} className="flex items-center">
+                    <span className="mx-7 flex items-center text-sm">
+                      <span className="font-bold uppercase tracking-[0.2em] text-warm-100">
+                        {p.brand || p.category}
+                      </span>
+                      <span className="text-warm-600 mx-3">·</span>
+                      <span className="text-warm-400 max-w-[16ch] truncate">{p.name}</span>
+                      <span className="text-gold font-bold ml-6">{formatPrice(p.price)}</span>
+                    </span>
+                    <span className="text-gold/40 text-xs">◆</span>
+                  </span>
+                ))}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
