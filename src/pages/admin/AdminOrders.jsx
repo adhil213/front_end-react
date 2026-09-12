@@ -97,53 +97,53 @@ export const AdminOrders = () => {
     );
 
   return (
-    <div className="bg-surface min-h-screen py-4 md:py-10 px-4 w-full text-white font-sans">
-      <div className="max-w-6xl mx-auto">
-        <header className="mb-8 flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+    <div className="bg-surface min-h-screen p-4 md:p-6 w-full text-white font-sans">
+      <div className="max-w-5xl mx-auto">
+        <header className="mb-5 flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
           <div>
-            <h1 className="text-2xl md:text-3xl font-black text-white uppercase tracking-tight">
+            <h1 className="text-lg md:text-xl font-bold text-warm-100">
               Order Management
             </h1>
-            <p className="text-warm-600 text-sm mt-1">
+            <p className="text-warm-600 text-xs mt-0.5">
               Real-time customer transactions overview
             </p>
           </div>
-          <div className="bg-surface-raised px-6 py-3 rounded-2xl border border-surface-border shadow-xl w-full md:w-auto text-center">
+          <div className="bg-surface-raised px-3 py-1.5 rounded-lg border border-surface-border w-full md:w-auto text-center">
             <span className="text-warm-500 text-xs font-bold uppercase tracking-wider">
               Total Volume:{" "}
             </span>
-            <span className="text-gold font-black ml-2">
+            <span className="text-gold font-bold ml-1">
               {orders.length}
             </span>
           </div>
         </header>
 
-        <div className="space-y-8">
+        <div className="space-y-4">
           {orders.map((order, idx) => (
             <div
               key={`${order.orderId}-${idx}`}
-              className="bg-surface-raised rounded-2xl shadow-2xl border border-surface-border overflow-hidden transition-all hover:border-gold/40"
+              className="bg-surface-raised rounded-xl border border-surface-border overflow-hidden transition-all hover:border-gold/40"
             >
-              <div className="bg-elevated/50 px-5 py-4 flex flex-col sm:flex-row justify-between gap-4 border-b border-surface-border">
-                <div className="flex items-center gap-4">
-                  <div className="bg-surface p-2 rounded-xl border border-surface-border text-center min-w-[90px]">
-                    <p className="text-[9px] uppercase font-bold text-warm-600 mb-1">
+              <div className="bg-elevated/40 px-4 py-3 flex flex-col sm:flex-row justify-between gap-3 border-b border-surface-border">
+                <div className="flex items-center gap-3">
+                  <div className="bg-surface px-2.5 py-1.5 rounded-lg border border-surface-border text-left min-w-[100px]">
+                    <p className="text-[9px] uppercase font-bold text-warm-600">
                       Order Ref
                     </p>
-                    <p className="text-xs font-mono font-bold text-gold">
+                    <p className="text-[11px] font-mono font-bold text-gold">
                       {order.orderId}
                     </p>
                   </div>
                   <div>
-                    <p className="text-sm font-bold text-white">
+                    <p className="text-sm font-bold text-warm-100">
                       {order.user?.name}
                     </p>
                     <p className="text-xs text-warm-600">{order.user?.email}</p>
                   </div>
                 </div>
-                <div className="flex items-center justify-between sm:justify-end gap-6">
+                <div className="flex items-center justify-between sm:justify-end gap-5">
                   <div className="text-right hidden sm:block">
-                    <p className="text-[9px] uppercase font-bold text-warm-600 mb-1">
+                    <p className="text-[9px] uppercase font-bold text-warm-600">
                       Timestamp
                     </p>
                     <p className="text-xs font-medium text-warm-300">
@@ -159,7 +159,7 @@ export const AdminOrders = () => {
                         e.target.value,
                       )
                     }
-                    className={`text-[11px] font-black py-2 px-4 rounded-xl border outline-none bg-transparent cursor-pointer transition-all ${getStatusColor(order.status)}`}
+                    className={`text-[11px] font-bold py-1.5 px-3 rounded-lg border outline-none bg-transparent cursor-pointer transition-all ${getStatusColor(order.status)}`}
                   >
                     <option value="Processing" className="bg-surface-raised">
                       Processing
@@ -177,22 +177,22 @@ export const AdminOrders = () => {
                 </div>
               </div>
 
-              <div className="p-5 md:p-8">
-                <div className="hidden md:grid grid-cols-4 text-[10px] uppercase font-bold text-warm-600 border-b border-surface-border pb-3 mb-6 tracking-widest">
+              <div className="p-4 md:p-5">
+                <div className="hidden md:grid grid-cols-4 text-[10px] uppercase font-bold text-warm-600 border-b border-surface-border pb-2 mb-4 tracking-wider">
                   <div>Product Details</div>
                   <div className="text-center">Quantity</div>
                   <div className="text-right">Unit Price</div>
                   <div className="text-right">Line Total</div>
                 </div>
 
-                <div className="space-y-6 md:space-y-4">
+                <div className="space-y-4 md:space-y-3">
                   {order.items.map((item) => (
                     <div
                       key={item.id}
-                      className="flex flex-col md:grid md:grid-cols-4 gap-3 md:gap-0 items-center md:items-center py-2"
+                      className="flex flex-col md:grid md:grid-cols-4 gap-2 md:gap-0 items-center md:items-center py-1"
                     >
-                      <div className="flex items-center gap-4 w-full md:w-auto">
-                        <div className="w-14 h-14 bg-elevated rounded-xl border border-surface-border p-2 flex items-center justify-center">
+                      <div className="flex items-center gap-3 w-full md:w-auto">
+                        <div className="w-11 h-11 bg-elevated rounded-lg border border-surface-border p-1.5 flex items-center justify-center">
                           <img
                             src={item.image}
                             className="w-full h-full object-contain"
@@ -209,8 +209,8 @@ export const AdminOrders = () => {
                         </div>
                       </div>
 
-                      <div className="flex justify-between items-center w-full md:contents border-t border-surface-border/50 pt-3 md:pt-0">
-                        <div className="md:text-center text-xs md:text-sm">
+                      <div className="flex justify-between items-center w-full md:contents border-t border-surface-border/50 pt-2 md:pt-0">
+                        <div className="md:text-center text-xs">
                           <span className="md:hidden text-warm-600 mr-2 uppercase text-[10px] font-bold">
                             Qty:
                           </span>
@@ -218,7 +218,7 @@ export const AdminOrders = () => {
                             x{item.qty}
                           </span>
                         </div>
-                        <div className="md:text-right text-xs md:text-sm">
+                        <div className="md:text-right text-xs">
                           <span className="md:hidden text-warm-600 mr-2 uppercase text-[10px] font-bold">
                             Unit:
                           </span>
@@ -226,7 +226,7 @@ export const AdminOrders = () => {
                             ${Number(item.price || 0).toLocaleString("en-IN")}
                           </span>
                         </div>
-                        <div className="md:text-right text-sm font-black text-white">
+                        <div className="md:text-right text-sm font-bold text-white">
                           <span className="md:hidden text-warm-600 mr-2 uppercase text-[10px] font-bold">
                             Total:
                           </span>
@@ -241,33 +241,33 @@ export const AdminOrders = () => {
                 </div>
               </div>
 
-              <div className="bg-elevated/30 p-5 md:p-8 border-t border-surface-border flex flex-col md:flex-row justify-between items-center gap-8">
-                <div className="grid grid-cols-2 md:flex gap-8 md:gap-16 w-full md:w-auto">
-                  <div className="space-y-2">
-                    <p className="text-[10px] uppercase font-black text-warm-600 tracking-widest">
+              <div className="bg-elevated/30 px-4 py-4 border-t border-surface-border flex flex-col md:flex-row justify-between items-center gap-4">
+                <div className="grid grid-cols-2 md:flex gap-6 md:gap-12 w-full md:w-auto">
+                  <div className="space-y-1">
+                    <p className="text-[10px] uppercase font-bold text-warm-600">
                       Shipping Destination
                     </p>
-                    <p className="text-[12px] text-warm-500 leading-relaxed italic">
+                    <p className="text-xs text-warm-500 leading-relaxed">
                       {order.address.street},<br /> {order.address.city},{" "}
                       {order.address.zip}
                     </p>
                   </div>
-                  <div className="space-y-2">
-                    <p className="text-[10px] uppercase font-black text-warm-600 tracking-widest">
+                  <div className="space-y-1">
+                    <p className="text-[10px] uppercase font-bold text-warm-600">
                       Payment Method
                     </p>
-                    <p className="text-[12px] font-black text-gold uppercase tracking-tighter">
+                    <p className="text-xs font-bold text-gold uppercase tracking-tighter">
                       {order.paymentMethod}
                     </p>
                   </div>
                 </div>
 
-                <div className="flex flex-col items-center md:items-end w-full md:w-auto pt-6 md:pt-0 border-t border-surface-border md:border-0">
-                  <p className="text-[10px] uppercase font-black text-warm-600 tracking-widest mb-1">
+                <div className="flex flex-col items-center md:items-end w-full md:w-auto pt-3 md:pt-0 border-t border-surface-border md:border-0">
+                  <p className="text-[10px] uppercase font-bold text-warm-600 mb-0.5">
                     Grand Total
                   </p>
-                  <p className="text-3xl md:text-4xl font-black text-white drop-shadow-lg">
-                    <span className="text-gold text-xl mr-1">$</span>
+                  <p className="text-xl md:text-2xl font-bold text-warm-100">
+                    <span className="text-gold text-sm mr-1">$</span>
                     {Number(order.totalAmount || 0).toLocaleString("en-IN")}
                   </p>
                 </div>
