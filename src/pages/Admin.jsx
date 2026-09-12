@@ -16,6 +16,13 @@ export const Admin = () => {
 
   const toggleSidebar = () => setIsOpen(!isOpen);
 
+  const linkCls = ({ isActive }) =>
+    `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold transition-colors ${
+      isActive
+        ? "bg-gold text-surface"
+        : "text-warm-500 hover:bg-surface-raised hover:text-warm-100"
+    }`;
+
   return (
     <>
       <div className="flex min-h-screen bg-surface">
@@ -25,87 +32,47 @@ export const Admin = () => {
             onClick={toggleSidebar}
             className="p-2 rounded-lg bg-gold text-surface shadow-lg active:scale-95 transition-transform hover:bg-gold-light"
           >
-            {isOpen ? <HiXMark size={24} /> : <HiBars3 size={24} />}
+            {isOpen ? <HiXMark size={22} /> : <HiBars3 size={22} />}
           </button>
         </div>
 
         {/* Sidebar */}
         <div
           className={`
-            fixed inset-y-0 left-0 z-40 w-[300px] bg-surface transition-transform duration-300 transform 
+            fixed inset-y-0 left-0 z-40 w-64 bg-surface transition-transform duration-300 transform 
             lg:relative lg:translate-x-0 lg:mt-0
             /* THIS IS THE FIX: Added margin-top and adjusted height for mobile */
             mt-20 h-[calc(100vh-5rem)] lg:h-screen 
             ${isOpen ? "translate-x-0" : "-translate-x-full"}
           `}
         >
-          {/* Internal Sidebar Container */}
           <div className="h-full flex flex-col">
-            <div className="flex items-center gap-4 p-4 bg-surface-raised text-white rounded-2xl w-[250px] m-4 border border-surface-border">
-              <div className="flex items-center justify-center w-12 h-12 rounded-full bg-elevated border border-surface-border">
-                <MdPerson size={24} className="text-gold" />
+            <div className="flex items-center gap-3 px-4 py-5 border-b border-surface-border">
+              <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-gold/10 border border-gold/20">
+                <MdPerson size={18} className="text-gold" />
               </div>
-              <div className="flex flex-col">
-                <h2 className="text-lg font-bold leading-tight">Administrator</h2>
-                <p className="text-sm text-warm-500">System Manager</p>
+              <div className="flex flex-col leading-tight">
+                <h2 className="text-sm font-bold text-warm-100">Administrator</h2>
+                <p className="text-xs text-warm-500">System Manager</p>
               </div>
             </div>
 
             {/* Navigation Links */}
-            <nav className="flex-1 overflow-y-auto" onClick={() => setIsOpen(false)}>
-              <NavLink to="dashboard">
-                {({ isActive }) => (
-                  <div className={`flex items-center gap-1 p-3 rounded-2xl w-[250px] m-4 hover:bg-surface-raised transition-colors ${isActive ? "bg-gold text-surface" : "text-warm-500"}`}>
-                    <div className="flex items-center justify-center w-12 h-12 rounded-full">
-                      <HiSquares2X2 size={20} />
-                    </div>
-                    <p className="font-bold">Dashboard</p>
-                  </div>
-                )}
+            <nav className="flex-1 overflow-y-auto p-3 space-y-1" onClick={() => setIsOpen(false)}>
+              <NavLink to="dashboard" className={linkCls}>
+                <HiSquares2X2 size={18} /> Dashboard
               </NavLink>
-
-              <NavLink to="add-product">
-                {({ isActive }) => (
-                  <div className={`flex items-center gap-1 p-3 rounded-2xl w-[250px] m-4 hover:bg-surface-raised transition-colors ${isActive ? "bg-gold text-surface" : "text-warm-500"}`}>
-                    <div className="flex items-center justify-center w-12 h-12 rounded-full ">
-                      <HiPlusCircle size={20} />
-                    </div>
-                    <p className="font-bold">Add product</p>
-                  </div>
-                )}
+              <NavLink to="add-product" className={linkCls}>
+                <HiPlusCircle size={18} /> Add product
               </NavLink>
-
-              <NavLink to="list-products">
-                {({ isActive }) => (
-                  <div className={`flex items-center gap-1 p-3 rounded-2xl w-[250px] m-4 hover:bg-surface-raised transition-colors ${isActive ? "bg-gold text-surface" : "text-warm-500"}`}>
-                    <div className="flex items-center justify-center w-12 h-12 rounded-full ">
-                      <HiListBullet size={20} />
-                    </div>
-                    <p className="font-bold">List Products</p>
-                  </div>
-                )}
+              <NavLink to="list-products" className={linkCls}>
+                <HiListBullet size={18} /> List Products
               </NavLink>
-
-              <NavLink to="orders">
-                {({ isActive }) => (
-                  <div className={`flex items-center gap-1 p-3 rounded-2xl w-[250px] m-4 hover:bg-surface-raised transition-colors ${isActive ? "bg-gold text-surface" : "text-warm-500"}`}>
-                    <div className="flex items-center justify-center w-12 h-12 rounded-full ">
-                      <HiOutlineShoppingBag size={20} />
-                    </div>
-                    <p className="font-bold">Order Management</p>
-                  </div>
-                )}
+              <NavLink to="orders" className={linkCls}>
+                <HiOutlineShoppingBag size={18} /> Order Management
               </NavLink>
-
-              <NavLink to="users">
-                {({ isActive }) => (
-                  <div className={`flex items-center gap-1 p-3 rounded-2xl w-[250px] m-4 hover:bg-surface-raised transition-colors ${isActive ? "bg-gold text-surface" : "text-warm-500"}`}>
-                    <div className="flex items-center justify-center w-12 h-12 rounded-full ">
-                      <HiOutlineUsers size={20} />
-                    </div>
-                    <p className="font-bold">Users</p>
-                  </div>
-                )}
+              <NavLink to="users" className={linkCls}>
+                <HiOutlineUsers size={18} /> Users
               </NavLink>
             </nav>
           </div>
