@@ -244,12 +244,21 @@ const deleteProduct = async (id) => {
                   </td>
                   <td className="py-3 px-5">
                     <div className="flex justify-end gap-2">
-                      <Link
-                        to={`/admin/list-products/${val._id}`}
-                        className="px-3 py-1.5 bg-gold/10 text-gold hover:bg-gold hover:text-surface rounded-lg text-[11px] font-bold transition-all"
-                      >
-                        Edit
-                      </Link>
+                      {guest ? (
+                        <span
+                          title="Guest admins cannot edit products"
+                          className="px-3 py-1.5 bg-gold/10 text-gold/50 rounded-lg text-[11px] font-bold cursor-not-allowed"
+                        >
+                          Edit
+                        </span>
+                      ) : (
+                        <Link
+                          to={`/admin/list-products/${val._id}`}
+                          className="px-3 py-1.5 bg-gold/10 text-gold hover:bg-gold hover:text-surface rounded-lg text-[11px] font-bold transition-all"
+                        >
+                          Edit
+                        </Link>
+                      )}
                       <button
                         onClick={() => deleteProduct(val._id)}
                         disabled={guest}
@@ -292,12 +301,21 @@ const deleteProduct = async (id) => {
                 </div>
               </div>
               <div className="flex gap-2 pt-3 border-t border-surface-border">
-                <Link
-                  to={`/admin/list-products/${val._id}`}
-                  className="flex-1 text-center py-2 bg-elevated text-warm-100 text-xs font-bold rounded-lg border border-surface-border"
-                >
-                  Edit
-                </Link>
+                {guest ? (
+                  <span
+                    title="Guest admins cannot edit products"
+                    className="flex-1 text-center py-2 bg-elevated text-warm-100/40 text-xs font-bold rounded-lg border border-surface-border cursor-not-allowed"
+                  >
+                    Edit
+                  </span>
+                ) : (
+                  <Link
+                    to={`/admin/list-products/${val._id}`}
+                    className="flex-1 text-center py-2 bg-elevated text-warm-100 text-xs font-bold rounded-lg border border-surface-border"
+                  >
+                    Edit
+                  </Link>
+                )}
                 <button
                   onClick={() => deleteProduct(val._id)}
                   disabled={guest}
