@@ -164,12 +164,20 @@ export const EditProduct = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="p-5 md:p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+          {guest && (
+            <div className="md:col-span-2 rounded-xl border border-gold/25 bg-gold/5 px-4 py-3 text-xs text-warm-400">
+              Reviewing in guest mode — product editing is{" "}
+              <span className="text-warm-200 font-bold">disabled</span>.
+            </div>
+          )}
+
           <div className="md:col-span-2">
             <label className={labelStyle}>Product Name</label>
             <input
               type="text"
               className={darkInput}
               value={formData.name}
+              disabled={guest}
               onChange={(e) =>
                 setFormData({ ...formData, name: e.target.value })
               }
@@ -183,6 +191,7 @@ export const EditProduct = () => {
               type="number"
               className={darkInput}
               value={formData.price}
+              disabled={guest}
               onChange={(e) =>
                 setFormData({ ...formData, price: Number(e.target.value) })
               }
@@ -196,6 +205,7 @@ export const EditProduct = () => {
               type="number"
               className={darkInput}
               value={formData.stock}
+              disabled={guest}
               onChange={(e) =>
                 setFormData({ ...formData, stock: Number(e.target.value) })
               }
@@ -208,6 +218,7 @@ export const EditProduct = () => {
             <select
               className={`${darkInput} appearance-none cursor-pointer`}
               value={formData.tag || ""}
+              disabled={guest}
               onChange={(e) =>
                 setFormData({ ...formData, tag: e.target.value })
               }
@@ -252,8 +263,9 @@ export const EditProduct = () => {
                 <input
                   type="file"
                   accept="image/*"
+                  disabled={guest}
                   onChange={handleImageChange}
-                  className="w-full text-xs text-warm-500 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-surface file:text-gold hover:file:bg-surface-raised cursor-pointer transition-all border border-surface-border rounded-lg p-2"
+                  className="w-full text-xs text-warm-500 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-surface file:text-gold hover:file:bg-surface-raised cursor-pointer transition-all border border-surface-border rounded-lg p-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 />
                 <p className="text-[10px] text-warm-600 font-medium italic">
                   * Supported: JPG, PNG, WEBP. Max recommended size: 2MB.
@@ -265,9 +277,10 @@ export const EditProduct = () => {
           <div className="md:col-span-2 pt-2">
             <button
               type="submit"
-              className="w-full py-3 bg-gold text-surface font-bold rounded-lg hover:bg-gold-light transition-all uppercase tracking-widest text-[11px] md:text-xs active:scale-[0.98]"
+              disabled={guest}
+              className="w-full py-3 bg-gold text-surface font-bold rounded-lg hover:bg-gold-light transition-all uppercase tracking-widest text-[11px] md:text-xs active:scale-[0.98] disabled:opacity-40 disabled:hover:bg-gold disabled:cursor-not-allowed"
             >
-              Update Product Data
+              {guest ? "Read-only in guest mode" : "Update Product Data"}
             </button>
           </div>
         </form>
