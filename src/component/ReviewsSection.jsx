@@ -88,6 +88,7 @@ export const ReviewsSection = ({ product }) => {
       toast.success(data.comment ? "Review updated" : "Review added");
       setComment("");
       setRating(0);
+      setEditing(false);
       load();
     } catch (err) {
       toast.error(err.message);
@@ -196,7 +197,44 @@ export const ReviewsSection = ({ product }) => {
               transition={fadeUp}
               className="rounded-2xl border border-surface-border bg-surface-raised p-6 md:p-7"
             >
-              {loggedInUser ? (
+              {loggedInUser && mine && !editing ? (
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+                  <div className="flex items-center gap-3">
+                    <AvatarChip name={loggedInUser.name} />
+                    <div>
+                      <p className="text-warm-100 text-sm font-bold leading-tight">
+                        You rated this
+                      </p>
+                      <div className="mt-1">
+                        <StarRating value={mine.rating} size={14} />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3 shrink-0">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setRating(mine.rating);
+                        setComment(mine.comment || "");
+                        setEditing(true);
+                      }}
+                      className="inline-flex items-center gap-2 bg-gold text-surface font-bold px-5 py-2.5 rounded-full hover:bg-gold-light active:scale-[0.98] transition-all text-xs uppercase tracking-wider"
+                    >
+                      <PenLine className="w-4 h-4" />
+                      Edit review
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleDelete(mine._id)}
+                      disabled={deletingId === mine._id}
+                      className="inline-flex items-center gap-1.5 text-xs font-bold text-red-400 hover:text-red-300 transition-colors disabled:opacity-50"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                      {deletingId === mine._id ? "Deleting..." : "Delete"}
+                    </button>
+                  </div>
+                </div>
+              ) : loggedInUser ? (
                 <form onSubmit={handleSubmit}>
                   <div className="flex items-start justify-between gap-4 mb-4">
                     <div>
@@ -207,17 +245,28 @@ export const ReviewsSection = ({ product }) => {
                         {mine ? "Your rating & thoughts will be replaced." : "Rate it honestly — others will see it."}
                       </p>
                     </div>
-                    {mine && (
-                      <button
-                        type="button"
-                        onClick={() => handleDelete(mine._id)}
-                        disabled={deletingId === mine._id}
-                        className="inline-flex items-center gap-1.5 text-xs font-bold text-red-400 hover:text-red-300 transition-colors disabled:opacity-50"
-                      >
-                        <Trash2 className="w-3.5 h-3.5" />
-                        {deletingId === mine._id ? "Deleting..." : "Delete"}
-                      </button>
-                    )}
+                    <div className="flex items-center gap-3 shrink-0">
+                      {mine && (
+                        <button
+                          type="button"
+                          onClick={() => handleDelete(mine._id)}
+                          disabled={deletingId === mine._id}
+                          className="inline-flex items-center gap-1.5 text-xs font-bold text-red-400 hover:text-red-300 transition-colors disabled:opacity-50"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                          {deletingId === mine._id ? "Deleting..." : "Delete"}
+                        </button>
+                      )}
+                      {mine && (
+                        <button
+                          type="button"
+                          onClick={() => setEditing(false)}
+                          className="text-xs font-bold text-warm-400 hover:text-warm-100 transition-colors"
+                        >
+                          Cancel
+                        </button>
+                      )}
+                    </div>
                   </div>
                   <div className="mb-4">
                     <div
