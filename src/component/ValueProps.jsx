@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Truck, RotateCcw, ShieldCheck, Headphones } from 'lucide-react';
+import { fadeUp, revealInitial, revealFinal, viewportOnce } from './motionPresets';
 
 const items = [
   {
@@ -33,10 +34,10 @@ const ValueProps = () => {
           {items.map((item, i) => (
             <motion.div
               key={item.title}
-              initial={{ opacity: 0, y: 28 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+              initial={revealInitial}
+              whileInView={revealFinal}
+              viewport={viewportOnce}
+              transition={{ ...fadeUp, delay: i * 0.08 }}
               className="group"
             >
               <div className="w-12 h-12 rounded-2xl border border-surface-border bg-elevated flex items-center justify-center text-gold mb-5 transition-colors duration-300 group-hover:border-gold/40 group-hover:bg-gold-muted">

@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { useProducts } from './ProductsContext';
+import { fadeUp, revealInitial, revealFinal, viewportOnce } from './motionPresets';
 
 const formatPrice = (p) => `\u20B9${Number(p || 0).toLocaleString('en-IN')}`;
 
@@ -17,10 +18,10 @@ const ProductMarquee = () => {
     <section className="bg-surface border-t border-surface-border py-16 md:py-24 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 lg:px-10 mb-10 md:mb-12">
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          initial={revealInitial}
+          whileInView={revealFinal}
+          viewport={viewportOnce}
+          transition={fadeUp}
         >
           <p className="text-gold text-xs font-semibold uppercase tracking-[0.22em] mb-3">
             Fresh on the shelf
@@ -66,10 +67,10 @@ const ProductMarquee = () => {
       {/* CTA strip */}
       <div className="max-w-7xl mx-auto px-6 lg:px-10">
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+          initial={revealInitial}
+          whileInView={revealFinal}
+          viewport={viewportOnce}
+          transition={{ ...fadeUp, delay: 0.1 }}
           className="mt-10 md:mt-12 rounded-3xl border border-surface-border bg-surface-raised px-8 md:px-12 py-8 md:py-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6"
         >
           <div>

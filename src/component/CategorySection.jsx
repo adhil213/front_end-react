@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
 import { useProducts } from './ProductsContext';
+import { fadeUp, revealInitial, revealFinal, viewportOnce } from './motionPresets';
 
 const cardThemes = [
   {
@@ -50,10 +51,10 @@ const CategorySection = () => {
       <div className="max-w-7xl mx-auto px-6 lg:px-10">
         {/* Section header */}
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          initial={revealInitial}
+          whileInView={revealFinal}
+          viewport={viewportOnce}
+          transition={fadeUp}
           className="flex flex-wrap items-end justify-between gap-4 mb-10 md:mb-14"
         >
           <div>
@@ -85,7 +86,7 @@ const CategorySection = () => {
               product={categories[1]}
               className="lg:col-span-5 h-[380px] md:h-[420px]"
               imageClass="w-[220px] h-[200px] md:w-[280px] md:h-[260px] -right-0 -bottom-0"
-              delay={0.12}
+              delay={0.1}
             />
           </div>
         )}
@@ -111,10 +112,10 @@ const CategoryCard = ({ product, className, imageClass, delay = 0, wide = false 
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
+      initial={revealInitial}
+      whileInView={revealFinal}
+      viewport={viewportOnce}
+      transition={{ ...fadeUp, delay }}
       onClick={() => product._id && navigate(`/products/${product._id}`)}
       className={`group relative overflow-hidden cursor-pointer border border-surface-border ${theme.border} rounded-[1.5rem] p-8 transition-colors duration-500 bg-gradient-to-tl ${theme.bg} via-transparent to-transparent ${className}`}
     >
