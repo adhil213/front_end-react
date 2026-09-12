@@ -102,16 +102,16 @@ export const AddProduct = () => {
   // }
 
   
-  const inputStyle = "w-full p-3 bg-[#1c1d29] border border-gray-800 rounded-xl text-white placeholder-gray-500 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all";
+  const inputStyle = "w-full p-3 bg-elevated border border-surface-border rounded-xl text-white placeholder-warm-600 focus:ring-2 focus:ring-gold/50 focus:border-transparent outline-none transition-all";
 
   return (
-    <div className="min-h-screen bg-[#0a0b14] p-4 md:p-8 flex justify-center w-full overflow-x-hidden font-sans">
-      <div className="w-full max-w-[1100px] bg-[#11121e] rounded-2xl border border-gray-800 p-6 md:p-10 shadow-2xl">
+    <div className="min-h-screen bg-surface p-4 md:p-8 flex justify-center w-full overflow-x-hidden font-sans">
+      <div className="w-full max-w-[1100px] bg-surface-raised rounded-2xl border border-surface-border p-6 md:p-10 shadow-2xl">
         <header className="mb-8">
           <h2 className="text-2xl md:text-3xl font-bold text-white">
             Add New Product
           </h2>
-          <p className="text-gray-400 text-sm mt-1">Fill in the details to list a new item in your store.</p>
+          <p className="text-warm-500 text-sm mt-1">Fill in the details to list a new item in your store.</p>
         </header>
 
         <form
@@ -122,7 +122,7 @@ export const AddProduct = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             <div className="space-y-1">
-              <label className="text-[10px] font-bold text-gray-500 uppercase ml-1">Product Name</label>
+              <label className="text-[10px] font-bold text-warm-600 uppercase ml-1">Product Name</label>
               <input
                 required
                 name="name"
@@ -132,7 +132,7 @@ export const AddProduct = () => {
               />
             </div>
             <div className="space-y-1">
-              <label className="text-[10px] font-bold text-gray-500 uppercase ml-1">Price ($)</label>
+              <label className="text-[10px] font-bold text-warm-600 uppercase ml-1">Price ($)</label>
               <input
                 required
                 type="number"
@@ -143,7 +143,7 @@ export const AddProduct = () => {
               />
             </div>
             <div className="space-y-1">
-              <label className="text-[10px] font-bold text-gray-500 uppercase ml-1">Stock Quantity</label>
+              <label className="text-[10px] font-bold text-warm-600 uppercase ml-1">Stock Quantity</label>
               <input
                 required
                 type="number"
@@ -158,23 +158,23 @@ export const AddProduct = () => {
          
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div className="space-y-1">
-              <label className="text-[10px] font-bold text-gray-500 uppercase ml-1">Category</label>
+              <label className="text-[10px] font-bold text-warm-600 uppercase ml-1">Category</label>
               <select
                 name="category"
                 required
                 className={`${inputStyle} appearance-none`}
               >
-                <option value="" className="bg-[#11121e]">Select Category</option>
-                <option value="Laptops" className="bg-[#11121e]">Laptops</option>
-                <option value="Smartphones" className="bg-[#11121e]">Smartphones</option>
-                <option value="Headphones" className="bg-[#11121e]">Headphones</option>
-                <option value="Tablets" className="bg-[#11121e]">Tablets</option>
-                <option value="Accessories" className="bg-[#11121e]">Accessories</option>
-                <option value="Wearables" className="bg-[#11121e]">Wearables</option>
+                <option value="" className="bg-surface-raised">Select Category</option>
+                <option value="Laptops" className="bg-surface-raised">Laptops</option>
+                <option value="Smartphones" className="bg-surface-raised">Smartphones</option>
+                <option value="Headphones" className="bg-surface-raised">Headphones</option>
+                <option value="Tablets" className="bg-surface-raised">Tablets</option>
+                <option value="Accessories" className="bg-surface-raised">Accessories</option>
+                <option value="Wearables" className="bg-surface-raised">Wearables</option>
               </select>
             </div>
             <div className="space-y-1">
-              <label className="text-[10px] font-bold text-gray-500 uppercase ml-1">Brand Name</label>
+              <label className="text-[10px] font-bold text-warm-600 uppercase ml-1">Brand Name</label>
               <input
                 name="brand"
                 required
@@ -187,7 +187,7 @@ export const AddProduct = () => {
 
           
           <div className="space-y-1">
-            <label className="text-[10px] font-bold text-gray-500 uppercase ml-1">Description</label>
+            <label className="text-[10px] font-bold text-warm-600 uppercase ml-1">Description</label>
             <textarea
               name="description"
               required
@@ -200,18 +200,18 @@ export const AddProduct = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div className="space-y-1">
-              <label className="text-[10px] font-bold text-gray-500 uppercase ml-1">Product Image</label>
-              <div className="relative border border-gray-800 bg-[#1c1d29] rounded-xl p-2">
+              <label className="text-[10px] font-bold text-warm-600 uppercase ml-1">Product Image</label>
+              <div className="relative border border-surface-border bg-elevated rounded-xl p-2">
                 <input
                   name="image"
                   required
                   type="file"
-                  className="w-full text-xs text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-[#0a0b14] file:text-indigo-400 hover:file:bg-[#11121e] cursor-pointer"
+                  className="w-full text-xs text-warm-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-surface file:text-gold hover:file:bg-surface-raised cursor-pointer"
                 />
               </div>
             </div>
             <div className="space-y-1">
-              <label className="text-[10px] font-bold text-gray-500 uppercase ml-1">Promotion Tag</label>
+              <label className="text-[10px] font-bold text-warm-600 uppercase ml-1">Promotion Tag</label>
               <input
                 name="tag"
                 type="text"
@@ -224,7 +224,7 @@ export const AddProduct = () => {
           <div className="pt-4">
             <button
               type="submit"
-              className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-4 rounded-xl transition-all shadow-lg shadow-indigo-500/20 text-lg active:scale-[0.98]"
+              className="w-full bg-gold hover:bg-gold-light text-surface font-bold py-4 rounded-xl transition-all shadow-lg shadow-gold/20 text-lg active:scale-[0.98]"
             >
               Confirm & Add Product
             </button>
