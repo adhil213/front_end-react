@@ -1,108 +1,137 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { RiPhoneLine, RiMailLine, RiMapPinLine, RiMessage2Line } from 'react-icons/ri';
+import { useNavigate } from 'react-router-dom';
+import { RiPhoneLine, RiMailLine, RiMapPinLine } from 'react-icons/ri';
+import { ArrowUpRight } from 'lucide-react';
+import { fadeUp, revealInitial, revealFinal, viewportOnce } from '../component/motionPresets';
 
 const ContactPage = () => {
+  const navigate = useNavigate();
+
   const contactDetails = [
     {
-      icon: <RiPhoneLine size={24} className="text-emerald-500" />,
-      title: "Call Us",
+      icon: RiPhoneLine,
+      title: "Call us",
       value: "+91 98765 43210",
-      label: "System Support"
+      label: "Mon–Sat, 10am–7pm IST",
     },
     {
-      icon: <RiMailLine size={24} className="text-emerald-500" />,
-      title: "Email Us",
-      value: "email@125.com",
-      label: "Encrypted Communication"
+      icon: RiMailLine,
+      title: "Email us",
+      value: "support@ezbuy.com",
+      label: "Replies within one business day",
     },
     {
-      icon: <RiMapPinLine size={24} className="text-emerald-500" />,
-      title: "Our Office",
+      icon: RiMapPinLine,
+      title: "Our office",
       value: "123 Food Street, Sector 7G",
-      label: "Neo-Bangalore, 560007"
-    }
+      label: "Bangalore, India",
+    },
   ];
 
   return (
-    <div className="h-screen bg-[#0b1120] text-white flex flex-col p-6 lg:p-12 overflow-hidden selection:bg-emerald-500/30">
-      <div className="max-w-6xl mx-auto w-full h-full flex flex-col justify-center">
-        
+    <div className="min-h-screen bg-surface text-warm-100">
+      <div className="max-w-7xl mx-auto px-6 lg:px-10 pt-16 md:pt-24 pb-20 md:pb-28">
         {/* Header */}
-        <header className="mb-12 text-center">
-          <motion.h1 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-4xl lg:text-6xl font-black italic"
-          >
-            CONTACT <span className="text-emerald-500 uppercase">Center</span>
-          </motion.h1>
-          <p className="text-gray-500 mt-4 font-bold uppercase text-[10px] tracking-[0.4em]">Establishing direct link to headquarters</p>
-        </header>
+        <motion.div
+          initial={revealInitial}
+          whileInView={revealFinal}
+          viewport={viewportOnce}
+          transition={fadeUp}
+          className="mb-14 md:mb-20 max-w-2xl"
+        >
+          <p className="text-gold text-xs font-semibold uppercase tracking-[0.22em] mb-4">
+            Get in touch
+          </p>
+          <h1 className="text-warm-100 text-4xl md:text-6xl font-black tracking-tight leading-[1.05]">
+            Talk to a{" "}
+            <span className="bg-gradient-to-r from-gold-light via-gold to-gold-dark bg-clip-text text-transparent">
+              human.
+            </span>
+          </h1>
+          <p className="text-warm-400 text-base md:text-lg leading-relaxed mt-5 max-w-lg">
+            Questions about an order, a product, or a guarantee — real people
+            answer, fast.
+          </p>
+        </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-          
-          {/*  */}
-          <div className="space-y-6">
-            {contactDetails.map((item, index) => (
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 md:gap-6">
+          {/* Contact cards */}
+          <div className="lg:col-span-7 space-y-5 md:space-y-6">
+            {contactDetails.map((item, i) => (
               <motion.div
-                key={index}
-                initial={{ opacity: 0, x: -30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.1 }}
-                className="bg-[#111a2e] border border-white/5 p-6 rounded-[2rem] flex items-center gap-6 hover:border-emerald-500/30 transition-all group"
+                key={item.title}
+                initial={revealInitial}
+                whileInView={revealFinal}
+                viewport={viewportOnce}
+                transition={{ ...fadeUp, delay: i * 0.08 }}
+                className="group relative overflow-hidden rounded-[1.5rem] border border-surface-border bg-surface-raised p-7 md:p-9 hover:border-gold/40 transition-colors duration-500"
               >
-                <div className="bg-[#0b1120] p-4 rounded-2xl group-hover:scale-110 transition-transform">
-                  {item.icon}
-                </div>
-                <div>
-                  <h3 className="text-emerald-500 font-black uppercase text-[10px] tracking-widest mb-1">{item.title}</h3>
-                  <p className="text-xl font-bold text-white leading-tight">{item.value}</p>
-                  <p className="text-gray-500 text-[10px] font-bold mt-1 uppercase tracking-tighter">{item.label}</p>
+                <div className="absolute -right-10 -top-10 w-48 h-48 rounded-full bg-[radial-gradient(closest-side,rgba(201,168,76,0.10),transparent)] pointer-events-none" />
+                <div className="relative flex items-center gap-6">
+                  <div className="shrink-0 w-14 h-14 rounded-2xl border border-surface-border bg-elevated flex items-center justify-center text-gold transition-colors duration-500 group-hover:border-gold/40 group-hover:bg-gold-muted">
+                    <item.icon className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="text-[11px] font-semibold uppercase tracking-[0.2em] text-gold mb-1.5">
+                      {item.title}
+                    </h3>
+                    <p className="text-xl md:text-2xl font-bold tracking-tight text-warm-100">
+                      {item.value}
+                    </p>
+                    <p className="text-warm-500 text-sm mt-1">{item.label}</p>
+                  </div>
                 </div>
               </motion.div>
             ))}
           </div>
 
-          
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="bg-[#111a2e] border border-white/5 p-10 rounded-[3rem] relative overflow-hidden hidden lg:block"
+          {/* Response card */}
+          <motion.div
+            initial={revealInitial}
+            whileInView={revealFinal}
+            viewport={viewportOnce}
+            transition={{ ...fadeUp, delay: 0.2 }}
+            className="lg:col-span-5 relative overflow-hidden rounded-[1.5rem] border border-surface-border bg-surface-raised p-8 md:p-10 flex flex-col justify-between gap-10"
           >
-            
-            <div className="absolute -right-10 -bottom-10 opacity-[0.03] pointer-events-none">
-                <RiMessage2Line size={300} />
+            <div className="absolute -bottom-24 -right-16 w-64 h-64 rounded-full bg-[radial-gradient(closest-side,rgba(201,168,76,0.14),transparent)] animate-breathe pointer-events-none" />
+
+            <div className="relative">
+              <p className="text-gold text-[11px] font-semibold uppercase tracking-[0.2em] mb-4">
+                Live support
+              </p>
+              <h2 className="text-warm-100 text-3xl md:text-4xl font-black tracking-tight">
+                Fast answers,
+                <br />
+                no runaround.
+              </h2>
+              <p className="text-warm-400 text-sm leading-relaxed mt-5 max-w-sm">
+                Bought something that's not quite right? Ask us before you send
+                it back — we'll point you to the simpler fix.
+              </p>
             </div>
 
-            <h2 className="text-2xl font-black mb-6 italic">Secure <span className="text-emerald-500">Messaging</span></h2>
-            <div className="space-y-4 relative z-10">
-                <p className="text-gray-400 text-sm leading-relaxed font-medium">
-                    Our neural link operators are standing by 24/7 to assist with your technical inquiries and order status.
-                </p>
-                <div className="h-[2px] w-20 bg-emerald-500"></div>
-                <div className="pt-4">
-                    <p className="text-[10px] text-gray-500 font-black uppercase tracking-widest">Global Status</p>
-                    <div className="flex items-center gap-2 mt-2">
-                        <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
-                        <span className="text-xs font-bold text-emerald-500">HEADQUARTERS ONLINE</span>
-                    </div>
-                </div>
+            <div className="relative space-y-6">
+              <div className="flex items-center gap-3">
+                <span className="relative flex h-2.5 w-2.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-gold opacity-60" />
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-gold" />
+                </span>
+                <span className="text-xs font-semibold uppercase tracking-[0.18em] text-warm-300">
+                  Usually replies within hours
+                </span>
+              </div>
+
+              <button
+                onClick={() => navigate("/products")}
+                className="group inline-flex items-center gap-2 text-sm font-semibold text-warm-300 hover:text-gold transition-colors"
+              >
+                Prefer browsing? Explore the collection
+                <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </button>
             </div>
           </motion.div>
-
         </div>
-
-        {/* FoLink */}
-        <footer className="mt-12 text-center">
-             <button 
-                onClick={() => window.history.back()}
-                className="text-gray-500 hover:text-emerald-500 transition-colors text-[10px] font-black uppercase tracking-[0.3em]"
-             >
-                &larr; Return 
-             </button>
-        </footer>
-
       </div>
     </div>
   );

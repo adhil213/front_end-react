@@ -1,178 +1,247 @@
-import React from 'react';
-import { ShoppingBag, ShieldCheck, Zap,  ArrowRight ,Eye } from 'lucide-react';
+import React, { useMemo } from 'react';
+import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
+import { ShoppingBag, ShieldCheck, Eye, ArrowUpRight } from 'lucide-react';
+import { useProducts } from '../component/ProductsContext';
+import BrandMark from '../component/BrandMark';
+import { fadeUp, revealInitial, revealFinal, viewportOnce } from '../component/motionPresets';
 
 const AboutUs = () => {
-    
-    const Purpose=[
-            { 
-                icon: <ShoppingBag className="text-green-400" />, 
-                title: "Our Mission", 
-                desc: "To empower every individual with the technology they need to create, connect, and achieve their goals. We bridge the gap between innovation and utility." 
-            },
-            { 
-                icon: <Eye className="text-blue-400" />, 
-                title: "Our Vision", 
-                desc: "To become the world's most trusted ecosystem for consumer electronics, where quality is guaranteed and customer satisfaction is the standard." 
-            },
-            { 
-                icon: <ShieldCheck className="text-purple-400" />, 
-                title: "Our Values", 
-                desc: "Integrity in every transaction, passion for every product, and a relentless commitment to innovation. We prioritize people over profits." 
-            }
-          ]
-    const founders=[
-            { name: "Adhil", role: "Founder & CEO", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Black_colour.jpg/960px-Black_colour.jpg" },
-            
-            
+  const { products } = useProducts();
+  const navigate = useNavigate();
 
-            
-          ]
+  const stats = useMemo(() => {
+    const brands = new Set(products.map((p) => p.brand).filter(Boolean));
+    return [
+      { value: `${brands.size}+`, label: "Brands stocked" },
+      { value: `${products.length}+`, label: "Products live" },
+    ];
+  }, [products]);
+
+  const purposes = [
+    {
+      icon: <ShoppingBag className="w-6 h-6" />,
+      title: "Our mission",
+      desc: "Curate hardware we'd buy ourselves — tested, honest pricing, and careful delivery to your door.",
+    },
+    {
+      icon: <Eye className="w-6 h-6" />,
+      title: "Our vision",
+      desc: "The place people trust first for a gadget, because every product earns its place on the shelf.",
+    },
+    {
+      icon: <ShieldCheck className="w-6 h-6" />,
+      title: "Our values",
+      desc: "Honest specs, easy returns, and support that actually answers. No fine print, no runaround.",
+    },
+  ];
+
   return (
-    <div className="min-h-screen bg-[#050505] text-white font-sans selection:bg-green-500/30">
-      
-      {/* HeroSection */}
-      <section className="pt-28 pb-20 px-6 text-center max-w-4xl mx-auto">
-        <span className="px-4 py-1.5 rounded-full border border-green-500/30 text-green-400 text-xs uppercase tracking-[0.2em] bg-green-500/5 backdrop-blur-sm">
-          Future of Tech Retail
-        </span>
-        <h1 className="text-5xl md:text-8xl font-bold mt-8 mb-8 tracking-tight">
-          Innovating Your <br />
-          <span className="bg-gradient-to-r from-green-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent">
-            Digital Universe
-          </span>
-        </h1>
-        <p className="text-gray-400 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto">
-          At EZBUY, we don't just sell gadgets; we curate the ecosystem of tomorrow. 
-          Discover the story behind the technology that powers your world.
-        </p>
-      </section>
+    <div className="min-h-screen bg-surface text-warm-100">
+      <div className="max-w-7xl mx-auto px-6 lg:px-10 pt-16 md:pt-24 pb-20 md:pb-28">
+        {/* Hero */}
+        <motion.div
+          initial={revealInitial}
+          whileInView={revealFinal}
+          viewport={viewportOnce}
+          transition={fadeUp}
+          className="max-w-3xl"
+        >
+          <p className="text-gold text-xs font-semibold uppercase tracking-[0.22em] mb-4">
+            Our story
+          </p>
+          <h1 className="text-warm-100 text-4xl md:text-6xl font-black tracking-tight leading-[1.05]">
+            Buy once.
+            <br />
+            <span className="bg-gradient-to-r from-gold-light via-gold to-gold-dark bg-clip-text text-transparent">
+              Buy right.
+            </span>
+          </h1>
+          <p className="text-warm-400 text-base md:text-lg leading-relaxed mt-6 max-w-xl">
+            Ezbuy exists to take the guesswork out of buying gear. We test what
+            we stock, price it honestly, and stand behind it.
+          </p>
+        </motion.div>
 
-      {/* StorySection */}
-      <section className="py-24 px-6 max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
-        <div className="relative group">
-          <div className="absolute -inset-1 bg-gradient-to-r from-green-500 to-blue-600 rounded-3xl blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
-          <div className="relative bg-neutral-900 rounded-3xl overflow-hidden aspect-video flex items-center justify-center border border-white/10">
-            <img 
-              src="https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&q=80&w=1200" 
-              alt="Tech Workspace" 
-              className="opacity-50 object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
+        {/* Story */}
+        <div className="mt-16 md:mt-24 grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-14 items-center">
+          <motion.div
+            initial={revealInitial}
+            whileInView={revealFinal}
+            viewport={viewportOnce}
+            transition={fadeUp}
+            className="relative overflow-hidden rounded-[1.5rem] border border-surface-border bg-surface-raised aspect-[4/3]"
+          >
+            <img
+              src="https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&q=80&w=1200"
+              alt="Tech workspace"
+              loading="lazy"
+              className="w-full h-full object-cover opacity-60"
             />
-            
-            <div className="absolute bottom-6 left-6 bg-black/60 backdrop-blur-md p-4 rounded-2xl border border-white/10">
-              <p className="text-[10px] text-gray-400 uppercase tracking-widest mb-1">Established</p>
-              <p className="text-2xl font-bold text-green-400 tracking-tighter">2019</p>
+            <div className="absolute bottom-5 left-5 rounded-2xl border border-surface-border bg-surface/80 backdrop-blur-md px-5 py-4">
+              <p className="text-[10px] text-warm-500 uppercase tracking-widest mb-1">Established</p>
+              <p className="text-gold font-black tracking-tight text-2xl">2019</p>
             </div>
+          </motion.div>
+
+          <motion.div
+            initial={revealInitial}
+            whileInView={revealFinal}
+            viewport={viewportOnce}
+            transition={{ ...fadeUp, delay: 0.1 }}
+            className="space-y-6"
+          >
+            <h2 className="text-warm-100 text-3xl md:text-4xl font-black tracking-tight">
+              From a frustrations
+              <span className="text-warm-500">, to a shelf you can trust.</span>
+            </h2>
+            <div className="space-y-4 text-warm-400 leading-relaxed">
+              <p>
+                Ezbuy started with a simple frustration: finding quality,
+                authentic tech gear was harder than it should be.
+              </p>
+              <p>
+                What began as a small, carefully checked collection has grown
+                into a store we'd actually shop ourselves — and we keep it that
+                way, one product decision at a time.
+              </p>
+            </div>
+
+            <div className="flex gap-10 pt-2">
+              {stats.map((stat) => (
+                <div key={stat.label}>
+                  <p className="text-3xl md:text-4xl font-black tracking-tight text-warm-100">
+                    {stat.value}
+                  </p>
+                  <p className="text-warm-500 text-[10px] font-semibold uppercase tracking-[0.18em] mt-1">
+                    {stat.label}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Purpose */}
+        <div className="mt-20 md:mt-28">
+          <motion.div
+            initial={revealInitial}
+            whileInView={revealFinal}
+            viewport={viewportOnce}
+            transition={fadeUp}
+            className="mb-10 md:mb-14"
+          >
+            <p className="text-gold text-xs font-semibold uppercase tracking-[0.22em] mb-3">
+              What we stand for
+            </p>
+            <h2 className="text-warm-100 text-3xl md:text-4xl font-black tracking-tight">
+              Driven by purpose.
+            </h2>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
+            {purposes.map((item, i) => (
+              <motion.div
+                key={item.title}
+                initial={revealInitial}
+                whileInView={revealFinal}
+                viewport={viewportOnce}
+                transition={{ ...fadeUp, delay: i * 0.08 }}
+                className="group relative overflow-hidden rounded-[1.5rem] border border-surface-border bg-surface-raised p-8 hover:border-gold/40 transition-colors duration-500"
+              >
+                <div className="absolute -top-12 -right-12 w-40 h-40 rounded-full bg-[radial-gradient(closest-side,rgba(201,168,76,0.10),transparent)] pointer-events-none" />
+                <div className="w-12 h-12 rounded-2xl border border-surface-border bg-elevated flex items-center justify-center text-gold mb-7 transition-colors duration-500 group-hover:border-gold/40 group-hover:bg-gold-muted">
+                  {item.icon}
+                </div>
+                <h3 className="text-warm-100 text-xl font-bold tracking-tight mb-3">
+                  {item.title}
+                </h3>
+                <p className="text-warm-500 text-sm leading-relaxed">{item.desc}</p>
+              </motion.div>
+            ))}
           </div>
         </div>
 
-        <div className="space-y-8">
-          <div>
-            <span className="text-green-400 text-sm font-mono tracking-tighter">— OUR STORY</span>
-            <h2 className="text-4xl font-bold mt-3 mb-6">From <span className="italic font-light text-gray-500">Garage</span> to Global</h2>
-            <div className="space-y-5 text-gray-400 leading-relaxed text-lg">
-              <p>
-                EZBUY began with a simple frustration: finding high-quality, authentic tech gear was harder than it should be. Our founders, two tech enthusiasts, started EZBUY in a small apartment garage.
-              </p>
-              <p>
-                What started as a curated list of gaming peripherals has exploded into a premier destination for tech lovers worldwide. We believe that technology should be accessible, reliable, and exciting.
-              </p>
-              <p>
-                Today, we partner with top-tier brands to bring you the cutting edge of innovation, right to your doorstep.
-              </p>
-            </div>
-          </div>
-          
-          <div className="flex gap-16 pt-4">
+        {/* The team */}
+        <div className="mt-20 md:mt-28">
+          <motion.div
+            initial={revealInitial}
+            whileInView={revealFinal}
+            viewport={viewportOnce}
+            transition={fadeUp}
+            className="mb-10 md:mb-14 flex flex-wrap items-end justify-between gap-4"
+          >
             <div>
-              <h3 className="text-4xl font-bold text-white">50k+</h3>
-              <p className="text-xs text-gray-500 uppercase tracking-widest mt-1">Happy Customers</p>
-            </div>
-            <div>
-              <h3 className="text-4xl font-bold text-white">1.2k</h3>
-              <p className="text-xs text-gray-500 uppercase tracking-widest mt-1">Products Available</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* PurposeSection */}
-      <section className="py-32 px-6 max-w-6xl mx-auto">
-        <div className="text-center mb-20">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">Driven by <span className="text-green-400">Purpose</span></h2>
-          <p className="text-gray-500">Our compass for navigating the ever-changing landscape of technology.</p>
-        </div>
-        <div className="grid md:grid-cols-3 gap-8">
-          {Purpose.map((card, idx) => (
-            <div key={idx} className="group p-10 rounded-[2.5rem] bg-gradient-to-b from-white/5 to-transparent border border-white/10 hover:border-green-500/50 transition-all duration-500">
-              <div className="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
-                {card.icon}
-              </div>
-              <h3 className="text-2xl font-bold mb-4">{card.title}</h3>
-              <p className="text-gray-400 leading-relaxed text-sm">{card.desc}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* TeamSection */}
-      <section className="py-24 px-6 max-w-6xl mx-auto">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-4">
-          <div>
-            <span className="text-blue-400 text-sm font-mono">— THE BOARD</span>
-            <h2 className="text-5xl font-bold mt-3">Meet the <span className="text-green-400">Experts</span></h2>
-          </div>
-         
-        </div>
-        
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {founders.map((member, idx) => (
-            <div key={idx} className="group text-center md:text-left">
-              <div className="relative overflow-hidden rounded-3xl mb-6 aspect-[4/5] bg-neutral-900 border border-white/5">
-                <img 
-                  src={member.img} 
-                  alt={member.name} 
-                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700"
-                />
-              </div>
-              <h4 className="text-xl font-bold tracking-tight">{member.name}</h4>
-              <p className="text-xs text-gray-500 uppercase tracking-widest mt-1">{member.role}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* CTASection */}
-      <section className="py-24 px-6 max-w-5xl mx-auto pb-40">
-        <div className="relative bg-neutral-900 border border-white/10 p-12 md:p-20 rounded-[3rem] overflow-hidden">
-          <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-12">
-            <div className="text-center md:text-left">
-              <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                Want to Join the <span className="text-green-400">Revolution?</span>
+              <p className="text-gold text-xs font-semibold uppercase tracking-[0.22em] mb-3">
+                The humans
+              </p>
+              <h2 className="text-warm-100 text-3xl md:text-4xl font-black tracking-tight">
+                Run by people who shop here.
               </h2>
-              <p className="text-gray-400 text-lg mb-10 max-w-md">
-                We are always looking for passionate individuals who love tech as much as we do. Check our open positions.
-              </p>
-              <button className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold py-4 px-10 rounded-full hover:shadow-[0_0_30px_rgba(6,182,212,0.4)] transition-all active:scale-95">
-                See Careers
-              </button>
             </div>
-            <div className="shrink-0">
-              <div className="w-24 h-24 bg-green-500/10 rounded-3xl flex items-center justify-center border border-green-500/20 rotate-12 group-hover:rotate-0 transition-transform">
-                <Zap className="text-green-400" size={40} />
+          </motion.div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6">
+            <motion.div
+              initial={revealInitial}
+              whileInView={revealFinal}
+              viewport={viewportOnce}
+              transition={fadeUp}
+              className="group"
+            >
+              <div className="relative rounded-[1.5rem] border border-surface-border bg-surface-raised hover:border-gold/40 transition-colors duration-500 aspect-[4/5] overflow-hidden flex flex-col items-center justify-center gap-4">
+                <div className="w-20 h-20 rounded-full bg-gold flex items-center justify-center text-surface text-3xl font-black tracking-tight">
+                  A
+                </div>
+                <h4 className="text-warm-100 text-xl font-bold tracking-tight">
+                  Adhil
+                </h4>
+                <p className="text-warm-500 text-[10px] font-semibold uppercase tracking-[0.2em]">
+                  Founder &amp; CEO
+                </p>
               </div>
-            </div>
+            </motion.div>
           </div>
-          
-          <div className="absolute top-0 right-0 w-64 h-64 bg-green-500/10 blur-[120px]"></div>
-          <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/10 blur-[120px]"></div>
         </div>
 
-        
-        <div className="mt-32 text-center">
-           <h2 className="text-4xl font-black tracking-tighter text-green-500 italic">EZBUY</h2>
-           <p className="text-gray-600 text-sm mt-2">© 2026 EZBUY INC. ALL RIGHTS RESERVED.</p>
+        {/* CTA */}
+        <motion.div
+          initial={revealInitial}
+          whileInView={revealFinal}
+          viewport={viewportOnce}
+          transition={{ ...fadeUp, delay: 0.05 }}
+          className="mt-20 md:mt-28 relative overflow-hidden rounded-[1.5rem] border border-surface-border bg-surface-raised p-10 md:p-16"
+        >
+          <div className="absolute -top-24 left-1/4 w-80 h-80 rounded-full bg-[radial-gradient(closest-side,rgba(201,168,76,0.14),transparent)] animate-breathe pointer-events-none" />
+          <div className="relative flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+            <div>
+              <h2 className="text-warm-100 text-3xl md:text-4xl font-black tracking-tight">
+                See what's on the shelf.
+              </h2>
+              <p className="text-warm-400 text-sm md:text-base leading-relaxed mt-3 max-w-md">
+                Real products, honest prices, and support that answers.
+              </p>
+            </div>
+            <button
+              onClick={() => navigate("/products")}
+              className="group inline-flex items-center justify-center gap-2 bg-gold text-surface font-bold px-8 py-4 rounded-full hover:bg-gold-light active:scale-[0.98] transition-all duration-300 text-sm shrink-0"
+            >
+              Browse the collection
+              <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </button>
+          </div>
+        </motion.div>
+
+        {/* Signature */}
+        <div className="relative mt-16 md:mt-24 overflow-hidden pointer-events-none select-none" aria-hidden="true">
+          <div className="flex items-center justify-center gap-6">
+            <BrandMark className="w-8 h-8" iconClass="w-4 h-4" />
+            <span className="text-warm-100/[0.06] font-black uppercase tracking-[0.5em] text-3xl md:text-5xl">
+              Ezbuy
+            </span>
+          </div>
         </div>
-      </section>
+      </div>
     </div>
   );
 };
