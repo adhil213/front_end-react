@@ -5,8 +5,14 @@ import {
   RiWallet3Line,
   RiInformationLine,
   RiQrCodeLine,
+  RiArrowRightLine,
 } from "react-icons/ri";
 import toast from "react-hot-toast";
+
+const fmt = (n) => `\u20B9${Number(n || 0).toLocaleString("en-IN")}`;
+
+const inputCls =
+  "w-full bg-elevated border border-surface-border rounded-xl px-4 py-3 text-sm text-warm-100 placeholder-warm-600 focus:outline-none focus:border-gold/50 transition-all";
 
 const PaymentPage = () => {
   const navigate = useNavigate();
@@ -134,34 +140,33 @@ const PaymentPage = () => {
         description: "Secure Payment",
         order_id: order.id,
 
-handler: async function (response) {
+        handler: async function (response) {
+          const token = localStorage.getItem("token");
 
-  const token = localStorage.getItem("token");
+          const verifyRes = await fetch("https://backend-sk0h.onrender.com/payment/verify", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+              address: formData,
+              paymentMethod: "Online",
+            }),
+          });
 
-  const verifyRes = await fetch("https://backend-sk0h.onrender.com/payment/verify", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify({
-      razorpay_order_id: response.razorpay_order_id,
-      razorpay_payment_id: response.razorpay_payment_id,
-      razorpay_signature: response.razorpay_signature,
-      address: formData,
-      paymentMethod: "Online",
-    }),
-  });
+          if (!verifyRes.ok) throw new Error();
 
-  if (!verifyRes.ok) throw new Error();
+          toast.success("Payment Verified!");
 
-  toast.success("Payment Verified!");
-
-  navigate("/orders");
-},
+          navigate("/orders");
+        },
 
         theme: {
-          color: "#10b981",
+          color: "#c9a84c",
         },
       };
 
@@ -175,118 +180,106 @@ handler: async function (response) {
 
   if (isLoading) {
     return (
-      <div className="h-screen bg-[#0b1120] flex items-center justify-center text-emerald-500 font-black italic">
-        ENCRYPTING...
+      <div className="bg-surface min-h-screen flex items-center justify-center">
+        <span className="text-gold font-bold animate-pulse text-sm uppercase tracking-[0.3em]">
+          Syncing checkout...
+        </span>
       </div>
     );
   }
 
   return (
-    <div className="h-screen bg-[#0b1120] text-white flex flex-col p-6 lg:p-10 overflow-hidden">
-      <div className="max-w-7xl mx-auto w-full h-full flex flex-col">
-        <header className="mb-6 shrink-0">
-          <h2 className="text-3xl font-black italic">
-            Secure <span className="text-emerald-500">Checkout</span>
-          </h2>
+    <div className="bg-surface text-warm-100 min-h-screen">
+      <div className="max-w-7xl mx-auto px-6 lg:px-10 pt-10 md:pt-16 pb-20 md:pb-28">
+        <header className="mb-10">
+          <p className="text-gold text-xs font-semibold uppercase tracking-[0.22em] mb-3">
+            Secure checkout
+          </p>
+          <h1 className="text-warm-100 text-4xl md:text-5xl font-black tracking-tight">
+            Confirm your order
+          </h1>
         </header>
 
-        <div className="flex-grow grid grid-cols-1 lg:grid-cols-3 gap-8 min-h-0 pb-4">
-          <div className="lg:col-span-2 overflow-y-auto pr-4 custom-scrollbar">
-            <h3 className="flex items-center gap-2 text-emerald-500 font-black uppercase text-[10px] tracking-widest mb-6">
-              <RiTruckLine /> Delivery Logistics
-            </h3>
-
-            <div className="grid grid-cols-2 gap-4">
-              <input
-                name="firstName"
-                placeholder="First Name"
-                onChange={handleInputChange}
-                className="bg-slate-900/50 border border-white/10 p-4 rounded-xl outline-none focus:border-emerald-500"
-              />
-
-              <input
-                name="lastName"
-                placeholder="Last Name"
-                onChange={handleInputChange}
-                className="bg-slate-900/50 border border-white/10 p-4 rounded-xl outline-none focus:border-emerald-500"
-              />
-
-              <input
-                name="email"
-                placeholder="Email"
-                onChange={handleInputChange}
-                className="col-span-2 bg-slate-900/50 border border-white/10 p-4 rounded-xl outline-none focus:border-emerald-500"
-              />
-
-              <input
-                name="street"
-                placeholder="Street Address"
-                onChange={handleInputChange}
-                className="col-span-2 bg-slate-900/50 border border-white/10 p-4 rounded-xl outline-none focus:border-emerald-500"
-              />
-
-              <input
-                name="city"
-                placeholder="City"
-                onChange={handleInputChange}
-                className="bg-slate-900/50 border border-white/10 p-4 rounded-xl outline-none focus:border-emerald-500"
-              />
-
-              <input
-                name="zip"
-                placeholder="Zip Code"
-                onChange={handleInputChange}
-                className="bg-slate-900/50 border border-white/10 p-4 rounded-xl outline-none focus:border-emerald-500"
-              />
-
-              <input
-                name="phone"
-                placeholder="Phone Number"
-                onChange={handleInputChange}
-                className="col-span-2 bg-slate-900/50 border border-white/10 p-4 rounded-xl outline-none focus:border-emerald-500"
-              />
-            </div>
-          </div>
-
-          <aside className="flex flex-col gap-6 min-h-0">
-            <div className="bg-[#111a2e] p-6 rounded-[2rem] border border-white/5 shadow-xl shrink-0">
-              <h3 className="flex items-center gap-2 text-white font-black text-xs uppercase mb-4">
-                <RiInformationLine className="text-emerald-500" /> Summary
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-10 items-start">
+          <div className="lg:col-span-2 space-y-8">
+            {/* DELIVERY */}
+            <section className="bg-surface-raised border border-surface-border rounded-2xl p-6 md:p-8">
+              <h3 className="flex items-center gap-2 text-gold font-bold uppercase text-[10px] tracking-widest mb-6">
+                <RiTruckLine /> Delivery logistics
               </h3>
 
-              <div className="flex justify-between text-[10px] font-bold text-gray-500 mb-2">
-                <span>SUBTOTAL</span>
-                <span>${subtotal}</span>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <input
+                  name="firstName"
+                  placeholder="First Name *"
+                  value={formData.firstName}
+                  onChange={handleInputChange}
+                  className={inputCls}
+                />
+
+                <input
+                  name="lastName"
+                  placeholder="Last Name"
+                  value={formData.lastName}
+                  onChange={handleInputChange}
+                  className={inputCls}
+                />
+
+                <input
+                  name="email"
+                  placeholder="Email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  className={`${inputCls} sm:col-span-2`}
+                />
+
+                <input
+                  name="street"
+                  placeholder="Street Address"
+                  value={formData.street}
+                  onChange={handleInputChange}
+                  className={`${inputCls} sm:col-span-2`}
+                />
+
+                <input
+                  name="city"
+                  placeholder="City"
+                  value={formData.city}
+                  onChange={handleInputChange}
+                  className={inputCls}
+                />
+
+                <input
+                  name="zip"
+                  placeholder="Zip Code"
+                  value={formData.zip}
+                  onChange={handleInputChange}
+                  className={inputCls}
+                />
+
+                <input
+                  name="phone"
+                  placeholder="Phone Number *"
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                  className={`${inputCls} sm:col-span-2`}
+                />
               </div>
+            </section>
 
-              <div className="flex justify-between text-[10px] font-bold text-gray-500 mb-4">
-                <span>SHIPPING</span>
-                <span>${deliveryFee}</span>
-              </div>
-
-              <div className="flex justify-between items-end border-t border-white/5 pt-4">
-                <span className="text-[10px] font-black uppercase text-gray-500">
-                  Total
-                </span>
-
-                <span className="text-3xl font-black text-emerald-500">
-                  ${total}
-                </span>
-              </div>
-            </div>
-
-            <div className="bg-[#111a2e] p-6 rounded-[2rem] border border-white/5 shadow-xl flex-grow overflow-y-auto custom-scrollbar">
-              <h3 className="flex items-center gap-2 text-white font-black text-xs uppercase mb-4">
-                <RiWallet3Line className="text-emerald-500" /> Payment
+            {/* PAYMENT */}
+            <section className="bg-surface-raised border border-surface-border rounded-2xl p-6 md:p-8">
+              <h3 className="flex items-center gap-2 text-gold font-bold uppercase text-[10px] tracking-widest mb-6">
+                <RiWallet3Line /> Payment method
               </h3>
 
               <div className="space-y-3">
                 <button
                   onClick={() => setPaymentMethod("COD")}
-                  className={`w-full p-4 rounded-xl border text-[10px] font-black uppercase tracking-widest transition-all ${
+                  className={`w-full p-4 rounded-xl border text-xs font-bold uppercase tracking-widest transition-all text-left ${
                     paymentMethod === "COD"
-                      ? "border-emerald-500 bg-emerald-500/10 text-emerald-500"
-                      : "border-white/5 bg-slate-900/40 text-gray-500"
+                      ? "border-gold bg-gold/10 text-gold"
+                      : "border-surface-border bg-elevated text-warm-500 hover:border-gold/30"
                   }`}
                 >
                   Cash on Delivery
@@ -294,10 +287,10 @@ handler: async function (response) {
 
                 <button
                   onClick={() => setPaymentMethod("Online")}
-                  className={`w-full p-4 rounded-xl border text-[10px] font-black uppercase tracking-widest transition-all ${
+                  className={`w-full p-4 rounded-xl border text-xs font-bold uppercase tracking-widest transition-all text-left ${
                     paymentMethod === "Online"
-                      ? "border-emerald-500 bg-emerald-500/10 text-emerald-500"
-                      : "border-white/5 bg-slate-900/40 text-gray-500"
+                      ? "border-gold bg-gold/10 text-gold"
+                      : "border-surface-border bg-elevated text-warm-500 hover:border-gold/30"
                   }`}
                 >
                   UPI / Online Pay
@@ -307,29 +300,89 @@ handler: async function (response) {
               {paymentMethod === "Online" && (
                 <div className="mt-4 animate-in fade-in slide-in-from-top-2 duration-300">
                   <div className="relative">
-                    <RiQrCodeLine className="absolute left-4 top-1/2 -translate-y-1/2 text-emerald-500" />
-
+                    <RiQrCodeLine className="absolute left-4 top-1/2 -translate-y-1/2 text-gold" />
                     <input
                       name="upiId"
                       placeholder="Enter UPI ID (e.g. user@okaxis)"
+                      value={formData.upiId}
                       onChange={handleInputChange}
-                      className="w-full bg-slate-900 border border-emerald-500/30 p-4 pl-12 rounded-xl text-xs outline-none focus:border-emerald-500 transition-all placeholder:text-gray-700"
+                      className="w-full bg-elevated border border-surface-border rounded-xl px-4 py-3 pl-12 text-sm text-warm-100 placeholder-warm-600 focus:outline-none focus:border-gold/50 transition-all"
                     />
                   </div>
                 </div>
               )}
+            </section>
+          </div>
+
+          {/* SUMMARY */}
+          <aside className="bg-surface-raised border border-surface-border rounded-2xl p-6 md:p-8 lg:sticky lg:top-24 space-y-6">
+            <div>
+              <h3 className="flex items-center gap-2 font-black text-base tracking-tight mb-4">
+                <RiInformationLine className="text-gold" /> Summary
+              </h3>
+
+              <div className="space-y-3 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-warm-500">Subtotal</span>
+                  <span className="text-warm-100 font-bold">{fmt(subtotal)}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-warm-500">Shipping</span>
+                  <span className="text-warm-100 font-bold">
+                    {deliveryFee === 0 ? "FREE" : fmt(deliveryFee)}
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between pt-6 mt-6 border-t border-surface-border">
+                <span className="text-warm-500 text-sm">Total</span>
+                <span className="text-warm-100 text-3xl font-black tracking-tight">
+                  {fmt(total)}
+                </span>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              {cartItems.map((item) => (
+                <div
+                  key={item._id}
+                  className="flex items-center gap-3 bg-elevated rounded-xl p-3 border border-surface-border"
+                >
+                  <div className="w-10 h-10 rounded-lg bg-surface-raised flex items-center justify-center p-1 shrink-0">
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="max-h-full object-contain"
+                      onError={(e) => {
+                        e.target.src = "https://placehold.co/100x100/1a1a1f/e8e6e1?text=E";
+                      }}
+                    />
+                  </div>
+                  <div className="min-w-0 flex-grow">
+                    <p className="text-xs font-bold text-warm-100 truncate">{item.name}</p>
+                    <p className="text-[10px] text-warm-600 font-bold">
+                      {item.qty} × {fmt(item.price)}
+                    </p>
+                  </div>
+                </div>
+              ))}
             </div>
 
             <button
               onClick={finalizeOrder}
               disabled={cartItems.length === 0}
-              className={`w-full shrink-0 font-black h-16 rounded-2xl transition-all shadow-lg uppercase tracking-[0.2em] text-xs ${
+              className={`w-full font-black h-14 rounded-full transition-all uppercase tracking-[0.15em] text-xs inline-flex items-center justify-center gap-2 ${
                 cartItems.length === 0
-                  ? "bg-slate-800 text-slate-600 cursor-not-allowed opacity-50"
-                  : "bg-emerald-500 text-slate-900 hover:bg-white active:scale-95 shadow-emerald-500/20"
+                  ? "bg-elevated text-warm-600 cursor-not-allowed opacity-50"
+                  : "bg-gold text-surface hover:bg-gold-light active:scale-[0.98]"
               }`}
             >
-              {cartItems.length === 0 ? "Payload Empty" : "Confirm Transaction"}
+              {cartItems.length === 0 ? "Bag empty" : (
+                <>
+                  Confirm transaction
+                  <RiArrowRightLine />
+                </>
+              )}
             </button>
           </aside>
         </div>
