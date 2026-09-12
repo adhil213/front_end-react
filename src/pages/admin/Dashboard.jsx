@@ -243,12 +243,12 @@ export const Dashboard = () => {
           </div>
         </div>
 
-        <div className="lg:col-span-2 bg-[#11121e] p-6 rounded-2xl border border-gray-800 flex flex-col">
+        <div className="lg:col-span-2 bg-surface-raised p-6 rounded-2xl border border-surface-border flex flex-col">
           <div className="flex justify-between items-center mb-6">
-            <h3 className="font-bold text-lg">Daily Revenue Trend</h3>
+            <h3 className="font-bold text-lg text-warm-100">Daily Revenue Trend</h3>
             <div className="flex items-center gap-2">
-              <span className="w-3 h-3 rounded-full bg-[#10b981]"></span>
-              <span className="text-xs text-gray-400 font-bold uppercase tracking-wider">
+              <span className="w-3 h-3 rounded-full bg-gold"></span>
+              <span className="text-xs text-warm-500 font-bold uppercase tracking-wider">
                 Revenue
               </span>
             </div>
@@ -263,39 +263,39 @@ export const Dashboard = () => {
                 <CartesianGrid
                   strokeDasharray="3 3"
                   vertical={false}
-                  stroke="#1f2937"
+                  stroke="#252529"
                 />
                 <XAxis
                   dataKey="date"
                   axisLine={false}
                   tickLine={false}
-                  tick={{ fill: "#9ca3af", fontSize: 11, fontWeight: "bold" }}
+                  tick={{ fill: "#9a968d", fontSize: 11, fontWeight: "bold" }}
                   dy={10}
                 />
                 <YAxis
                   axisLine={false}
                   tickLine={false}
-                  tick={{ fill: "#9ca3af", fontSize: 11 }}
+                  tick={{ fill: "#9a968d", fontSize: 11 }}
                   tickFormatter={(val) => val.toLocaleString()}
                 />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: "#1c1d29",
-                    border: "1px solid #374151",
+                    backgroundColor: "#1a1a1f",
+                    border: "1px solid #252529",
                     borderRadius: "8px",
                   }}
-                  itemStyle={{ color: "#10b981" }}
+                  itemStyle={{ color: "#dabe62" }}
                 />
                 <Line
                   type="monotone"
                   dataKey="amount"
-                  stroke="#10b981"
+                  stroke="#c9a84c"
                   strokeWidth={4}
                   dot={{
                     r: 6,
-                    fill: "#10b981",
+                    fill: "#c9a84c",
                     strokeWidth: 2,
-                    stroke: "#11121e",
+                    stroke: "#131316",
                   }}
                   activeDot={{ r: 8, strokeWidth: 0 }}
                   animationDuration={1500}
