@@ -2,13 +2,20 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { HiOutlineEye, HiOutlineEyeSlash } from "react-icons/hi2";
+import { RiTruckLine, RiShieldCheckLine, RiRefund2Line, RiArrowRightLine } from "react-icons/ri";
 import toast from "react-hot-toast";
+import BrandMark from "../component/BrandMark";
+
+const inputCls =
+  "w-full bg-elevated border border-surface-border rounded-xl px-5 py-3.5 text-sm text-warm-100 placeholder-warm-600 focus:outline-none focus:border-gold/50 transition-all";
+
+const labelCls = "text-[10px] font-black uppercase tracking-widest text-gold/80 ml-1 mb-2 block";
 
 export const AuthPage = () => {
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(true);
   const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false); 
+  const [showPassword, setShowPassword] = useState(false);
 
   const loggedInUser = JSON.parse(localStorage.getItem("user"));
 
@@ -35,8 +42,6 @@ export const AuthPage = () => {
 
     try {
       if (isLogin) {
-        // LOGIN LOGIC
-
         const response = await fetch("https://backend-sk0h.onrender.com/auth/login", {
           method: "POST",
           headers: {
@@ -59,7 +64,6 @@ export const AuthPage = () => {
           toast.error(user.message);
         }
       } else {
-        // REGISTER logic
         const response = await fetch("https://backend-sk0h.onrender.com/auth/register", {
           method: "POST",
           headers: {
@@ -86,175 +90,211 @@ export const AuthPage = () => {
   };
 
   return (
-    <div className="bg-[#0b1120] text-white min-h-screen flex items-center justify-center p-6 selection:bg-emerald-500/30">
-      {/* Background Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-emerald-500/10 blur-[120px] rounded-full pointer-events-none"></div>
+    <div className="bg-surface text-warm-100 min-h-screen relative overflow-hidden flex items-center justify-center px-6 py-16">
+      {/* Ambient glows */}
+      <div className="absolute -top-32 -right-32 w-[480px] h-[480px] rounded-full bg-[radial-gradient(closest-side,rgba(201,168,76,0.12),transparent)] pointer-events-none" />
+      <div className="absolute -bottom-40 -left-32 w-[520px] h-[520px] rounded-full bg-[radial-gradient(closest-side,rgba(201,168,76,0.08),transparent)] pointer-events-none" />
+      <span className="hidden lg:block absolute right-0 bottom-0 leading-none text-[28rem] font-black text-warm-100/[0.025] pointer-events-none select-none tracking-tighter">
+        E
+      </span>
 
-      <motion.div
-        layout
-        className="w-full max-w-md bg-[#111a2e]/50 backdrop-blur-xl border border-white/5 rounded-[3rem] p-10 shadow-2xl relative z-10"
-      >
-        {loggedInUser ? (
-          /* Profile View */
-          <div className="text-center space-y-6">
-            <div className="relative w-20 h-20 bg-emerald-500/10 border border-emerald-500/20 rounded-full flex items-center justify-center mx-auto">
-              <span className="text-emerald-500 text-3xl font-black uppercase">
-                {loggedInUser.name.charAt(0)}
-              </span>
-              {loggedInUser.role === "admin" && (
-                <span className="absolute -bottom-1 -right-1 bg-indigo-500 text-[8px] font-black px-2 py-1 rounded-full uppercase tracking-tighter shadow-lg shadow-indigo-500/40">
-                  Admin
-                </span>
-              )}
-            </div>
-
-            <div>
-              <h2 className="text-2xl font-black text-white">
-                Hi, {loggedInUser.name}
-              </h2>
-              <p className="text-gray-500 text-sm">{loggedInUser.email}</p>
-            </div>
-
-            {/* Admin Dashboard Button - Path Fixed to Lowercase */}
-            {loggedInUser.role === "admin" && (
-              <button
-                onClick={() => navigate("/admin/dashboard")}
-                className="w-full bg-indigo-500 text-white font-black py-4 rounded-2xl hover:bg-white hover:text-indigo-500 transition-all uppercase tracking-widest text-xs shadow-lg shadow-indigo-500/20 flex items-center justify-center gap-2 border border-indigo-500/20"
-              >
-                Admin Dashboard
-              </button>
-            )}
-
-            <button
-              onClick={() => navigate("/orders")}
-              className="w-full bg-emerald-500 text-slate-900 font-black py-4 rounded-2xl hover:bg-white transition-all uppercase tracking-widest text-xs shadow-lg shadow-emerald-500/10 flex items-center justify-center gap-2"
-            >
-              My Order History
-            </button>
-
-            <button
-              onClick={handleLogout}
-              className="w-full bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white border border-red-500/20 font-black py-4 rounded-2xl transition-all uppercase tracking-widest text-xs"
-            >
-              Logout from Account
-            </button>
-
-            <button
-              onClick={() => navigate("/products")}
-              className="w-full text-gray-500 hover:text-white text-xs font-bold transition-colors"
-            >
-              Return to Store
-            </button>
+      <div className="w-full max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-[1fr,420px] gap-12 lg:gap-16 items-center relative z-10">
+        {/* Brand panel */}
+        <div className="hidden lg:block">
+          <div className="flex items-center gap-3 mb-8">
+            <BrandMark className="w-11 h-11" iconClass="w-6 h-6" />
+            <span className="text-warm-100 font-black text-2xl tracking-[0.18em]">
+              EZBUY
+            </span>
           </div>
-        ) : (
-          /* Login/Register Form */
-          <>
-            <div className="text-center mb-10">
-              <div className="w-14 h-14 bg-emerald-500 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-emerald-500/20">
-                <span className="text-[#0b1120] font-black text-2xl">E</span>
-              </div>
-              <h2 className="text-3xl font-black">
-                {isLogin ? "Welcome " : "Join the "}
-                <span className="text-emerald-500">
-                  {isLogin ? "Back" : "Squad"}
-                </span>
-              </h2>
-            </div>
 
-            <form className="space-y-5" onSubmit={handleSubmit}>
-              <AnimatePresence mode="wait">
-                {!isLogin && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0 }}
-                  >
-                    <label className="text-[10px] font-black uppercase tracking-widest text-emerald-500 ml-4 mb-2 block">
-                      Full Name
-                    </label>
-                    <input
-                      type="text"
-                      name="name"
-                      required
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      placeholder="John Doe"
-                      className="w-full bg-[#0b1120] border border-white/5 rounded-2xl px-6 py-4 text-sm focus:outline-none focus:border-emerald-500/50 transition-all text-white"
-                    />
-                  </motion.div>
+          <h1 className="text-5xl xl:text-6xl font-black leading-[1.05] tracking-tight">
+            Shop with
+            <br />
+            <span className="text-gold">confidence.</span>
+          </h1>
+
+          <p className="text-warm-500 text-base mt-6 max-w-sm leading-relaxed">
+            A considered collection, honest prices, and delivery that shows up
+            when it says it will.
+          </p>
+
+          <div className="mt-10 space-y-4">
+            {[
+              { icon: RiTruckLine, label: "Free shipping on orders over ₹1,500" },
+              { icon: RiRefund2Line, label: "30-day no-questions returns" },
+              { icon: RiShieldCheckLine, label: "2-year warranty on everything" },
+            ].map((b) => (
+              <div key={b.label} className="flex items-center gap-3 text-warm-400 text-sm font-semibold">
+                <span className="w-9 h-9 rounded-lg border border-surface-border bg-surface-raised flex items-center justify-center text-gold shrink-0">
+                  <b.icon className="w-4 h-4" />
+                </span>
+                {b.label}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Auth card */}
+        <motion.div
+          layout
+          className="bg-surface-raised border border-surface-border rounded-[1.5rem] p-7 md:p-10 shadow-[0_24px_60px_rgba(0,0,0,0.35)]"
+        >
+          {loggedInUser ? (
+            /* Profile View */
+            <div className="text-center space-y-5">
+              <div className="relative w-20 h-20 bg-gold/10 border border-gold/25 rounded-full flex items-center justify-center mx-auto">
+                <span className="text-gold text-3xl font-black uppercase">
+                  {loggedInUser.name.charAt(0)}
+                </span>
+                {loggedInUser.role === "admin" && (
+                  <span className="absolute -bottom-1 -right-1 bg-gold text-surface text-[8px] font-black px-2 py-1 rounded-full uppercase tracking-tighter">
+                    Admin
+                  </span>
                 )}
-              </AnimatePresence>
+              </div>
 
               <div>
-                <label className="text-[10px] font-black uppercase tracking-widest text-emerald-500 ml-4 mb-2 block">
-                  Email Address
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  required
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  placeholder="name@company.com"
-                  className="w-full bg-[#0b1120] border border-white/5 rounded-2xl px-6 py-4 text-sm focus:outline-none focus:border-emerald-500/50 transition-all text-white"
-                />
+                <h2 className="text-2xl font-black tracking-tight">Hi, {loggedInUser.name}</h2>
+                <p className="text-warm-500 text-sm mt-1">{loggedInUser.email}</p>
               </div>
 
-              <div className="relative">
-                <label className="text-[10px] font-black uppercase tracking-widest text-emerald-500 ml-4 mb-2 block">
-                  Password
-                </label>
-                <input
-                  type={showPassword ? "text" : "password"}
-                  name="password"
-                  required
-                  value={formData.password}
-                  onChange={handleInputChange}
-                  placeholder="••••••••"
-                  className="w-full bg-[#0b1120] border border-white/5 rounded-2xl px-6 py-4 text-sm focus:outline-none focus:border-emerald-500/50 transition-all text-white"
-                />
-                {/* Password Toggle Icon */}
+              {loggedInUser.role === "admin" && (
                 <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-6 top-[42px] text-gray-500 hover:text-emerald-500 transition-colors"
+                  onClick={() => navigate("/admin/dashboard")}
+                  className="w-full bg-gold text-surface font-bold py-3.5 rounded-full hover:bg-gold-light transition-all uppercase tracking-widest text-xs"
                 >
-                  {showPassword ? (
-                    <HiOutlineEyeSlash size={20} />
-                  ) : (
-                    <HiOutlineEye size={20} />
-                  )}
+                  Admin dashboard
                 </button>
-              </div>
+              )}
 
               <button
-                type="submit"
-                disabled={loading}
-                className="w-full bg-emerald-500 text-[#0b1120] font-black py-4 rounded-2xl mt-4 hover:bg-white hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-emerald-500/10 disabled:opacity-50 uppercase tracking-widest text-xs"
+                onClick={() => navigate("/orders")}
+                className="w-full bg-elevated border border-surface-border text-warm-100 font-bold py-3.5 rounded-full hover:border-gold/40 transition-all uppercase tracking-widest text-xs flex items-center justify-center gap-2"
               >
-                {loading
-                  ? "PROCESSING..."
-                  : isLogin
-                    ? "SIGN IN"
-                    : "CREATE ACCOUNT"}
+                My order history
+                <RiArrowRightLine />
               </button>
-            </form>
 
-            <div className="mt-8 text-center">
-              <p className="text-gray-500 text-xs">
-                {isLogin ? "Don't have an account?" : "Already a member?"}
-                <button
-                  type="button"
-                  onClick={() => setIsLogin(!isLogin)}
-                  className="text-emerald-500 font-bold ml-2 hover:underline underline-offset-4"
-                >
-                  {isLogin ? "Register Now" : "Login here"}
-                </button>
-              </p>
+              <button
+                onClick={handleLogout}
+                className="w-full text-red-400 border border-red-500/25 bg-red-500/5 hover:bg-red-500 hover:text-surface font-bold py-3.5 rounded-full transition-all uppercase tracking-widest text-xs"
+              >
+                Logout from account
+              </button>
+
+              <button
+                onClick={() => navigate("/products")}
+                className="w-full text-warm-500 hover:text-gold text-xs font-bold transition-colors"
+              >
+                Return to store
+              </button>
             </div>
-          </>
-        )}
-      </motion.div>
+          ) : (
+            <>
+              <div className="flex items-center gap-3 mb-8 lg:hidden">
+                <BrandMark className="w-10 h-10" iconClass="w-5 h-5" />
+                <span className="text-warm-100 font-black text-xl tracking-[0.18em]">EZBUY</span>
+              </div>
+
+              <div className="mb-8">
+                <p className="text-gold text-[10px] font-bold uppercase tracking-[0.25em] mb-2">
+                  {isLogin ? "Sign in to continue" : "Create your account"}
+                </p>
+                <h2 className="text-3xl font-black tracking-tight">
+                  {isLogin ? "Welcome back" : "Join EzBuy"}
+                </h2>
+              </div>
+
+              <form className="space-y-5" onSubmit={handleSubmit}>
+                <AnimatePresence mode="wait">
+                  {!isLogin && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                    >
+                      <label className={labelCls}>Full name</label>
+                      <input
+                        type="text"
+                        name="name"
+                        required
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        placeholder="John Doe"
+                        className={inputCls}
+                      />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+                <div>
+                  <label className={labelCls}>Email address</label>
+                  <input
+                    type="email"
+                    name="email"
+                    required
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    placeholder="name@company.com"
+                    className={inputCls}
+                  />
+                </div>
+
+                <div className="relative">
+                  <label className={labelCls}>Password</label>
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    required
+                    value={formData.password}
+                    onChange={handleInputChange}
+                    placeholder="••••••••"
+                    className={inputCls}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-5 top-9 text-warm-500 hover:text-gold transition-colors"
+                    aria-label="Toggle password visibility"
+                  >
+                    {showPassword ? (
+                      <HiOutlineEyeSlash size={20} />
+                    ) : (
+                      <HiOutlineEye size={20} />
+                    )}
+                  </button>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full bg-gold text-surface font-black py-4 rounded-full mt-2 hover:bg-gold-light active:scale-[0.98] transition-all shadow-lg shadow-gold/10 disabled:opacity-50 uppercase tracking-widest text-xs"
+                >
+                  {loading
+                    ? "Processing..."
+                    : isLogin
+                      ? "Sign in"
+                      : "Create account"}
+                </button>
+              </form>
+
+              <div className="mt-8 text-center">
+                <p className="text-warm-500 text-sm">
+                  {isLogin ? "Don't have an account?" : "Already a member?"}
+                  <button
+                    type="button"
+                    onClick={() => setIsLogin(!isLogin)}
+                    className="text-gold font-bold ml-2 hover:underline underline-offset-4"
+                  >
+                    {isLogin ? "Register now" : "Login here"}
+                  </button>
+                </p>
+              </div>
+            </>
+          )}
+        </motion.div>
+      </div>
     </div>
   );
 };
