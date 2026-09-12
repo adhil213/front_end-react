@@ -28,76 +28,71 @@ export const UserDetails = () => {
   const lastOrderAddress = userInfo.orders?.length > 0 ? userInfo.orders[userInfo.orders.length - 1].address : null;
 
   return (
-    <div className="p-3 md:p-8 bg-surface min-h-screen w-full flex justify-center text-white font-sans">
-      <div className="w-full max-w-6xl bg-surface-raised rounded-2xl md:rounded-3xl shadow-2xl border border-surface-border overflow-hidden">
-        
-        
-        <div className="p-5 md:p-8 border-b border-surface-border flex justify-between items-center bg-surface-raised">
-          <h2 className="text-base md:text-2xl font-black text-white tracking-tight uppercase leading-tight">
-            Details: <span className="text-gold block sm:inline">{userInfo.name}</span>
+    <div className="p-4 md:p-6 bg-surface min-h-screen w-full flex justify-center text-white font-sans">
+      <div className="w-full max-w-5xl bg-surface-raised rounded-xl border border-surface-border overflow-hidden">
+
+        <div className="px-5 py-4 border-b border-surface-border flex justify-between items-center">
+          <h2 className="text-base md:text-lg font-bold text-warm-100">
+            Details: <span className="text-gold">{userInfo.name}</span>
           </h2>
-          <button 
-            onClick={() => navigate(-1)} 
-            className="text-warm-600 hover:text-white text-3xl md:text-4xl transition-colors leading-none"
+          <button
+            onClick={() => navigate(-1)}
+            className="text-warm-600 hover:text-gold text-2xl transition-colors leading-none"
           >
             &times;
           </button>
         </div>
 
-       
-        <div className="p-4 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
-          
-         
-          <div className="bg-elevated border border-surface-border rounded-2xl p-6 shadow-lg">
-            <h3 className="text-gold text-[10px] font-black mb-6 uppercase tracking-[0.2em]">Account Info</h3>
-            <div className="space-y-5">
+        <div className="p-4 md:p-5 grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="bg-elevated border border-surface-border rounded-xl p-5">
+            <h3 className="text-gold text-[10px] font-bold mb-4 uppercase tracking-wider">Account Info</h3>
+            <div className="space-y-4">
               <div className="flex flex-col">
-                <span className="text-[10px] text-warm-600 font-bold uppercase tracking-widest mb-1">Email Address</span>
+                <span className="text-[10px] text-warm-600 font-bold uppercase tracking-wider mb-1">Email Address</span>
                 <span className="text-sm text-warm-100 font-medium break-all">{userInfo.email}</span>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <span className="text-[10px] text-warm-600 font-bold uppercase tracking-widest mb-1">User Role</span>
-                  <p className="text-sm text-gold font-black capitalize tracking-tight">{userInfo.role}</p>
+                  <span className="text-[10px] text-warm-600 font-bold uppercase tracking-wider mb-1">User Role</span>
+                  <p className="text-sm text-gold font-bold capitalize tracking-tight">{userInfo.role}</p>
                 </div>
                 <div>
-                  <span className="text-[10px] text-warm-600 font-bold uppercase tracking-widest mb-1">Orders</span>
-                  <p className="text-sm text-emerald-400 font-black">{userInfo.orders?.length || 0}</p>
+                  <span className="text-[10px] text-warm-600 font-bold uppercase tracking-wider mb-1">Orders</span>
+                  <p className="text-sm text-emerald-400 font-bold">{userInfo.orders?.length || 0}</p>
                 </div>
               </div>
-              <div className="pt-4 border-t border-surface-border">
-                <span className="text-[10px] text-warm-600 font-bold uppercase tracking-widest mb-1">Lifetime Value</span>
-                <p className="text-2xl text-emerald-400 font-black tracking-tighter">${totalSpent.toFixed(2)}</p>
+              <div className="pt-3 border-t border-surface-border">
+                <span className="text-[10px] text-warm-600 font-bold uppercase tracking-wider mb-1">Lifetime Value</span>
+                <p className="text-2xl text-emerald-400 font-bold tracking-tighter">${totalSpent.toFixed(2)}</p>
               </div>
             </div>
           </div>
 
-          
-          <div className="bg-elevated border border-surface-border rounded-2xl p-6 shadow-lg">
-            <h3 className="text-warm-500 text-[10px] font-black mb-6 uppercase tracking-[0.2em]">Default Shipping</h3>
+          <div className="bg-elevated border border-surface-border rounded-xl p-5">
+            <h3 className="text-warm-500 text-[10px] font-bold mb-4 uppercase tracking-wider">Default Shipping</h3>
             {lastOrderAddress ? (
-              <div className="grid grid-cols-1 gap-y-4 text-sm text-warm-300">
+              <div className="grid grid-cols-1 gap-y-3 text-sm text-warm-300">
                 <p>
-                  <span className="font-bold text-warm-600 text-[9px] uppercase tracking-widest block mb-1">Recipient</span> 
+                  <span className="font-bold text-warm-600 text-[9px] uppercase tracking-wider block mb-0.5">Recipient</span>
                   <span className="font-medium">{lastOrderAddress.firstName} {lastOrderAddress.lastName}</span>
                 </p>
                 <p>
-                  <span className="font-bold text-warm-600 text-[9px] uppercase tracking-widest block mb-1">Contact</span> 
+                  <span className="font-bold text-warm-600 text-[9px] uppercase tracking-wider block mb-0.5">Contact</span>
                   <span className="font-medium">{lastOrderAddress.phone}</span>
                 </p>
                 <p>
-                  <span className="font-bold text-warm-600 text-[9px] uppercase tracking-widest block mb-1">Street Address</span> 
+                  <span className="font-bold text-warm-600 text-[9px] uppercase tracking-wider block mb-0.5">Street Address</span>
                   <span className="font-medium">{lastOrderAddress.street}, {lastOrderAddress.city}</span>
                 </p>
                 <p>
-                  <span className="font-bold text-warm-600 text-[9px] uppercase tracking-widest block mb-1">Location Details</span> 
+                  <span className="font-bold text-warm-600 text-[9px] uppercase tracking-wider block mb-0.5">Location Details</span>
                   <span className="font-medium">{lastOrderAddress.country || "India"} ({lastOrderAddress.zip})</span>
                 </p>
               </div>
             ) : (
               <div className="h-full flex flex-col items-center justify-center py-6">
-                <div className="w-12 h-12 bg-surface rounded-full flex items-center justify-center mb-3">
-                   <span className="text-warm-700 text-xl">!</span>
+                <div className="w-10 h-10 bg-surface rounded-full flex items-center justify-center mb-2">
+                  <span className="text-warm-700 text-lg">!</span>
                 </div>
                 <p className="text-warm-600 italic text-xs font-bold uppercase tracking-tighter">No address on file</p>
               </div>
@@ -105,41 +100,39 @@ export const UserDetails = () => {
           </div>
         </div>
 
-        
-        <div className="p-4 md:p-8 pt-0">
-          <div className="flex justify-between items-end mb-4 px-1">
-            <h3 className="text-warm-500 font-black text-[10px] uppercase tracking-[0.2em]">Order History</h3>
-            <span className="text-[9px] text-warm-600 font-bold md:hidden tracking-widest animate-pulse">SWIPE LEFT âž”</span>
+        <div className="px-4 md:px-5 pb-5">
+          <div className="flex justify-between items-end mb-3">
+            <h3 className="text-warm-500 font-bold text-[10px] uppercase tracking-wider">Order History</h3>
+            <span className="text-[9px] text-warm-600 font-bold md:hidden tracking-widest animate-pulse">SWIPE LEFT →</span>
           </div>
-          
-         
-          <div className="border border-surface-border rounded-2xl overflow-x-auto bg-elevated/50 shadow-inner">
+
+          <div className="border border-surface-border rounded-xl overflow-x-auto bg-elevated/40">
             {userInfo.orders?.length > 0 ? (
               <table className="w-full text-left min-w-[500px]">
-                <thead className="bg-elevated text-[10px] uppercase font-black text-warm-600 border-b border-surface-border">
+                <thead className="bg-elevated text-[10px] uppercase font-bold text-warm-600 border-b border-surface-border">
                   <tr>
-                    <th className="px-6 py-4">Reference</th>
-                    <th className="px-6 py-4">Placement Date</th>
-                    <th className="px-6 py-4 text-right">Amount Paid</th>
-                    <th className="px-6 py-4 text-center">Status</th>
+                    <th className="px-5 py-3">Reference</th>
+                    <th className="px-5 py-3">Placement Date</th>
+                    <th className="px-5 py-3 text-right">Amount Paid</th>
+                    <th className="px-5 py-3 text-center">Status</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-surface-border">
                   {userInfo.orders.map((order, index) => (
                     <tr key={index} className="hover:bg-elevated transition-colors group">
-                      <td className="px-6 py-5 font-mono text-[10px] text-gold font-bold">
+                      <td className="px-5 py-3 font-mono text-[10px] text-gold font-bold">
                         #{order.orderId.substring(0, 8).toUpperCase()}
                       </td>
-                      <td className="px-6 py-5 text-xs text-warm-300 font-medium">
+                      <td className="px-5 py-3 text-xs text-warm-300 font-medium">
                         {order.date}
                       </td>
-                      <td className="px-6 py-5 text-xs font-black text-white text-right">
+                      <td className="px-5 py-3 text-xs font-bold text-warm-100 text-right">
                         ${order.totalAmount.toFixed(2)}
                       </td>
-                      <td className="px-6 py-5 text-center">
-                        <span className={`px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest border ${
-                          order.status === "Delivered" ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20" : 
-                          order.status === "Processing" ? "bg-gold/10 text-gold border-gold/20" : 
+                      <td className="px-5 py-3 text-center">
+                        <span className={`px-2.5 py-1 rounded-lg text-[9px] font-bold uppercase tracking-wider border ${
+                          order.status === "Delivered" ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20" :
+                          order.status === "Processing" ? "bg-gold/10 text-gold border-gold/20" :
                           "bg-warm-600/10 text-warm-400 border-warm-600/20"
                         }`}>
                           {order.status}
@@ -150,17 +143,16 @@ export const UserDetails = () => {
                 </tbody>
               </table>
             ) : (
-              <div className="p-16 text-center text-warm-600 text-xs font-black uppercase tracking-[0.2em]">
+              <div className="p-12 text-center text-warm-600 text-xs font-bold uppercase tracking-wider">
                 Account has no transaction history
               </div>
             )}
           </div>
-          
-          
-          <div className="mt-8">
-            <button 
-              onClick={() => navigate(-1)} 
-              className="w-full bg-gold text-surface hover:bg-gold-light py-4 rounded-2xl font-black text-[11px] uppercase tracking-[0.2em] shadow-xl transition-all active:scale-[0.98] focus:ring-2 focus:ring-gold/50"
+
+          <div className="mt-5">
+            <button
+              onClick={() => navigate(-1)}
+              className="w-full bg-gold text-surface hover:bg-gold-light py-3 rounded-lg font-bold text-[11px] uppercase tracking-wider transition-all active:scale-[0.98] focus:ring-2 focus:ring-gold/50"
             >
               Return to User Directory
             </button>
