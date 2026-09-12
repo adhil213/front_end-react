@@ -34,8 +34,10 @@ export const Dashboard = () => {
           fetch("https://backend-sk0h.onrender.com/products"), 
         ]);
 
-        const users = await userRes.json();
+        const usersRaw = await userRes.json();
         const products = await productRes.json();
+
+        const users = Array.isArray(usersRaw) ? usersRaw : [];
 
         let revenue = 0;
         let pending = 0;
@@ -78,7 +80,7 @@ export const Dashboard = () => {
         setData({
           totalRevenue: revenue,
           pendingOrders: pending,
-          totalProducts: products.data.length,
+          totalProducts: (products && products.data && products.data.length) || 0,
           totalOrders: orderCount,
           chartData: formattedChartData,
           statusStats: {

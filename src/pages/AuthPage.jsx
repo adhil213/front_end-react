@@ -5,6 +5,7 @@ import { HiOutlineEye, HiOutlineEyeSlash } from "react-icons/hi2";
 import { RiTruckLine, RiShieldCheckLine, RiRefund2Line, RiArrowRightLine } from "react-icons/ri";
 import toast from "react-hot-toast";
 import BrandMark from "../component/BrandMark";
+import { GUEST_ADMIN, isGuest, isPrivileged } from "../config/guest";
 
 const inputCls =
   "w-full bg-elevated border border-surface-border rounded-xl px-5 py-3.5 text-sm text-warm-100 placeholder-warm-600 focus:outline-none focus:border-gold/50 transition-all";
@@ -147,7 +148,7 @@ export const AuthPage = () => {
                 <span className="text-gold text-3xl font-black uppercase">
                   {loggedInUser.name.charAt(0)}
                 </span>
-                {loggedInUser.role === "admin" && (
+                {isPrivileged(loggedInUser) && (
                   <span className="absolute -bottom-1 -right-1 bg-gold text-surface text-[8px] font-black px-2 py-1 rounded-full uppercase tracking-tighter">
                     Admin
                   </span>
@@ -159,13 +160,19 @@ export const AuthPage = () => {
                 <p className="text-warm-500 text-sm mt-1">{loggedInUser.email}</p>
               </div>
 
-              {loggedInUser.role === "admin" && (
+              {isPrivileged(loggedInUser) && (
                 <button
                   onClick={() => navigate("/admin/dashboard")}
                   className="w-full bg-gold text-surface font-bold py-3.5 rounded-full hover:bg-gold-light transition-all uppercase tracking-widest text-xs"
                 >
                   Admin dashboard
                 </button>
+              )}
+
+              {isGuest(loggedInUser) && (
+                <p className="text-[10px] text-warm-500 font-bold uppercase tracking-widest">
+                  Guest reviewer — destructive actions are disabled
+                </p>
               )}
 
               <button
@@ -291,6 +298,39 @@ export const AuthPage = () => {
                   </button>
                 </p>
               </div>
+
+              {isLogin && (
+                <div className="mt-5 rounded-xl border border-gold/25 bg-gold/5 p-4">
+                  <div className="flex items-center justify-between gap-3">
+                    <div>
+                      <p className="text-[10px] font-black uppercase tracking-widest text-gold mb-1.5">
+                        Guest admin access
+                      </p>
+                      <p className="text-xs text-warm-400 leading-relaxed">
+                        <span className="text-warm-200 font-bold">{GUEST_ADMIN.email}</span>
+                        {"  /  "}
+                        <span className="font-mono text-warm-200">{GUEST_ADMIN.password}</span>
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          email: GUEST_ADMIN.email,
+                          password: GUEST_ADMIN.password,
+                        }))
+                      }
+                      className="shrink-0 bg-gold text-surface text-[10px] font-black uppercase tracking-widest px-3.5 py-2 rounded-lg hover:bg-gold-light transition-all active:scale-95"
+                    >
+                      Fill login
+                    </button>
+                  </div>
+                  <p className="mt-2 text-[10px] text-warm-600 font-medium">
+                    Reviewer account — can browse the admin but cannot delete products/users or change roles.
+                  </p>
+                </div>
+              )}
             </>
           )}
         </motion.div>

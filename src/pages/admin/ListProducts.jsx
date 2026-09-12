@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import { Products } from "../Products";
+import { isGuest } from "../../config/guest";
 
 export const ListProducts = () => {
   const [data, setData] = useState([]);
@@ -9,6 +10,9 @@ export const ListProducts = () => {
   // const [category, setCategory] = useState("");
   // const [brand, setbrand] = useState("");
   console.log(search)
+
+  const loggedInUser = JSON.parse(localStorage.getItem("user"));
+  const guest = isGuest(loggedInUser);
 
   const [serchparams, setsearchparams] = useSearchParams();
 
@@ -248,7 +252,9 @@ const deleteProduct = async (id) => {
                       </Link>
                       <button
                         onClick={() => deleteProduct(val._id)}
-                        className="px-3 py-1.5 bg-red-500/10 text-red-400 hover:bg-red-500 hover:text-white rounded-lg text-[11px] font-bold transition-all"
+                        disabled={guest}
+                        title={guest ? "Guest admins cannot delete products" : undefined}
+                        className="px-3 py-1.5 bg-red-500/10 text-red-400 hover:bg-red-500 hover:text-white rounded-lg text-[11px] font-bold transition-all disabled:opacity-40 disabled:hover:bg-red-500/10 disabled:hover:text-red-400 disabled:cursor-not-allowed"
                       >
                         Delete
                       </button>
@@ -294,7 +300,9 @@ const deleteProduct = async (id) => {
                 </Link>
                 <button
                   onClick={() => deleteProduct(val._id)}
-                  className="flex-1 text-center py-2 bg-red-500/10 text-red-400 text-xs font-bold rounded-lg border border-red-500/20"
+                  disabled={guest}
+                  title={guest ? "Guest admins cannot delete products" : undefined}
+                  className="flex-1 text-center py-2 bg-red-500/10 text-red-400 text-xs font-bold rounded-lg border border-red-500/20 disabled:opacity-40 disabled:cursor-not-allowed"
                 >
                   Delete
                 </button>

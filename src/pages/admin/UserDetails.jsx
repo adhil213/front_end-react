@@ -9,10 +9,18 @@ export const UserDetails = () => {
   console.log(userInfo)
 
   useEffect(() => {
-    fetch(`https://backend-sk0h.onrender.com/users/${id}`)
-      .then((res) => res.json())
+    const token = localStorage.getItem("token");
+
+    fetch(`https://backend-sk0h.onrender.com/users/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
-        setUserInfo(data);
+        if (data) {
+          setUserInfo(data);
+        }
         setLoading(false);
       })
       .catch((err) => console.error(err));
@@ -23,6 +31,13 @@ export const UserDetails = () => {
       Loading profile...
     </div>
   );
+
+  if (!userInfo)
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-surface text-warm-500 font-bold">
+        Profile unavailable.
+      </div>
+    );
 
   const totalSpent = userInfo.orders?.reduce((acc, curr) => acc + curr.totalAmount, 0) || 0;
   const lastOrderAddress = userInfo.orders?.length > 0 ? userInfo.orders[userInfo.orders.length - 1].address : null;

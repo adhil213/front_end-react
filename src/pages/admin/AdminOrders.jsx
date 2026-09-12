@@ -1,9 +1,13 @@
 ﻿import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { isGuest } from "../../config/guest";
 
 export const AdminOrders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const loggedInUser = JSON.parse(localStorage.getItem("user"));
+  const guest = isGuest(loggedInUser);
 
   const fetchAllUsersAndOrders = () => {
     const token = localStorage.getItem("token");
@@ -15,23 +19,9 @@ export const AdminOrders = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        // const usersArray = Array.isArray(data) ? data : data.users || [];
-        // let allOrders = [];
-
-        // usersArray.forEach((user) => {
-        //   if (user.orders && Array.isArray(user.orders)) {
-        //     user.orders.forEach((order) => {
-        //       allOrders.push({
-        //         ...order,
-        //         userId: user.id,
-        //         userName: user.name,
-        //         userEmail: user.email,
-        //       });
-        //     });
-        //   }
-        // });
-
-        setOrders(data);
+        if (Array.isArray(data)) {
+          setOrders(data);
+        }
         setLoading(false);
       })
       .catch((err) => {
@@ -96,6 +86,24 @@ export const AdminOrders = () => {
       </div>
     );
 
+  if (guest)
+    return (
+      <div className="bg-surface min-h-screen p-4 md:p-6 w-full text-white font-sans">
+        <div className="max-w-5xl mx-auto bg-surface-raised rounded-xl border border-surface-border p-12 text-center">
+          <div className="w-12 h-12 mx-auto rounded-xl bg-gold/10 border border-gold/25 flex items-center justify-center text-gold text-lg font-black mb-4">
+            !
+          </div>
+          <h2 className="text-lg font-bold text-warm-100">
+            Orders are full-admin only
+          </h2>
+          <p className="text-sm text-warm-500 mt-2 max-w-md mx-auto">
+            Guest reviewers can browse orders once the store owner enables
+            access. No changes are shown here in guest mode.
+          </p>
+        </div>
+      </div>
+    );
+
   return (
     <div className="bg-surface min-h-screen p-4 md:p-6 w-full text-white font-sans">
       <div className="max-w-5xl mx-auto">
@@ -118,7 +126,12 @@ export const AdminOrders = () => {
           </div>
         </header>
 
-        <div className="space-y-4">
+        {orders.length === 0 ? (
+          <div className="p-12 text-center text-warm-600 text-sm bg-surface-raised rounded-xl border border-surface-border border-dashed">
+            No orders placed yet.
+          </div>
+        ) : (
+          <div className="space-y-4">
           {orders.map((order, idx) => (
             <div
               key={`${order.orderId}-${idx}`}
@@ -274,7 +287,8 @@ export const AdminOrders = () => {
               </div>
             </div>
           ))}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );

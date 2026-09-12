@@ -44,6 +44,9 @@ export const AddProduct = () => {
 
       const res = await fetch("https://backend-sk0h.onrender.com/admin/products/add", {
         method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
         body: formData,
       });
 

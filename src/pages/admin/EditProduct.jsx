@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useParams, useNavigate } from "react-router-dom";
+import { isGuest } from "../../config/guest";
 
 export const EditProduct = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+
+  const loggedInUser = JSON.parse(localStorage.getItem("user"));
+  const guest = isGuest(loggedInUser);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -332,8 +336,9 @@ export const EditProduct = () => {
                     </div>
                     <button
                       onClick={() => handleDeleteReview(r._id)}
-                      disabled={deletingRev === r._id}
-                      className="shrink-0 text-[10px] font-bold text-red-400 hover:text-red-300 border border-red-500/20 bg-red-500/10 px-3 py-1.5 rounded-lg uppercase tracking-widest transition-all disabled:opacity-50"
+                      disabled={deletingRev === r._id || guest}
+                      title={guest ? "Guest admins cannot delete reviews" : undefined}
+                      className="shrink-0 text-[10px] font-bold text-red-400 hover:text-red-300 border border-red-500/20 bg-red-500/10 px-3 py-1.5 rounded-lg uppercase tracking-widest transition-all disabled:opacity-50 disabled:hover:text-red-400 disabled:cursor-not-allowed"
                     >
                       {deletingRev === r._id ? "Deleting..." : "Delete"}
                     </button>

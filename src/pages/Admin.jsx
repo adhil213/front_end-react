@@ -10,9 +10,13 @@ import {
   HiBars3,
   HiXMark,
 } from "react-icons/hi2";
+import { isGuest } from "../config/guest";
 
 export const Admin = () => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const loggedInUser = JSON.parse(localStorage.getItem("user"));
+  const guest = isGuest(loggedInUser);
 
   const toggleSidebar = () => setIsOpen(!isOpen);
 
@@ -53,7 +57,9 @@ export const Admin = () => {
               </div>
               <div className="flex flex-col leading-tight">
                 <h2 className="text-sm font-bold text-warm-100">Administrator</h2>
-                <p className="text-xs text-warm-500">System Manager</p>
+                <p className="text-xs text-warm-500">
+                  {guest ? "Guest reviewer" : "System Manager"}
+                </p>
               </div>
             </div>
 
@@ -68,9 +74,11 @@ export const Admin = () => {
               <NavLink to="list-products" className={linkCls}>
                 <HiListBullet size={18} /> List Products
               </NavLink>
-              <NavLink to="orders" className={linkCls}>
-                <HiOutlineShoppingBag size={18} /> Order Management
-              </NavLink>
+              {!guest && (
+                <NavLink to="orders" className={linkCls}>
+                  <HiOutlineShoppingBag size={18} /> Order Management
+                </NavLink>
+              )}
               <NavLink to="users" className={linkCls}>
                 <HiOutlineUsers size={18} /> Users
               </NavLink>

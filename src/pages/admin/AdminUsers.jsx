@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { isGuest } from "../../config/guest";
 
 export const AdminUsers = () => {
   const [user, userdata] = useState([]);
   const [usercount, setusercount] = useState(0);
   const navigate = useNavigate();
+
+  const loggedInUser = JSON.parse(localStorage.getItem("user"));
+  const guest = isGuest(loggedInUser);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -15,10 +19,12 @@ export const AdminUsers = () => {
         Authorization: `Bearer ${token}`,
       },
     })
-      .then((res) => res.json())
+      .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
-        userdata(data);
-        setusercount(data.length);
+        if (Array.isArray(data)) {
+          userdata(data);
+          setusercount(data.length);
+        }
       })
       .catch((err) => console.error("Error fetching users:", err));
   }, []);
@@ -88,7 +94,21 @@ export const AdminUsers = () => {
         </div>
 
         <div className="flex flex-col gap-2.5">
-          {user.map((v) => (
+          {guest && (
+            <div className="rounded-xl border border-gold/25 bg-gold/5 px-4 py-3 text-xs text-warm-400">
+              Reviewing in guest mode —{" "}
+              <span className="text-warm-200 font-bold">Promote/Demote</span> and{" "}
+              <span className="text-warm-200 font-bold">Delete</span> are
+              disabled.
+            </div>
+          )}
+
+          {user.length === 0 ? (
+            <div className="p-12 text-center text-warm-600 text-sm bg-surface-raised rounded-xl border border-surface-border border-dashed">
+              No users to display yet.
+            </div>
+          ) : (
+            user.map((v) => (
             <div
               key={v._id || v.id}
               className="group transition-all duration-300 hover:border-gold/40 flex flex-col md:grid md:grid-cols-12 items-center bg-surface-raised p-3 md:px-5 md:py-3 rounded-xl border border-surface-border"
@@ -137,7 +157,9 @@ export const AdminUsers = () => {
                 <div className="flex gap-4 items-center">
                   <button
                     onClick={() => changeRole(v._id)}
-                    className="text-[11px] font-bold text-gold hover:text-gold-light uppercase tracking-wider transition-colors"
+                    disabled={guest}
+                    title={guest ? "Guest admins cannot change roles" : undefined}
+                    className="text-[11px] font-bold text-gold hover:text-gold-light uppercase tracking-wider transition-colors disabled:opacity-40 disabled:hover:text-gold disabled:cursor-not-allowed"
                   >
                     {v.role === "user" ? "Promote" : "Demote"}
                   </button>
@@ -145,7 +167,9 @@ export const AdminUsers = () => {
                   {v.role !== "admin" && (
                     <button
                       onClick={() => deleteuser(v._id)}
-                      className="text-[11px] font-bold text-red-400 hover:text-red-300 uppercase tracking-wider transition-colors"
+                      disabled={guest}
+                      title={guest ? "Guest admins cannot delete users" : undefined}
+                      className="text-[11px] font-bold text-red-400 hover:text-red-300 uppercase tracking-wider transition-colors disabled:opacity-40 disabled:hover:text-red-400 disabled:cursor-not-allowed"
                     >
                       Delete
                     </button>
@@ -160,7 +184,8 @@ export const AdminUsers = () => {
                 </button>
               </div>
             </div>
-          ))}
+          ))
+          )}
         </div>
       </div>
     </div>
