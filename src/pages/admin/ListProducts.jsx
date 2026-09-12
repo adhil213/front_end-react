@@ -118,24 +118,24 @@ const deleteProduct = async (id) => {
   ];
 
   const darkInput =
-    "bg-elevated border border-surface-border text-white placeholder-warm-600 rounded-xl p-3 text-sm outline-none focus:ring-2 focus:ring-gold/50 transition-all";
+    "bg-elevated border border-surface-border text-warm-100 placeholder-warm-600 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-gold/50 transition-all";
 
   return (
-    <div className="p-4 md:p-8 bg-surface min-h-screen w-full flex justify-center text-white font-sans">
-      <div className="w-full max-w-[1150px] flex flex-col gap-6">
-        <div className="bg-surface-raised p-6 rounded-2xl border border-surface-border flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+    <div className="p-4 md:p-6 bg-surface min-h-screen w-full flex justify-center text-white font-sans">
+      <div className="w-full max-w-6xl flex flex-col gap-4">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
           <div>
-            <h2 className="text-xl font-bold uppercase tracking-tight text-white">
+            <h2 className="text-lg md:text-xl font-bold text-warm-100">
               Product Management
             </h2>
-            <p className="text-sm text-warm-500">Inventory Overview</p>
+            <p className="text-xs text-warm-500 mt-0.5">Inventory Overview</p>
           </div>
-          <div className="text-xs font-bold text-gold bg-gold/10 border border-gold/20 px-4 py-2 rounded-xl">
+          <div className="text-[11px] font-bold text-gold bg-gold/10 border border-gold/20 px-3 py-1.5 rounded-lg">
             {data.length} ITEMS TOTAL
           </div>
         </div>
 
-        <div className="flex flex-col lg:flex-row p-5 gap-4 bg-surface-raised rounded-2xl border border-surface-border shadow-xl">
+        <div className="flex flex-col lg:flex-row gap-3">
           <input
             type="text"
             placeholder="Search products..."
@@ -151,11 +151,11 @@ const deleteProduct = async (id) => {
               }}
               className={`flex-1 ${darkInput} cursor-pointer`}
             >
-              <option value="" className="bg-surface">
+              <option value="" className="bg-surface-raised">
                 All Categories
               </option>
               {categories.map((c) => (
-                <option key={c} value={c} className="bg-surface">
+                <option key={c} value={c} className="bg-surface-raised">
                   {c.charAt(0).toUpperCase() + c.slice(1)}
                 </option>
               ))}
@@ -168,11 +168,11 @@ const deleteProduct = async (id) => {
               }}
               className={`flex-1 ${darkInput} cursor-pointer`}
             >
-              <option value="" className="bg-surface">
+              <option value="" className="bg-surface-raised">
                 All Brands
               </option>
               {branditems.map((b) => (
-                <option key={b} value={b} className="bg-surface">
+                <option key={b} value={b} className="bg-surface-raised">
                   {b}
                 </option>
               ))}
@@ -180,15 +180,15 @@ const deleteProduct = async (id) => {
           </div>
         </div>
 
-        <div className="hidden md:block bg-surface-raised rounded-2xl border border-surface-border overflow-hidden shadow-2xl">
+        <div className="hidden md:block bg-surface-raised rounded-xl border border-surface-border overflow-hidden">
           <table className="w-full border-collapse">
-            <thead className="bg-elevated/50">
-              <tr className="text-warm-500 text-[10px] uppercase font-bold tracking-widest border-b border-surface-border">
-                <th className="py-5 px-6 text-left">Product</th>
-                <th className="py-5 px-6 text-left">Category</th>
-                <th className="py-5 px-6 text-left">Pricing</th>
-                <th className="py-5 px-6 text-left">Stock</th>
-                <th className="py-5 px-6 text-right">Actions</th>
+            <thead className="bg-elevated/40">
+              <tr className="text-warm-500 text-[10px] uppercase font-bold tracking-wider border-b border-surface-border">
+                <th className="py-3 px-5 text-left">Product</th>
+                <th className="py-3 px-5 text-left">Category</th>
+                <th className="py-3 px-5 text-left">Pricing</th>
+                <th className="py-3 px-5 text-left">Stock</th>
+                <th className="py-3 px-5 text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-surface-border">
@@ -197,9 +197,9 @@ const deleteProduct = async (id) => {
                   key={val._id}
                   className="hover:bg-gold/5 transition-all"
                 >
-                  <td className="py-4 px-6">
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 bg-elevated rounded-xl p-2 flex items-center justify-center border border-surface-border">
+                  <td className="py-3 px-5">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-elevated rounded-lg p-1.5 flex items-center justify-center border border-surface-border">
                         <img
                           src={
                             val.image
@@ -216,19 +216,19 @@ const deleteProduct = async (id) => {
                         <div className="font-bold text-warm-100 text-sm">
                           {val.name}
                         </div>
-                        <div className="text-[10px] text-warm-600 font-mono mt-1">
+                        <div className="text-[10px] text-warm-600 font-mono mt-0.5">
                           ID: {val._id}
                         </div>
                       </div>
                     </div>
                   </td>
-                  <td className="py-4 px-6 text-xs text-warm-500 uppercase font-medium">
+                  <td className="py-3 px-5 text-xs text-warm-500 uppercase font-medium">
                     {val.category}
                   </td>
-                  <td className="py-4 px-6 font-bold text-gold text-sm">
+                  <td className="py-3 px-5 font-bold text-gold text-sm">
                     ${val.price.toLocaleString()}
                   </td>
-                  <td className="py-4 px-6 text-sm text-warm-300">
+                  <td className="py-3 px-5 text-sm text-warm-300">
                     {val.stock > 0 ? (
                       <span className="flex items-center gap-2">
                         <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
@@ -238,8 +238,8 @@ const deleteProduct = async (id) => {
                       <span className="text-red-400">Out of stock</span>
                     )}
                   </td>
-                  <td className="py-4 px-6">
-                    <div className="flex justify-end gap-3">
+                  <td className="py-3 px-5">
+                    <div className="flex justify-end gap-2">
                       <Link
                         to={`/admin/list-products/${val._id}`}
                         className="px-3 py-1.5 bg-gold/10 text-gold hover:bg-gold hover:text-surface rounded-lg text-[11px] font-bold transition-all"
@@ -261,14 +261,14 @@ const deleteProduct = async (id) => {
         </div>
 
         {/* Mobile View */}
-        <div className="md:hidden space-y-4">
+        <div className="md:hidden space-y-3">
           {data.map((val) => (
             <div
               key={val._id}
-              className="bg-surface-raised p-5 rounded-2xl border border-surface-border"
+              className="bg-surface-raised p-4 rounded-xl border border-surface-border"
             >
-              <div className="flex gap-4 mb-4">
-                <div className="w-16 h-16 bg-elevated rounded-xl p-2 border border-surface-border">
+              <div className="flex gap-3 mb-3">
+                <div className="w-14 h-14 bg-elevated rounded-lg p-1.5 border border-surface-border">
                   <img
                     src={val.image}
                     alt=""
@@ -276,25 +276,25 @@ const deleteProduct = async (id) => {
                   />
                 </div>
                 <div className="flex-1">
-                  <div className="font-bold text-white text-sm">{val.name}</div>
-                  <div className="text-xs text-gold font-bold mt-1">
+                  <div className="font-bold text-warm-100 text-sm">{val.name}</div>
+                  <div className="text-xs text-gold font-bold mt-0.5">
                     ${val.price}
                   </div>
-                  <div className="text-[10px] text-warm-600 mt-1 uppercase font-bold tracking-wider">
+                  <div className="text-[10px] text-warm-600 mt-0.5 uppercase font-bold tracking-wider">
                     {val.category} • Stock: {val.stock}
                   </div>
                 </div>
               </div>
-              <div className="flex gap-3 pt-4 border-t border-surface-border">
+              <div className="flex gap-2 pt-3 border-t border-surface-border">
                 <Link
                   to={`/admin/list-products/${val._id}`}
-                  className="flex-1 text-center py-2.5 bg-elevated text-white text-xs font-bold rounded-xl border border-surface-border"
+                  className="flex-1 text-center py-2 bg-elevated text-warm-100 text-xs font-bold rounded-lg border border-surface-border"
                 >
                   Edit
                 </Link>
                 <button
                   onClick={() => deleteProduct(val._id)}
-                  className="flex-1 text-center py-2.5 bg-red-500/10 text-red-400 text-xs font-bold rounded-xl border border-red-500/20"
+                  className="flex-1 text-center py-2 bg-red-500/10 text-red-400 text-xs font-bold rounded-lg border border-red-500/20"
                 >
                   Delete
                 </button>
@@ -305,8 +305,8 @@ const deleteProduct = async (id) => {
 
         {/* Empty State */}
         {data.length === 0 && (
-          <div className="p-20 text-center text-warm-600 text-sm bg-surface-raised rounded-2xl border border-surface-border border-dashed">
-            <div className="text-3xl mb-2">🔍</div>
+          <div className="p-16 text-center text-warm-600 text-sm bg-surface-raised rounded-xl border border-surface-border border-dashed">
+            <div className="text-2xl mb-2">🔍</div>
             No products found matching your filters.
           </div>
         )}
