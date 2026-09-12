@@ -19,6 +19,10 @@ export const EditProduct = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const [reviews, setReviews] = useState([]);
+  const [revLoading, setRevLoading] = useState(false);
+  const [deletingRev, setDeletingRev] = useState(null);
+
   useEffect(() => {
     setLoading(true);
     fetch(`https://backend-sk0h.onrender.com/products/${id}`)
@@ -76,6 +80,44 @@ export const EditProduct = () => {
     const file = e.target.files[0];
     if (file) {
       setFormData({ ...formData, image: file });
+    }
+  };
+
+  const loadReviews = () => {
+    setRevLoading(true);
+    fetch(`https://backend-sk0h.onrender.com/products/${id}/reviews`)
+      .then((res) => res.json())
+      .then((data) => {
+        setReviews(data.reviews || []);
+        setRevLoading(false);
+      })
+      .catch(() => setRevLoading(false));
+  };
+
+  useEffect(() => {
+    if (loading || error) return;
+    loadReviews();
+  }, [loading, id]);
+
+  const handleDeleteReview = async (reviewId) => {
+    setDeletingRev(reviewId);
+    try {
+      const token = localStorage.getItem("token");
+      const res = await fetch(
+        `https://backend-sk0h.onrender.com/products/${id}/review/${reviewId}`,
+        {
+          method: "DELETE",
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Delete failed");
+      toast.success("Review deleted");
+      loadReviews();
+    } catch (err) {
+      toast.error(err.message);
+    } finally {
+      setDeletingRev(null);
     }
   };
 
@@ -233,6 +275,82 @@ export const EditProduct = () => {
             </button>
           </div>
         </form>
+
+        {/* Reviews */}
+        <div className="p-4 md:p-8 pt-0">
+          <div className="rounded-2xl border border-gray-800 bg-[#0a0b14] overflow-hidden">
+            <div className="px-6 py-4 border-b border-gray-800 flex items-center justify-between">
+              <h3 className="text-sm font-black text-white uppercase tracking-tight">
+                Customer Reviews ({reviews.length})
+              </h3>
+              {revLoading && (
+                <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">
+                  Loading...
+                </span>
+              )}
+            </div>
+
+            {revLoading && reviews.length === 0 ? (
+              <div className="px-6 py-10 text-center text-gray-500 text-xs font-bold uppercase tracking-widest">
+                Fetching reviews...
+              </div>
+            ) : reviews.length === 0 ? (
+              <div className="px-6 py-10 text-center text-gray-500 text-xs font-bold uppercase tracking-widest">
+                No reviews for this product yet
+              </div>
+            ) : (
+              <div className="divide-y divide-gray-800">
+                {reviews.map((r) => (
+                  <div
+                    key={r._id}
+                    className="px-6 py-5 flex flex-col sm:flex-row sm:items-center gap-4"
+                  >
+                    <div className="flex-grow">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-full bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 text-xs font-black">
+                          {(r.user?.name || "?").charAt(0).toUpperCase()}
+                        </div>
+                        <span className="text-white text-sm font-bold">
+                          {r.user?.name || "Anonymous"}
+                        </span>
+                        {r.verifiedPurchase && (
+                          <span className="text-[9px] font-bold uppercase tracking-wider text-indigo-400 border border-indigo-500/20 bg-indigo-500/10 px-2 py-0.5 rounded-full">
+                            Certified buyer
+                          </span>
+                        )}
+                      </div>
+                      <div className="mt-2 flex items-center gap-2">
+                        <span className="text-[12px] text-indigo-400 font-black">
+                          {"★".repeat(r.rating)}
+                          <span className="text-gray-600">{"★".repeat(5 - r.rating)}</span>
+                        </span>
+                        <span className="text-[10px] text-gray-500">
+                          {new Date(r.date).toLocaleDateString("en-IN", {
+                            day: "numeric",
+                            month: "short",
+                            year: "numeric",
+                          })}
+                        </span>
+                      </div>
+                      {r.comment && (
+                        <p className="mt-2 text-sm text-gray-300 leading-relaxed">
+                          {r.comment}
+                        </p>
+                      )}
+                    </div>
+                    <button
+                      onClick={() => handleDeleteReview(r._id)}
+                      disabled={deletingRev === r._id}
+                      className="shrink-0 text-[10px] font-bold text-red-400 hover:text-red-300 border border-red-500/20 bg-red-500/10 px-4 py-2 rounded-lg uppercase tracking-widest transition-all disabled:opacity-50"
+                    >
+                      {deletingRev === r._id ? "Deleting..." : "Delete"}
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 import { ArrowLeft, ArrowUpRight, Truck, RotateCcw, ShieldCheck } from "lucide-react";
 import { fadeUp, revealInitial, revealFinal, viewportOnce } from "../component/motionPresets";
+import { ReviewsSection } from "../component/ReviewsSection";
 
 const formatPrice = (p) => `\u20B9${Number(p || 0).toLocaleString('en-IN')}`;
 
@@ -276,6 +277,9 @@ const handleAddToCart = async () => {
             </div>
           </motion.div>
         </div>
+
+        {/* Reviews */}
+        <ReviewsSection product={product} />
 
         {/* Recommended */}
         {recommendations.length > 0 && (
