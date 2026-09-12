@@ -1,13 +1,9 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  RiDeleteBin6Line,
-  RiAddLine,
-  RiSubtractLine,
-  RiShoppingBag3Line,
-  RiShieldCheckLine,
-} from "react-icons/ri";
+import { RiDeleteBin6Line, RiAddLine, RiSubtractLine, RiShoppingBag3Line, RiShieldCheckLine } from "react-icons/ri";
+
+const fmt = (n) => `\u20B9${Number(n || 0).toLocaleString("en-IN")}`;
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -97,104 +93,167 @@ const Cart = () => {
   const hasOutOfStock = cartItems.some((item) => item.stock === 0);
   if (isLoading)
     return (
-      <div className="h-screen bg-[#0b1120] flex items-center justify-center text-emerald-500 font-black animate-pulse">
-        SYNCING BAG...
+      <div className="bg-surface min-h-screen flex items-center justify-center">
+        <span className="text-gold font-bold animate-pulse text-sm uppercase tracking-[0.3em]">
+          Syncing bag...
+        </span>
       </div>
     );
   if (cartItems.length === 0) {
     return (
-      <div className="h-screen flex flex-col items-center justify-center bg-[#0b1120] text-white">
-        <RiShoppingBag3Line size={80} className="text-slate-800 mb-6" />
-
-        <h2 className="text-3xl font-black mb-2">
-          Bag is <span className="text-emerald-500">Empty</span>
+      <div className="bg-surface min-h-screen flex flex-col items-center justify-center px-6">
+        <div className="w-24 h-24 rounded-2xl border border-surface-border bg-surface-raised flex items-center justify-center text-gold mb-8">
+          <RiShoppingBag3Line size={48} />
+        </div>
+        <h2 className="text-warm-100 text-3xl font-black tracking-tight mb-2">
+          Your bag is empty
         </h2>
+        <p className="text-warm-500 text-sm mb-8">
+          Browse the collection and find something worth keeping.
+        </p>
         <Link
           to="/products"
-          className="bg-emerald-500 text-slate-900 px-10 py-4 rounded-2xl font-black"
+          className="bg-gold text-surface px-10 py-4 rounded-full font-bold hover:bg-gold-light transition-colors text-sm uppercase tracking-wider"
         >
-          Explore Store
+          Explore store
         </Link>
       </div>
     );
   }
   return (
-    <div className="h-screen bg-[#0b1120] text-white p-6">
-      <div className="max-w-7xl mx-auto grid lg:grid-cols-3 gap-10">
-        {/* CART ITEMS */}
-        <div className="lg:col-span-2 space-y-4 max-h-[520px] overflow-y-auto custom-scroll">
-          <AnimatePresence>
-            {cartItems.map((item) => (
-              <motion.div
-                key={item._id}
-                layout
-                className="bg-[#111a2e] p-4 rounded-xl flex items-center gap-4"
-              >
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  className="w-20 h-20 object-contain"
-                />
-
-                <div className="flex-grow">
-                  <p className="text-emerald-500 text-xs font-bold">
-                    {item.brand}
-                  </p>
-
-                  <h3 className="font-bold">{item.name}</h3>
-
-                  <p>${item.price}</p>
-                </div>
-                <div className="flex items-center gap-3">
-                  <button onClick={() => updateQty(item._id, -1)}>
-                    <RiSubtractLine />
-                  </button>
-                  <span>{item.qty}</span>
-                  <button
-                    disabled={item.qty >= item.stock}
-                    onClick={() => updateQty(item._id, 1)}
-                  >
-                    <RiAddLine />
-                  </button>
-                </div>
-                <button
-                  onClick={() => removeItem(item._id)}
-                  className="text-red-500"
-                >
-                  <RiDeleteBin6Line />
-                </button>
-              </motion.div>
-            ))}
-          </AnimatePresence>
+    <div className="bg-surface text-warm-100 min-h-screen">
+      <div className="max-w-7xl mx-auto px-6 lg:px-10 pt-10 md:pt-16 pb-20 md:pb-28">
+        <div className="mb-10">
+          <p className="text-gold text-xs font-semibold uppercase tracking-[0.22em] mb-3">
+            Your items
+          </p>
+          <h1 className="text-warm-100 text-4xl md:text-5xl font-black tracking-tight">
+            Shopping bag
+          </h1>
         </div>
 
-        {/* ORDER SUMMARY */}
-        <aside className="bg-[#111a2e] p-6 rounded-xl">
-          <h3 className="font-black mb-6 flex items-center gap-2">
-            <RiShieldCheckLine className="text-emerald-500" />
-            Order Summary
-          </h3>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-10 items-start">
+          {/* CART ITEMS */}
+          <div className="lg:col-span-2 space-y-4">
+            <AnimatePresence>
+              {cartItems.map((item) => (
+                <motion.div
+                  key={item._id}
+                  layout
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                  className="bg-surface-raised border border-surface-border rounded-2xl p-4 md:p-5 flex items-center gap-4 md:gap-6"
+                >
+                  <div className="w-20 h-20 md:w-24 md:h-24 rounded-xl bg-elevated flex items-center justify-center p-2 shrink-0 relative overflow-hidden">
+                    {item.stock === 0 && (
+                      <span className="absolute top-1.5 left-1.5 bg-red-500/90 text-white text-[9px] font-bold px-2 py-0.5 rounded-md z-10">
+                        Out of stock
+                      </span>
+                    )}
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      onError={(e) => {
+                        e.target.src = "https://placehold.co/200x200/1a1a1f/e8e6e1?text=Ezbuy";
+                      }}
+                      className="max-h-full w-auto object-contain"
+                    />
+                  </div>
 
-          <div className="flex justify-between mb-3">
-            <span>Subtotal</span>
-            <span>${subtotal}</span>
+                  <div className="flex-grow min-w-0">
+                    <p className="text-gold text-[10px] font-bold uppercase tracking-[0.18em]">
+                      {item.brand}
+                    </p>
+                    <h3 className="text-warm-100 font-bold leading-tight truncate mt-0.5">
+                      {item.name}
+                    </h3>
+                    <p className="text-warm-100 font-black text-lg mt-1.5">
+                      {fmt(item.price)}
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-3 shrink-0">
+                    <div className="flex items-center bg-elevated border border-surface-border rounded-full overflow-hidden h-9">
+                      <button
+                        onClick={() => updateQty(item._id, -1)}
+                        aria-label="Decrease quantity"
+                        className="px-3 h-full text-warm-400 hover:text-gold transition-colors"
+                      >
+                        <RiSubtractLine />
+                      </button>
+                      <span className="px-3 font-black text-warm-100 min-w-[1.5rem] text-center text-sm">
+                        {item.qty}
+                      </span>
+                      <button
+                        disabled={item.qty >= item.stock}
+                        onClick={() => updateQty(item._id, 1)}
+                        aria-label="Increase quantity"
+                        className="px-3 h-full text-warm-400 hover:text-gold disabled:text-warm-600 disabled:cursor-not-allowed transition-colors"
+                      >
+                        <RiAddLine />
+                      </button>
+                    </div>
+                    <button
+                      onClick={() => removeItem(item._id)}
+                      aria-label="Remove item"
+                      className="text-warm-500 hover:text-red-400 transition-colors"
+                    >
+                      <RiDeleteBin6Line size={18} />
+                    </button>
+                  </div>
+                </motion.div>
+              ))}
+            </AnimatePresence>
           </div>
 
-          <div className="flex justify-between mb-6">
-            <span>Shipping</span>
-            <span>{deliveryFee === 0 ? "FREE" : `$${deliveryFee}`}</span>
-          </div>
+          {/* ORDER SUMMARY */}
+          <aside className="bg-surface-raised border border-surface-border rounded-2xl p-6 md:p-8 lg:sticky lg:top-24">
+            <h3 className="font-black text-lg tracking-tight mb-6 flex items-center gap-2">
+              <RiShieldCheckLine className="text-gold" />
+              Order summary
+            </h3>
 
-          <div className="text-3xl font-black mb-6">${total}</div>
+            <div className="space-y-3 text-sm">
+              <div className="flex justify-between">
+                <span className="text-warm-500">Subtotal</span>
+                <span className="text-warm-100 font-bold">{fmt(subtotal)}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-warm-500">Shipping</span>
+                <span className="text-warm-100 font-bold">
+                  {deliveryFee === 0 ? "FREE" : fmt(deliveryFee)}
+                </span>
+              </div>
+            </div>
 
-          <button
-            disabled={hasOutOfStock}
-            onClick={() => navigate("/payment")}
-            className="w-full bg-emerald-500 text-slate-900 py-3 rounded-xl font-black"
-          >
-            Checkout
-          </button>
-        </aside>
+            <div className="flex items-center justify-between pt-6 mt-6 border-t border-surface-border">
+              <span className="text-warm-500 text-sm">Total</span>
+              <span className="text-warm-100 text-3xl font-black tracking-tight">
+                {fmt(total)}
+              </span>
+            </div>
+
+            {hasOutOfStock && (
+              <p className="text-xs text-red-400 mt-4 bg-red-500/10 border border-red-500/20 rounded-xl px-3 py-2 font-bold">
+                Some items are out of stock. Remove them to continue.
+              </p>
+            )}
+
+            <button
+              disabled={hasOutOfStock}
+              onClick={() => navigate("/payment")}
+              className="w-full bg-gold text-surface font-bold py-4 rounded-full hover:bg-gold-light active:scale-[0.98] transition-all mt-6 text-sm uppercase tracking-wider disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Checkout
+            </button>
+
+            <p className="text-warm-600 text-[11px] text-center mt-4">
+              Free shipping on orders {`\u20B9`}1,500+
+            </p>
+          </aside>
+        </div>
       </div>
     </div>
   );
