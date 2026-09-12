@@ -278,24 +278,24 @@ export const EditProduct = () => {
 
         {/* Reviews */}
         <div className="p-4 md:p-8 pt-0">
-          <div className="rounded-2xl border border-gray-800 bg-[#0a0b14] overflow-hidden">
+          <div className="rounded-2xl border border-gray-800 bg-surface overflow-hidden">
             <div className="px-6 py-4 border-b border-gray-800 flex items-center justify-between">
               <h3 className="text-sm font-black text-white uppercase tracking-tight">
                 Customer Reviews ({reviews.length})
               </h3>
               {revLoading && (
-                <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">
+                <span className="text-[10px] font-bold text-warm-600 uppercase tracking-widest">
                   Loading...
                 </span>
               )}
             </div>
 
             {revLoading && reviews.length === 0 ? (
-              <div className="px-6 py-10 text-center text-gray-500 text-xs font-bold uppercase tracking-widest">
+              <div className="px-6 py-10 text-center text-warm-600 text-xs font-bold uppercase tracking-widest">
                 Fetching reviews...
               </div>
             ) : reviews.length === 0 ? (
-              <div className="px-6 py-10 text-center text-gray-500 text-xs font-bold uppercase tracking-widest">
+              <div className="px-6 py-10 text-center text-warm-600 text-xs font-bold uppercase tracking-widest">
                 No reviews for this product yet
               </div>
             ) : (
@@ -307,22 +307,22 @@ export const EditProduct = () => {
                   >
                     <div className="flex-grow">
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 text-xs font-black">
+                        <div className="w-8 h-8 rounded-full bg-gold/10 border border-gold/20 flex items-center justify-center text-gold text-xs font-black">
                           {(r.user?.name || "?").charAt(0).toUpperCase()}
                         </div>
                         <span className="text-white text-sm font-bold">
                           {r.user?.name || "Anonymous"}
                         </span>
                         {r.verifiedPurchase && (
-                          <span className="text-[9px] font-bold uppercase tracking-wider text-indigo-400 border border-indigo-500/20 bg-indigo-500/10 px-2 py-0.5 rounded-full">
+                          <span className="text-[9px] font-bold uppercase tracking-wider text-gold border border-gold/20 bg-gold/10 px-2 py-0.5 rounded-full">
                             Certified buyer
                           </span>
                         )}
                       </div>
                       <div className="mt-2 flex items-center gap-2">
-                        <span className="text-[12px] text-indigo-400 font-black">
+                        <span className="text-[12px] text-gold font-black">
                           {"★".repeat(r.rating)}
-                          <span className="text-gray-600">{"★".repeat(5 - r.rating)}</span>
+                          <span className="text-warm-600">{"★".repeat(5 - r.rating)}</span>
                         </span>
                         <span className="text-[10px] text-gray-500">
                           {new Date(r.date).toLocaleDateString("en-IN", {
@@ -333,7 +333,7 @@ export const EditProduct = () => {
                         </span>
                       </div>
                       {r.comment && (
-                        <p className="mt-2 text-sm text-gray-300 leading-relaxed">
+                        <p className="mt-2 text-sm text-warm-300 leading-relaxed">
                           {r.comment}
                         </p>
                       )}
