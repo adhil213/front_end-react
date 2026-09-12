@@ -2,7 +2,7 @@ import React, { useState, useCallback, useRef } from 'react'
 import HeroSection from '../component/HeroSection'
 import CategorySection from '../component/CategorySection'
 import ValueProps from '../component/ValueProps'
-import Newsletter from '../component/Newsletter'
+import ProductMarquee from '../component/ProductMarquee'
 
 export const Home = () => {
   const [loaded, setLoaded] = useState(false)
@@ -32,7 +32,7 @@ export const Home = () => {
       <HeroSection onLoad={() => handleLoad('hero')} />
       <CategorySection onLoad={() => handleLoad('categories')} />
       <ValueProps />
-      <Newsletter />
+      <ProductMarquee />
     </>
   )
 }

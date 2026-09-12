@@ -166,7 +166,7 @@ const CategoryCard = ({ product, className, imageClass, delay = 0, wide = false 
         initial={false}
         whileHover={{ scale: 1.05, y: -6 }}
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        className={`absolute ${imageClass} object-contain pointer-events-none transition-[filter] duration-500 group-hover:brightness-110 ${wide ? 'md:top-1/2 md:-translate-y-1/2' : 'bottom-auto'}`}
+        className={`absolute ${imageClass} object-contain pointer-events-none transition-[filter] duration-500 group-hover:brightness-110 ${wide ? 'md:top-1/2 md:-translate-y-1/2' : ''}`}
         style={{ filter: "drop-shadow(0 24px 32px rgba(0,0,0,0.45))" }}
       />
     </motion.div>
