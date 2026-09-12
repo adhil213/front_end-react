@@ -122,36 +122,36 @@ export const EditProduct = () => {
   };
 
   const darkInput =
-    "w-full p-3 bg-[#1c1d29] border border-gray-800 rounded-xl text-white placeholder-gray-500 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all text-sm font-medium";
+    "w-full p-3 bg-elevated border border-surface-border rounded-xl text-white placeholder-warm-600 focus:ring-2 focus:ring-gold/50 focus:border-transparent outline-none transition-all text-sm font-medium";
 
   if (loading)
     return (
-      <div className="flex items-center justify-center min-h-screen bg-[#0a0b14] text-gray-400 font-bold">
+      <div className="flex items-center justify-center min-h-screen bg-surface text-warm-500 font-bold">
         Loading Product Data...
       </div>
     );
   if (error)
     return (
-      <div className="flex items-center justify-center min-h-screen bg-[#0a0b14] text-red-500 font-bold">
+      <div className="flex items-center justify-center min-h-screen bg-surface text-red-500 font-bold">
         {error}
       </div>
     );
 
   return (
-    <div className="p-4 md:p-6 bg-[#0a0b14] min-h-screen w-full flex justify-center font-sans text-white">
-      <div className="w-full max-w-6xl bg-[#11121e] rounded-2xl border border-gray-800 overflow-hidden shadow-2xl">
-        <div className="p-4 md:p-6 border-b border-gray-800 flex flex-col sm:flex-row justify-between items-start sm:items-center bg-[#11121e] gap-4">
+    <div className="p-4 md:p-6 bg-surface min-h-screen w-full flex justify-center font-sans text-white">
+      <div className="w-full max-w-6xl bg-surface-raised rounded-2xl border border-surface-border overflow-hidden shadow-2xl">
+        <div className="p-4 md:p-6 border-b border-surface-border flex flex-col sm:flex-row justify-between items-start sm:items-center bg-surface-raised gap-4">
           <div>
             <h2 className="text-lg md:text-xl font-black text-white uppercase tracking-tight">
               Edit Product
             </h2>
-            <p className="text-[10px] md:text-xs text-gray-500 font-mono">
+            <p className="text-[10px] md:text-xs text-warm-600 font-mono">
               Editing ID: {id}
             </p>
           </div>
           <button
             onClick={() => navigate(-1)}
-            className="text-[10px] md:text-xs font-bold text-gray-400 hover:text-white transition-colors uppercase tracking-widest"
+            className="text-[10px] md:text-xs font-bold text-warm-500 hover:text-white transition-colors uppercase tracking-widest"
           >
             ← CANCEL & GO BACK
           </button>
@@ -160,7 +160,7 @@ export const EditProduct = () => {
         <form onSubmit={handleSubmit} className="p-4 md:p-8 space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
             <div className="md:col-span-2">
-              <label className="block text-[10px] font-bold text-gray-500 uppercase mb-2 tracking-widest ml-1">
+              <label className="block text-[10px] font-bold text-warm-600 uppercase mb-2 tracking-widest ml-1">
                 Product Name
               </label>
               <input
@@ -175,7 +175,7 @@ export const EditProduct = () => {
             </div>
 
             <div>
-              <label className="block text-[10px] font-bold text-gray-500 uppercase mb-2 tracking-widest ml-1">
+              <label className="block text-[10px] font-bold text-warm-600 uppercase mb-2 tracking-widest ml-1">
                 Price ($)
               </label>
               <input
@@ -190,7 +190,7 @@ export const EditProduct = () => {
             </div>
 
             <div>
-              <label className="block text-[10px] font-bold text-gray-500 uppercase mb-2 tracking-widest ml-1">
+              <label className="block text-[10px] font-bold text-warm-600 uppercase mb-2 tracking-widest ml-1">
                 Stock Level
               </label>
               <input
@@ -205,7 +205,7 @@ export const EditProduct = () => {
             </div>
 
             <div className="md:col-span-2">
-              <label className="block text-[10px] font-bold text-gray-500 uppercase mb-2 tracking-widest ml-1">
+              <label className="block text-[10px] font-bold text-warm-600 uppercase mb-2 tracking-widest ml-1">
                 Status Tag
               </label>
               <select
@@ -215,16 +215,16 @@ export const EditProduct = () => {
                   setFormData({ ...formData, tag: e.target.value })
                 }
               >
-                <option value="" className="bg-[#0a0b14]">
+                <option value="" className="bg-surface">
                   No Tag
                 </option>
-                <option value="Sale" className="bg-[#0a0b14]">
+                <option value="Sale" className="bg-surface">
                   Sale
                 </option>
-                <option value="New" className="bg-[#0a0b14]">
+                <option value="New" className="bg-surface">
                   New
                 </option>
-                <option value="Bestseller" className="bg-[#0a0b14]">
+                <option value="Bestseller" className="bg-surface">
                   Bestseller
                 </option>
               </select>
@@ -232,11 +232,11 @@ export const EditProduct = () => {
           </div>
 
           <div className="pt-4">
-            <label className="block text-[10px] font-bold text-gray-500 uppercase mb-2 tracking-widest ml-1">
+            <label className="block text-[10px] font-bold text-warm-600 uppercase mb-2 tracking-widest ml-1">
               Product Image (Upload to replace)
             </label>
-            <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-center bg-[#1c1d29] p-5 rounded-2xl border border-gray-800">
-              <div className="w-24 h-24 md:w-32 md:h-32 rounded-xl bg-[#0a0b14] border border-gray-700 flex-shrink-0 flex items-center justify-center overflow-hidden shadow-inner">
+            <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-center bg-elevated p-5 rounded-2xl border border-surface-border">
+              <div className="w-24 h-24 md:w-32 md:h-32 rounded-xl bg-surface border border-surface-border flex-shrink-0 flex items-center justify-center overflow-hidden shadow-inner">
                 <img
                   src={
                     formData.image instanceof File
@@ -257,9 +257,9 @@ export const EditProduct = () => {
                   type="file"
                   accept="image/*"
                   onChange={handleImageChange}
-                  className="w-full text-xs text-gray-400 file:mr-4 file:py-2.5 file:px-6 file:rounded-xl file:border-0 file:text-xs file:font-black file:bg-[#0a0b14] file:text-indigo-400 hover:file:bg-[#11121e] cursor-pointer transition-all border border-gray-700 rounded-xl p-1"
+                  className="w-full text-xs text-warm-500 file:mr-4 file:py-2.5 file:px-6 file:rounded-xl file:border-0 file:text-xs file:font-black file:bg-surface file:text-gold hover:file:bg-surface-raised cursor-pointer transition-all border border-surface-border rounded-xl p-1"
                 />
-                <p className="text-[10px] text-gray-500 font-medium italic">
+                <p className="text-[10px] text-warm-600 font-medium italic">
                   * Supported: JPG, PNG, WEBP. Max recommended size: 2MB.
                 </p>
               </div>
@@ -269,7 +269,7 @@ export const EditProduct = () => {
           <div className="pt-6 md:pt-8">
             <button
               type="submit"
-              className="w-full py-4 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-500 transition-all shadow-lg shadow-indigo-500/10 uppercase tracking-widest text-[11px] md:text-xs active:scale-[0.98]"
+              className="w-full py-4 bg-gold text-surface font-bold rounded-xl hover:bg-gold-light transition-all shadow-lg shadow-gold/10 uppercase tracking-widest text-[11px] md:text-xs active:scale-[0.98]"
             >
               Update Product Data
             </button>
@@ -278,8 +278,8 @@ export const EditProduct = () => {
 
         {/* Reviews */}
         <div className="p-4 md:p-8 pt-0">
-          <div className="rounded-2xl border border-gray-800 bg-surface overflow-hidden">
-            <div className="px-6 py-4 border-b border-gray-800 flex items-center justify-between">
+          <div className="rounded-2xl border border-surface-border bg-surface overflow-hidden">
+            <div className="px-6 py-4 border-b border-surface-border flex items-center justify-between">
               <h3 className="text-sm font-black text-white uppercase tracking-tight">
                 Customer Reviews ({reviews.length})
               </h3>
@@ -299,7 +299,7 @@ export const EditProduct = () => {
                 No reviews for this product yet
               </div>
             ) : (
-              <div className="divide-y divide-gray-800">
+              <div className="divide-y divide-surface-border">
                 {reviews.map((r) => (
                   <div
                     key={r._id}
@@ -324,7 +324,7 @@ export const EditProduct = () => {
                           {"★".repeat(r.rating)}
                           <span className="text-warm-600">{"★".repeat(5 - r.rating)}</span>
                         </span>
-                        <span className="text-[10px] text-gray-500">
+                        <span className="text-[10px] text-warm-600">
                           {new Date(r.date).toLocaleDateString("en-IN", {
                             day: "numeric",
                             month: "short",
