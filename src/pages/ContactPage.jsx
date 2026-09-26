@@ -4,9 +4,17 @@ import { useNavigate } from 'react-router-dom';
 import { RiPhoneLine, RiMailLine, RiMapPinLine } from 'react-icons/ri';
 import { ArrowUpRight } from 'lucide-react';
 import { fadeUp, revealInitial, revealFinal, viewportOnce } from '../component/motionPresets';
+import useDocumentMeta from '../hooks/useDocumentMeta';
 
 const ContactPage = () => {
   const navigate = useNavigate();
+
+  useDocumentMeta({
+    title: 'Contact Ezbuy — Support & Questions',
+    description:
+      'Need help with an order, a return or a product question? Reach the Ezbuy support team by phone or email — real people who answer within one business day.',
+    path: '/contact',
+  });
 
   const contactDetails = [
     {

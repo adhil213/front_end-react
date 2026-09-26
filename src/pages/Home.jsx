@@ -4,6 +4,8 @@ import CategorySection from '../component/CategorySection'
 import ValueProps from '../component/ValueProps'
 import ProductMarquee from '../component/ProductMarquee'
 import { ProductsProvider, useProducts } from '../component/ProductsContext'
+import useDocumentMeta from '../hooks/useDocumentMeta'
+import { DEFAULT_TITLE, DEFAULT_DESCRIPTION } from '../config/seo'
 
 export const Home = () => (
   <ProductsProvider>
@@ -13,6 +15,13 @@ export const Home = () => (
 
 const HomeContent = () => {
   const { loading } = useProducts()
+
+  useDocumentMeta({
+    title: DEFAULT_TITLE,
+    titleTemplate: false,
+    description: DEFAULT_DESCRIPTION,
+    path: '/',
+  })
 
   return (
     <>

@@ -5,10 +5,18 @@ import { ShoppingBag, ShieldCheck, Eye, ArrowUpRight } from 'lucide-react';
 import { useProducts } from '../component/ProductsContext';
 import BrandMark from '../component/BrandMark';
 import { fadeUp, revealInitial, revealFinal, viewportOnce } from '../component/motionPresets';
+import useDocumentMeta from '../hooks/useDocumentMeta';
 
 const AboutUs = () => {
   const { products } = useProducts();
   const navigate = useNavigate();
+
+  useDocumentMeta({
+    title: 'About Ezbuy — Our Story, Mission & Values',
+    description:
+      'Ezbuy exists to take the guesswork out of buying gear. We test what we stock, price it honestly, and stand behind it with 30-day returns and a 2-year warranty.',
+    path: '/aboutus',
+  });
 
   const stats = useMemo(() => {
     const brands = new Set(products.map((p) => p.brand).filter(Boolean));
