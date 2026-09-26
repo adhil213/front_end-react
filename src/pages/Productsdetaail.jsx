@@ -5,6 +5,8 @@ import toast from "react-hot-toast";
 import { ArrowLeft, ArrowUpRight, Truck, RotateCcw, ShieldCheck } from "lucide-react";
 import { fadeUp, revealInitial, revealFinal, viewportOnce } from "../component/motionPresets";
 import { ReviewsSection } from "../component/ReviewsSection";
+import useDocumentMeta from "../hooks/useDocumentMeta";
+import { buildProductJsonLd, truncate } from "../config/seo";
 
 const formatPrice = (p) => `\u20B9${Number(p || 0).toLocaleString('en-IN')}`;
 
@@ -16,6 +18,25 @@ export const Productsdetaail = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [loading, setLoading] = useState(true);
   const [catalog, setCatalog] = useState([]);
+
+  const productJsonLd = useMemo(
+    () => (product ? buildProductJsonLd(product) : null),
+    [product]
+  );
+
+  useDocumentMeta({
+    title: product?.name,
+    description: product
+      ? truncate(
+          `${product.description} Free express shipping, 30-day returns and a 2-year warranty.`
+        )
+      : undefined,
+    path: `/products/${id}`,
+    image: product?.image || undefined,
+    imageAlt: product ? `${product.name} by ${product.brand || "Ezbuy"}` : undefined,
+    type: "product",
+    jsonLd: productJsonLd,
+  });
 
   useEffect(() => {
     fetch(`https://backend-sk0h.onrender.com/products/${id}`)
