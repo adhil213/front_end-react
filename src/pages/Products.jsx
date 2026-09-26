@@ -2,6 +2,8 @@ import { useState, useEffect, useMemo, useContext } from "react";
 import { SearchContext } from "../App";
 import { Link, useSearchParams } from "react-router-dom";
 import { RiArrowUpDownLine, RiFilter3Line, RiCloseLine } from "react-icons/ri";
+import useDocumentMeta from "../hooks/useDocumentMeta";
+import { CATEGORIES, truncate } from "../config/seo";
 
 const formatPrice = (p) => `\u20B9${Number(p || 0).toLocaleString('en-IN')}`;
 
@@ -35,7 +37,29 @@ export const Products = () => {
   const sortOrder = searchParams.get("sort") || "default";
   const searchQuery = searchParams.get("search") || "";
 
-  const categories = ["All", "Laptops", "Smartphones", "Headphones", "Tablets", "Accessories", "Wearables"];
+  useDocumentMeta({
+    title:
+      selectedCat !== "All"
+        ? `${selectedCat} — Curated & Tested`
+        : "Shop All Tech — Laptops, Phones & Audio",
+    description:
+      selectedCat !== "All"
+        ? truncate(
+            `Shop Ezbuy's curated ${selectedCat.toLowerCase()} — hand-picked gear with honest pricing, free express shipping, 30-day returns and a 2-year warranty.`
+          )
+        : truncate(
+            "Browse curated laptops, smartphones, headphones, tablets, wearables and accessories. Free express shipping, 30-day returns and a 2-year warranty on everything."
+          ),
+    // A category is a distinct landing page that the sitemap lists, so it is
+    // self-canonical. Brand, sort and search are filter views over the same
+    // inventory, so they deliberately canonicalise back to the category.
+    path:
+      selectedCat !== "All"
+        ? `/products?category=${encodeURIComponent(selectedCat)}`
+        : "/products",
+  });
+
+  const categories = ["All", ...CATEGORIES];
   const brands = ["All", "Apple", "Samsung", "Sony", "Razer", "Logitech", "Dell"];
 
   const updateFilters = (key, value) => {
