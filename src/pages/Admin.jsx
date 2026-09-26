@@ -11,9 +11,12 @@ import {
   HiXMark,
 } from "react-icons/hi2";
 import { isGuest } from "../config/guest";
+import useDocumentMeta from "../hooks/useDocumentMeta";
 
 export const Admin = () => {
   const [isOpen, setIsOpen] = useState(false);
+
+  useDocumentMeta({ noindex: true });
 
   const loggedInUser = JSON.parse(localStorage.getItem("user"));
   const guest = isGuest(loggedInUser);

@@ -1,6 +1,13 @@
 import { Link } from "react-router-dom";
+import useDocumentMeta from "../hooks/useDocumentMeta";
 
 const NotFound = () => {
+  useDocumentMeta({
+    title: "Page Not Found",
+    path: "/404",
+    noindex: true,
+  });
+
   return (
     <div className="h-screen flex flex-col items-center justify-center bg-[#0b1120] text-white text-center">
       

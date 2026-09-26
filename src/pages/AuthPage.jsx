@@ -6,6 +6,7 @@ import { RiTruckLine, RiShieldCheckLine, RiRefund2Line, RiArrowRightLine } from 
 import toast from "react-hot-toast";
 import BrandMark from "../component/BrandMark";
 import { GUEST_ADMIN, isGuest, isPrivileged } from "../config/guest";
+import useDocumentMeta from "../hooks/useDocumentMeta";
 
 const inputCls =
   "w-full bg-elevated border border-surface-border rounded-xl px-5 py-3.5 text-sm text-warm-100 placeholder-warm-600 focus:outline-none focus:border-gold/50 transition-all";
@@ -17,6 +18,12 @@ export const AuthPage = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
+  useDocumentMeta({
+    title: "Sign In or Create an Account",
+    path: "/login",
+    noindex: true,
+  });
 
   const loggedInUser = JSON.parse(localStorage.getItem("user"));
 
