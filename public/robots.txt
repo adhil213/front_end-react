@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+
+# Transactional and private routes carry a noindex meta tag as well;
+# this keeps crawl budget focused on indexable catalog pages.
+Disallow: /cart
+Disallow: /orders
+Disallow: /payment
+Disallow: /login
+Disallow: /admin
+
+Sitemap: https://ezbuy.m-s.site/sitemap.xml
