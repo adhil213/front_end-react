@@ -2,14 +2,100 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/ezbyeicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Ezbuy — Buy Once. Buy Right. Curated Tech & Gadgets</title>
+    <meta
+      name="description"
+      content="Ezbuy curates laptops, phones, headphones, cameras and wearables we would buy ourselves. Honest pricing, free express shipping, 30-day returns, 2-year warranty."
+    />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <meta name="theme-color" content="#0c0c0f" />
+    <link rel="canonical" href="https://ezbuy.m-s.site/" />
+
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Ezbuy" />
+    <meta property="og:locale" content="en_US" />
+    <meta
+      property="og:title"
+      content="Ezbuy — Buy Once. Buy Right. Curated Tech & Gadgets"
+    />
+    <meta
+      property="og:description"
+      content="Ezbuy curates laptops, phones, headphones, cameras and wearables we would buy ourselves. Honest pricing, free express shipping, 30-day returns, 2-year warranty."
+    />
+    <meta property="og:url" content="https://ezbuy.m-s.site/" />
+    <meta property="og:image" content="https://ezbuy.m-s.site/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Ezbuy — curated laptops, smartphones, audio and wearables"
+    />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Ezbuy — Buy Once. Buy Right. Curated Tech & Gadgets"
+    />
+    <meta
+      name="twitter:description"
+      content="Ezbuy curates laptops, phones, headphones, cameras and wearables we would buy ourselves. Honest pricing, free express shipping, 30-day returns, 2-year warranty."
+    />
+    <meta name="twitter:image" content="https://ezbuy.m-s.site/og-image.png" />
+
+    <link rel="preconnect" href="https://backend-sk0h.onrender.com" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://ezbuy.m-s.site/#organization",
+            "name": "Ezbuy",
+            "url": "https://ezbuy.m-s.site/",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://ezbuy.m-s.site/icon-512.png",
+              "width": 512,
+              "height": 512
+            },
+            "image": "https://ezbuy.m-s.site/og-image.png",
+            "description": "Ezbuy curates laptops, phones, headphones, cameras and wearables we would buy ourselves.",
+            "slogan": "Buy once. Buy right."
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://ezbuy.m-s.site/#website",
+            "url": "https://ezbuy.m-s.site/",
+            "name": "Ezbuy",
+            "inLanguage": "en",
+            "publisher": { "@id": "https://ezbuy.m-s.site/#organization" },
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": {
+                "@type": "EntryPoint",
+                "urlTemplate": "https://ezbuy.m-s.site/products?search={search_term_string}"
+              },
+              "query-input": "required name=search_term_string"
+            }
+          }
+        ]
+      }
+    </script>
+
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-    <title>frontend</title>
   </head>
   <body>
     <div id="root"></div>
-    
+
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
