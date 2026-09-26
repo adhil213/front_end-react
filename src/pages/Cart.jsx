@@ -2,12 +2,15 @@ import React, { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { RiDeleteBin6Line, RiAddLine, RiSubtractLine, RiShoppingBag3Line, RiShieldCheckLine } from "react-icons/ri";
+import useDocumentMeta from "../hooks/useDocumentMeta";
 
 const fmt = (n) => `\u20B9${Number(n || 0).toLocaleString("en-IN")}`;
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  useDocumentMeta({ title: "Your Cart", path: "/cart", noindex: true });
 
   const navigate = useNavigate();
   const loggedInUser = JSON.parse(localStorage.getItem("user"));

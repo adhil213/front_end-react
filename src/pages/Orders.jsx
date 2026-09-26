@@ -9,6 +9,7 @@ import {
   RiMapPinUserLine,
 } from "react-icons/ri";
 import toast from "react-hot-toast";
+import useDocumentMeta from "../hooks/useDocumentMeta";
 
 const fmt = (n) => `\u20B9${Number(n || 0).toLocaleString("en-IN")}`;
 
@@ -19,6 +20,8 @@ const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const loggedInUser = JSON.parse(localStorage.getItem("user"));
+
+  useDocumentMeta({ title: "Your Orders", path: "/orders", noindex: true });
 
   useEffect(() => {
     const fetchOrders = async () => {

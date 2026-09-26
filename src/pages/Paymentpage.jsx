@@ -8,6 +8,7 @@ import {
   RiArrowRightLine,
 } from "react-icons/ri";
 import toast from "react-hot-toast";
+import useDocumentMeta from "../hooks/useDocumentMeta";
 
 const fmt = (n) => `\u20B9${Number(n || 0).toLocaleString("en-IN")}`;
 
@@ -17,6 +18,8 @@ const inputCls =
 const PaymentPage = () => {
   const navigate = useNavigate();
   const loggedInUser = JSON.parse(localStorage.getItem("user"));
+
+  useDocumentMeta({ title: "Secure Checkout", path: "/payment", noindex: true });
 
   const [cartItems, setCartItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
